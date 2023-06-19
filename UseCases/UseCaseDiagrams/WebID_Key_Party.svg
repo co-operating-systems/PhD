@@ -31,7 +31,6 @@
   </defs>
   <g id="WebID_Key_Party" stroke="none" fill-opacity="1" stroke-opacity="1" stroke-dasharray="none" fill="none">
     <title>WebID_Key_Party</title>
-    <rect fill="white" x="225" y="14" width="1205" height="691"/>
     <g id="WebID_Key_Party_Layer_1">
       <title>Layer 1</title>
       <g id="Graphic_38_shadow" filter="url(#Shadow)">
@@ -179,7 +178,7 @@
         <path d="M 581.925 386 L 623.575 386 C 628.5016 386 632.5 394.064 632.5 404 C 632.5 413.936 628.5016 422 623.575 422 L 581.925 422 C 576.9984 422 573 413.936 573 404 C 573 394.064 576.9984 386 581.925 386 Z" fill="white"/>
         <path d="M 581.925 386 L 623.575 386 C 628.5016 386 632.5 394.064 632.5 404 C 632.5 413.936 628.5016 422 623.575 422 L 581.925 422 C 576.9984 422 573 413.936 573 404 C 573 394.064 576.9984 386 581.925 386 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
         <text transform="translate(583.95 394.776)" fill="black">
-          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="5.751999" y="15">#k1</tspan>
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="1.4559992" y="15">#ak1</tspan>
         </text>
       </g>
       <g id="Line_66">

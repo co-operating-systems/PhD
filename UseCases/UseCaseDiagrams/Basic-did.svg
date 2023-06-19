@@ -8,9 +8,9 @@
       <feFlood flood-color="black" flood-opacity=".5" result="flood"/>
       <feComposite in="flood" in2="offset" operator="in"/>
     </filter>
-    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -2 5 4" markerWidth="5" markerHeight="4" color="#011fae">
+    <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-1 -3 6 6" markerWidth="6" markerHeight="6" color="#011fae">
       <g>
-        <path d="M 2.6666667 0 L 0 -1 L 0 1 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
+        <path d="M 3.2 0 L 0 -1.2 L 0 1.2 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
       </g>
     </marker>
     <marker orient="auto" overflow="visible" markerUnits="strokeWidth" id="FilledArrow_Marker_2" stroke-linejoin="miter" stroke-miterlimit="10" viewBox="-9 -4 10 8" markerWidth="10" markerHeight="8" color="black">
@@ -31,7 +31,6 @@
   </defs>
   <g id="Basic-did" stroke="none" fill-opacity="1" stroke-opacity="1" stroke-dasharray="none" fill="none">
     <title>Basic-did</title>
-    <rect fill="white" x="714" y="122" width="716" height="701"/>
     <g id="Basic-did_Layer_1">
       <title>Layer 1</title>
       <g id="Graphic_14_shadow" filter="url(#Shadow)">
@@ -74,7 +73,7 @@
         </text>
       </g>
       <g id="Line_11">
-        <path d="M 1251.4434 615 L 1251 604.5 L 1248.091 524.7194" marker-end="url(#FilledArrow_Marker)" stroke="#011fae" stroke-linecap="round" stroke-linejoin="round" stroke-width="6"/>
+        <path d="M 1251.4434 615 L 1251 604.5 L 1247.949 520.822" marker-end="url(#FilledArrow_Marker)" stroke="#011fae" stroke-linecap="round" stroke-linejoin="round" stroke-width="4"/>
       </g>
       <g id="Graphic_10">
         <rect x="1230.2817" y="541.65255" width="39.401367" height="38" fill="white"/>

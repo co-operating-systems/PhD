@@ -1,12 +1,11 @@
 This Chapter described access control use cases in increasing level of complexity.
 We look at the proof the client needs to provide to the server, understanding the process the server will need to embark on to verify that proof.
-
+The aim is that by looking at a growing number of use cases we will be able to identify the common patterns and the common logic that can be used to implement them.
 
 - [Basic Use cases](#basic-use-cases)
   - [Description of the Agent using `did:key`](#description-of-the-agent-using-didkey)
   - [Direct Description of Agent via Key Reference in the ACL file](#direct-description-of-agent-via-key-reference-in-the-acl-file)
-- [Description of Agent via Key Reference](#description-of-agent-via-key-reference)
-  - [Linked Data reasoning](#linked-data-reasoning)
+  - [Description of Agent via Key Reference](#description-of-agent-via-key-reference)
     - [Client reasoning](#client-reasoning)
     - [Server Reasoning](#server-reasoning)
 - [One step indirection: WebID](#one-step-indirection-webid)
@@ -15,6 +14,9 @@ We look at the proof the client needs to provide to the server, understanding th
 - [Two step indirection: friend of a friend](#two-step-indirection-friend-of-a-friend)
   - [Client Auth logic](#client-auth-logic-1)
   - [Server Auth logic](#server-auth-logic-1)
+- [Three step indirection: Foaf of a friend](#three-step-indirection-foaf-of-a-friend)
+  - [Client Auth logic](#client-auth-logic-2)
+  - [Server Auth logic](#server-auth-logic-2)
 
 
 # Basic Use cases 
@@ -89,7 +91,7 @@ Two issues for the security vocabulary:
  * [issue 74: Domain and range of sec:publicKey](https://github.com/w3c/vc-data-integrity/issues/74)
 
 
-# Description of Agent via Key Reference
+## Description of Agent via Key Reference
 
 The problem with the [previous use cases](#simplest-access-control-list-examples) is that the  WAC file has to maintain the public key of the agent being given access. This may be ok for a single-user system, but in a distributed system where we may want to give read or write access to a few agents, each of which has their own Personal Online DataStore (POD), then maintaining someone else keys is going to be too much work and too brittle, as one of the agents may find their key is compromised, may want to change it, and will then need to request update of all the keys in all access control rules on all servers that gave that agent access.
 
@@ -120,8 +122,6 @@ Alice's key `</keys#ak1>` could then contain the following graph:
 ```      
 
 Box would of course have a similar file on her own POD. 
-
-## Linked Data reasoning
 
 ### Client reasoning
 
@@ -280,3 +280,55 @@ What we need is to tell the Guard to follow this process:
 6. from Caroline's WebID we can follow the `cert:key` relation to the key that signed the request. QED
 
 The above needs to be expressed efficiently in the header of the request in a way the Guard can follow.
+
+# Three step indirection: Foaf of a friend
+
+We often want to extend the access to a resource as widely as possible, while reducing it enough to avoid spam.  This use case was written up in [§2.3.7 Default permissions for extended network](https://solid.github.io/authorization-panel/authorization-ucr/#inheritance-extended) of the Solid Use Cases Document. It goes as follows:
+
+> Alice has a blog and allows comments on her posts. Ideally, everyone’s comments would be immediately visible, but she has previously been overwhelmed by spammers. So now she would like to try a compromise: allow the posts from her extended social network (friend of her friends, colleagues and family) to be immediately visible. Other posts should only be visible and editable to those who wrote them. They can then be viewable to the world when they get reviewed.
+
+We can illustate this with the following diagram, where we show a rule expressing that Bob's friends and their friends can write to the comments folder on Alice's blog. The blog post could well be word readable, but the blob owner may wish to have review comments from people that are not known. This rule could of course be a lot more complicated, but this is good start.
+
+![Extended Network Example](UseCaseDiagrams/ExtendedNetwork.svg)
+
+We can then define our rule `<#r1>` that gives access to 
+
+```turtle
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix : <http://www.w3.org/ns/auth/acl#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<#r1> a :Authorization;
+  :mode :Write;
+  :agentClass </utils/sn#bobFoaf3Cls>;
+  :accessTo <https://alice.name/blog/comments/> .
+```
+
+And because the `sn:bobFoaf3Cls` class is so useful to
+Bob he placed it in his own social network ontology, 
+at `<https://bob.name/utils/sn#>` which reads:
+
+```turtle
+foaf:knows rdfs:subPropertyOf <#isKnownByMax3> .
+:knows2 owl:propertyChainAxiom (foaf:knows foaf:knows);
+    rdfs:subPropertyOf <#isKnownByMax3> .
+:knows3 owl:propertyChainAxiom (foaf:knows foaf:knows foaf:knows);
+    rdfs:subPropertyOf <#isKnownByMax3> .
+
+<#bobFoaf3Cls> owl:sameAs [  a owl:Restriction;
+      owl:onProperty :isKnownByMax3;
+      owl:hasValue <https://alice.name/card#me>
+   ].
+```
+
+We here have 
+1. a rule with a local definitions that is not in the same file
+2. a class that groups individuals up to three levels of indirection which is clearly not something the web server Guard should be trying to keep real-time track of as that could easily be a class containing `300*300*300 = 9 million` individuals. 
+3. we can easily see that these rules could use arbitrary owl concepts, which means that the client needs to be able to reason with arbitrary owl concepts, produce such proofs, and the server needs to be able to verify them.
+
+So we have a pretty hefty problem to solve.
+
+## Client Auth logic
+
+## Server Auth logic
+
