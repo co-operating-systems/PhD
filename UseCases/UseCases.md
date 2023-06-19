@@ -1,7 +1,10 @@
+This Chapter described access control use cases in increasing level of complexity.
+We look at the proof the client needs to provide to the server, understanding the process the server will need to embark on to verify that proof.
+
 
 - [Direct Use cases](#direct-use-cases)
   - [Description of the Agent using `did:key`](#description-of-the-agent-using-didkey)
-  - [Direct Description of Agent via Key reference](#direct-description-of-agent-via-key-reference)
+  - [Direct Description of Agent via Key Reference in the ACL file](#direct-description-of-agent-via-key-reference-in-the-acl-file)
 - [Description of Agent via Key Reference](#description-of-agent-via-key-reference)
   - [Linked Data reasoning](#linked-data-reasoning)
     - [Client reasoning](#client-reasoning)
@@ -15,7 +18,6 @@
 
 
 # Direct Use cases 
-
 
 ## Description of the Agent using `did:key`
 
@@ -51,7 +53,7 @@ Signature:
 This would require the wallet to be able to parse `did:key` keyIDs.
 It is true that the client could sign with an https urls as `keyId`s but that would just make the work on the server more complex, by requiring it to fetch that key for no particular benefit.
 
- ## Direct Description of Agent via Key reference
+ ## Direct Description of Agent via Key Reference in the ACL file
 
 Until `did:key` parsers become more widely available, it would be possible to use a https url reference for the key.
 
