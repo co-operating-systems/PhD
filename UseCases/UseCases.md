@@ -2,7 +2,7 @@ This Chapter described access control use cases in increasing level of complexit
 We look at the proof the client needs to provide to the server, understanding the process the server will need to embark on to verify that proof.
 
 
-- [Direct Use cases](#direct-use-cases)
+- [Basic Use cases](#basic-use-cases)
   - [Description of the Agent using `did:key`](#description-of-the-agent-using-didkey)
   - [Direct Description of Agent via Key Reference in the ACL file](#direct-description-of-agent-via-key-reference-in-the-acl-file)
 - [Description of Agent via Key Reference](#description-of-agent-via-key-reference)
@@ -17,7 +17,9 @@ We look at the proof the client needs to provide to the server, understanding th
   - [Server Auth logic](#server-auth-logic-1)
 
 
-# Direct Use cases 
+# Basic Use cases 
+
+This is the basic use cases given in the [HttpSig protocol](https://github.com/solid/authentication-panel/pull/235). We essentially only identify the user indirectly via the key, and prove the http header using the key.
 
 ## Description of the Agent using `did:key`
 
