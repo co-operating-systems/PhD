@@ -317,7 +317,7 @@ foaf:knows rdfs:subPropertyOf <#isKnownByMax3> .
 
 <#bobFoaf3Cls> owl:sameAs [  a owl:Restriction;
       owl:onProperty :isKnownByMax3;
-      owl:hasValue <https://alice.name/card#me>
+      owl:hasValue <https://bob.name/card#me>
    ].
 ```
 
@@ -330,5 +330,17 @@ So we have a pretty hefty problem to solve.
 
 ## Client Auth logic
 
+Imagine that Dan Brickley from danbri.org wants to comment on Bob's blog. His client needs to work out that he belongs to the `sn:BobFoaf3Cls` class. 
+
+His client would need to fetch Bob's foaf graph. (Note that may be split across a number of resources, some protected some not). We may assume that Dan's client already has a database of his foaf network. Note: he may not know everyone that knows him, so this could be incomplete. Given these two networks, the client needs to find if there is an intersection between Bob's friend Group and Dan's foaf group. If there is such a group then Dan's client can use this to built a proof of `foaf:knows` relations starting from Bob's WebID to Dan.
+
+Todo: we need to integrate that we don't just want links from Bob's WebId via a foaf:knows chain to Dan's WebID, but we also want to consider foaf:knows relations that appear in associated `rdfs:seeAlso` documents.
+
+Another way this could be calculated is for Dan's client to consider all the data it has in one large graph, and search all the `foaf:knows` chains between Bob and Dan in there. Given that it would then filter those for which it can construct a proof that would satisfy Bob's Guard. 
+
+The proof that Dan's client should send would contain this chain of links with info about potential jumps from one named graph to the definition graph. This would make it easy for the Guard to verify the logic of the proof. But that proof would need to be tied to the definition in the access control file. So it would need to show that they are related by `:knows3` starting from `https://bob.name/card#me`, and that this means they are related by `:isKnownByMax3` and hence that Dan is in the set `sn:bobFoaf3Cls`.
+
 ## Server Auth logic
+
+What type of chain would satisfy Bob's Guard? It has to be a chain that starts from Bob's WebID (and perhaps linked to `rdfs:seeAlso` documents? what other types of links would be legal to look at?) and ends at Dan's WebID. 
 
