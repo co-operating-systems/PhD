@@ -8,19 +8,19 @@ The aim is that by looking at a growing number of use cases we will be able to i
   - [Description of Agent via Key Reference](#description-of-agent-via-key-reference)
     - [Client reasoning](#client-reasoning)
     - [Server Reasoning](#server-reasoning)
-- [One step indirection: WebID](#one-step-indirection-webid)
+- [One-step indirection: WebID](#one-step-indirection-webid)
     - [Client Auth logic](#client-auth-logic)
     - [Server Auth logic](#server-auth-logic)
-- [Two step indirection: friend of a friend](#two-step-indirection-friend-of-a-friend)
+- [Two-step indirection: friend of a friend](#two-step-indirection-friend-of-a-friend)
   - [Client Auth logic](#client-auth-logic-1)
   - [Server Auth logic](#server-auth-logic-1)
 - [Three step indirection: Foaf of a friend](#three-step-indirection-foaf-of-a-friend)
   - [Client Auth logic](#client-auth-logic-2)
   - [Server Auth logic](#server-auth-logic-2)
 - [Client Authorization](#client-authorization)
-  - [User Limitiations on clients](#user-limitiations-on-clients)
+  - [User Limitations on clients](#user-limitations-on-clients)
     - [1. Limiting access to a local folder](#1-limiting-access-to-a-local-folder)
-    - [2. Limiting access to specific types of web sites](#2-limiting-access-to-specific-types-of-web-sites)
+    - [2. Limiting access to specific types of websites](#2-limiting-access-to-specific-types-of-websites)
   - [Server limitations on clients](#server-limitations-on-clients)
     - [Proof of App being used](#proof-of-app-being-used)
 - [Delegation](#delegation)
@@ -55,7 +55,7 @@ The WAC resource `</2023/04/party.acl>` in the illustration contain the followin
 The logic of the signing and verification is very simple to follow: 
 
 Signature:
- 1. the resource `</2023/04/party>` returns a 401 linked to the WAC resource via the `Link: <party.acl>; rel=acl` header allowing the client to find if it is controlls that key.
+ 1. the resource `</2023/04/party>` returns a 401 linked to the WAC resource via the `Link: <party.acl>; rel=acl` header allowing the client to find if it controls that key.
  2. The client uses that key to sign the headers using the `did:key` as a keyId.
 
  Verification:
@@ -66,13 +66,13 @@ Signature:
 ![illustration of an access control rule using a did:key](UseCaseDiagrams/Basic-did.svg)
 
 This would require the wallet to be able to parse `did:key` keyIDs.
-It is true that the client could sign with an https urls as `keyId`s but that would just make the work on the server more complex, by requiring it to fetch that key for no particular benefit.
+The client could indeed sign with an `https` URLs as `keyId`s but that would just make the work on the server more complex, by requiring it to fetch that key for no particular benefit.
 
  ## Direct Description of Agent via Key Reference in the ACL file
 
-Until `did:key` parsers become more widely available, it would be possible to use a https url reference for the key.
+While we wait for `did:key` parsers to be more widely available, we can use an `https` URL reference for the key.
 
-Here is the equivalent to our previous example, but with having replaced the `did:key` with it's JWK representation.
+Here is the equivalent to our previous example, but with having replaced the `did:key` with its JWK representation.
 (todo: the keys are not the same in the example) 
 
 ```Turtle
@@ -106,7 +106,7 @@ Two issues for the security vocabulary:
 
 The problem with the [previous use cases](#simplest-access-control-list-examples) is that the  WAC file has to maintain the public key of the agent being given access. This may be ok for a single-user system, but in a distributed system where we may want to give read or write access to a few agents, each of which has their own Personal Online DataStore (POD), then maintaining someone else keys is going to be too much work and too brittle, as one of the agents may find their key is compromised, may want to change it, and will then need to request update of all the keys in all access control rules on all servers that gave that agent access.
 
-So let is say Alice wants to give bob access to `https://bob.name/2023/04/party`. She could write the following access control rule for that directory:
+So let's say Alice wants to give Bob access to `https://bob.name/2023/04/party`. She could write the following access control rule for that directory:
 
 ```Turtle
 <#r1> a :Authorization;
@@ -132,7 +132,7 @@ Alice's key `</keys#ak1>` could then contain the following graph:
      }"""^^rdf:JSON
 ```      
 
-Box would of course have a similar file on her own POD. 
+Bob would of course have a similar file on his POD. 
 
 ### Client reasoning
 
@@ -141,11 +141,11 @@ The way Alice's client is meant to reason is as follows:
 1. it follows the `acl` link from the 401-ed `R`` resource to `ACL` = `</2023/04/party.acl>`
 2. after fetching ACL it finds the rules that apply to the resource `R` in the needed mode
 3. the client looks if it is an agent listed as being allowed: in this case by checking if one of the client's keys is listed.  Here it only needs to recognize that `<https://bob.name/keys#bk1>` is one of its keys. 
-4. It can use HttpSig to sign the headers with the keys and pass the keyId in the `Signature-Input` header
+4. It can use HttpSig to sign the headers with the keys and pass the `keyId` in the `Signature-Input` header
 
 ### Server Reasoning
 
-Bob's Server receiving the signed header on the resource `R` with the keyId needs to verify that the agent making the request is authorized. So after checking the signature, by `GET`-ing the `keyId` url, and verifying that header was signed with the private key corresponding to the public key at that location, the Guard on Bob's Server will know that the request is from agent `_:X` 
+Bob's Server receiving the signed header on the resource `R` with the keyId needs to verify that the agent making the request is authorized. So after checking the signature, by `GET`-ing the `keyId` URL, and verifying that header was signed with the private key corresponding to the public key at that location, the Guard on Bob's Server will know that the request is from agent `_:X` 
 
 ```Turtle
 _:X a foaf:Agent;
@@ -158,16 +158,16 @@ But that `_:X` is to be found in the rule allowing Alice access in read mode for
 
 Q: does it require that `cert:key` be an `owl:InverseFunctionalProperty` so that the blank node in the rule can be identified indirectly via the `cert:key` relation? (As it happens [cert:key](https://www.w3.org/ns/auth/cert#key) is an inverse functional property) 
 
-# One step indirection: WebID 
+# One-step indirection: WebID 
 
-One problem with identifying individuals with keys, is that people can have a number of them, and those keys can change over time for a number of reasons: people can loose their corresponding private key, find a key was compromised, or just move to safer algorithms. Furthermore a person may have other methods of authentication such as openid, OAuth, that they may like to use at different points in time. They may even want to use telephone verification or email verification in some cases.
-The person who is giving access to a resource may not care that much how the person authenticating is doing that, and they will very often not want to have to mainain that list. What they most often want is to allow some agent access. This is what WebID allows.
+One problem with identifying individuals with keys is that people can have a number of them, and those keys can change over time for several reasons: people can lose their corresponding private key, find that one of their keys was compromised, or just move to safer algorithms. Furthermore, a person may have other methods of authentication such as OpenId, OAuth, ... that they may like to use on different occasions. They may even want to use telephone verification or email verification in some cases.
+The person who is giving access to a resource may not care that much how the person authenticating is doing that, and they will very often not want to have to maintain that list. What they most often want is to allow some agent access. This is what WebID allows.
 
-Let us look at a slighly more complex example where the rule specfies access by WebID and the client authenticates with a key using HttpSig. This diagram should make it easy to follow what is going on. We suppose Alice has an app that wants to read Bob's party info but that requires authentication to see (hence it is grayed out). Alice is able to read it according to the rule. So she uses here `</key#k1>` to authenticate using HttpSig. 
+Let us look at a slightly more complex example where the rule specifies access by WebID and the client authenticates with a key using HttpSig. This diagram should make it easy to follow what is going on. We suppose Alice has an app that wants to read Bob's party info but that requires authentication to see (hence it is grayed out). Alice can read it according to the rule. So she uses here `</key#k1>` to authenticate using HttpSig. 
 
 ![Location of WebID, WebKey and ](UseCaseDiagrams/WebID_Key_Party.svg)
 
-The rule identifies alice as being able to access via WebID.
+The rule identifies Alice as being able to access via WebID.
 
 ```Turtle
 <#r1> a :Authorization;
@@ -187,10 +187,10 @@ Alice's WebID document at `<https://alice.name/card>` contains a link to an Open
 
 ### Client Auth logic
 
-The client on seing the rule `<https://bob.name/2023/04/party>`
-needs to first find out if one of those WebIDs refer to its Principal. If yes, then it must find which `WWW-Authenticate` methods it can use. So if the server states `WWW-Authenticate: HttpSig` and the webid contains a link to the public key, then the client use HttpSig.
+The client on seeing the rule `<https://bob.name/2023/04/party>`
+needs to first find out if one of those WebIDs refers to its Principal. If yes, then it must find which `WWW-Authenticate` methods it can use. So if the server states `WWW-Authenticate: HttpSig` and the WebId contains a link to the public key, then the client can use HttpSig.
 
-But now we have a problem: the client needs to let the server know that the key is tied to that webid. There are a number of scenarios.
+But now we have a problem: the client needs to let the server know that the key is tied to that WebId. There are several scenarios.
 
 1. The WebID doc links to the key in the same document
    ```Turtle
@@ -202,7 +202,7 @@ But now we have a problem: the client needs to let the server know that the key 
    <#me> cert:key </keys#k1> .
    ```
 
-In both those case, but especially the second, after signing the header with the key, the client should also tell the server where the WebID is relative to the key, or which WebID is intended to be used. After all the same key could be used for a number of WebIDs - though that would result in those WebIDs being inferrable as `owl:sameAs` each other. 
+In both those case, but especially the second, after signing the header with the key, the client should also tell the server where the WebID is relative to the key, or which WebID is intended to be used. After all the same key could be used for several different WebIDs - though that would result in those WebIDs being inferrable as `owl:sameAs` each other. 
 
 So let us take the difficult case of the second scenario, where the key does not link to the WebID and is in a different document. The KeyID Document would contain the following:
 
@@ -216,9 +216,9 @@ It could link to the WebID with
 <#k1> security:controller <https://alice.name/card#me> .
 ```
 
-But that would not be a proof that this key is the key of the given WebID, because anyone could create a key and link it to any WebID. So the WebID document would need to link back to the key. 
+But that would not be proof that this key is the key of the given WebId because anyone could create a key and link it to any WebId. So the WebId document would need to link back to the key. 
 
-If the client signs the header with the keyId `<#k1>` then client will need tell the Guard to which WebID that key is linked to. So the client will need to add a header to the request to tell the server where to find the WebID.  One proposal would be to add a field to the `Authorization` header as a property. (Note that because those properties are comma seperated this means that there can only be one Authorization header per request)
+If the client signs the header with the `keyId` `<#k1>` then the client will need to tell the Guard to which WebId that key is linked. So the client will need to add a header to the request to tell the server where to find the WebId.  One proposal would be to add a field to the `Authorization` header as a property. (Note that because those properties are comma separated this means that there can only be one Authorization header per request)
 
 ```HTTP
 GET /comments/ HTTP/1.1
@@ -235,18 +235,18 @@ Signature: sig1=:jnwCuSDVKd8royZnKgm0GBQzLcad4ynATDIrkNkQGHGY6Dd0ftc0MKX88fZwek\
 
 ### Server Auth logic
 
-The server on receiving the above signed request will be able to prove that the client has access to the private key `</keys#k1>` but how will it know that is the key of the WebID? That requires the WebID to link to the key, or to link to a proof of the relation between the key and the WebID, something like a signature of some text.  
+The server on receiving the above-signed request will be able to prove that the client has access to the private key `</keys#k1>` but how will it know that is the key of the WebID? That requires the WebID to link to the key or to link to a proof of the relation between the key and the WebID, something like a signature of some text.  
 
 The Guard has to reason from the rules of the ACL file that match the request. Using Authorization `#r1` [above](#one-step-indirection-webid) it will be able to select the WebId specified in the header and check that it is listed either as the object of `:agent` or as a member of `:agentGroup`, or perhaps as satisfying a description in `:agentClass`. 
 
-As the WebID is a URL (here `https://alice.name/card#me`) the Guard is entitled to fetch that resource, since it is referred to in the rule. And from there it will want to from the WebID find a link to the key that signed the document. 
+As the WebID is a URL (here `https://alice.name/card#me`) the Guard is entitled to fetch that resource, since it is referred to in the rule. And from there it will want to find a link from the WebID to the key that signed the document. 
 
 So the Guard can jump from the WebID in the rule doc to the definition of the WebID in the profile doc. And from there it can follow a link like `cert:key` to the keyId. If the keyId is the one it used to authenticate the request then the job is done.
 
-# Two step indirection: friend of a friend
+# Two-step indirection: friend of a friend
 
-Now let us consider a slightly more complicated rule that gives read access to the `party` resource on Bob's POD, to Alice's friends, or more precisely, people that have a `foaf:knows` relation to alice.
-For this we add "Caroline Smith" as having a `foaf:knows` relation from Alice's.
+Now let us consider a slightly more complicated rule that gives read access to the `party` resource on Bob's POD, to Alice's friends, or more precisely, people that have a `foaf:knows` relation to Alice.
+For this, we add "Caroline Smith" as having a `foaf:knows` relation from Alice's.
 
 ![foaf party](UseCaseDiagrams/WebID_Foaf_Party.svg)
 
@@ -267,18 +267,17 @@ The rule is specified using a class specified using an owl restriction, that con
 
 ## Client Auth logic
 
-The client needs to find if any of its identities satisfies the class defined by the restriction. An owl:reasoner with access to
-the users trusted data should be able to solve that problem: it just needs to ask what objects satisfy that class in the graph that is the union of the users data. 
+The client needs to find if any of its identities satisfies the class defined by the restriction. An owl reasoner with access to the user's trusted data should be able to solve that problem: it just needs to ask what objects satisfy that class in the graph which is the union of the user's data. 
 
-Given the set of identifiers that satisy that rule it will need to find which of those ids have a key to sign the request. Of those it will need to find out which of those keys can be used as proof to convince the Guard on the server.
+Given the set of identifiers that satisfy that rule, it will need to find which of those ids have a key to sign the request. Of those it will need to find out which of those keys can be used as proof to convince the Guard on the server.
 
 ## Server Auth logic
 
-The Server must receive a proof that allows it to go from the rule to the key that signed the request in logical steps.
+The Server must receive proof that allows it to go from the rule to the key that signed the request in logical steps.
 
-The server could crawl Alice's friend network and just recognise the key if used. But that puts a lot of the burden of proof on the Guard. Alice may have 10 thousand conntections or more. One of those connections may have been added recently and so Bob's Guard may need to check Alice's network every time a signed request comes in where it cannot recognise the key.
+The server could crawl Alice's friend network and just recognize the key if used. But that puts a lot of the burden of proof on the Guard. Alice may have 10 thousand connections or more. One of those connections may have been added recently and so Bob's Guard may need to check Alice's network every time a signed request comes in where it cannot recognize the key.
 
-Instead it would be much easier for the client to provide a proof. 
+Instead, it would be much easier for the client to provide a proof. 
 I first proposed this with the `WAC-Hint` header in the [Auth.md](https://github.com/co-operating-systems/Reactive-SoLiD/blob/master/src/main/scala/run/cosy/http/auth/Auth.md) document of Reactive-SoLiD.
 
 What we need is to tell the Guard to follow this process:
@@ -294,11 +293,11 @@ The above needs to be expressed efficiently in the header of the request in a wa
 
 # Three step indirection: Foaf of a friend
 
-We often want to extend the access to a resource as widely as possible, while reducing it enough to avoid spam.  This use case was written up in [§2.3.7 Default permissions for extended network](https://solid.github.io/authorization-panel/authorization-ucr/#inheritance-extended) of the Solid Use Cases Document. It goes as follows:
+We often want to extend access to a resource as widely as possible, while reducing it enough to avoid spam.  This use case was written up in [§2.3.7 Default permissions for extended networks](https://solid.github.io/authorization-panel/authorization-ucr/#inheritance-extended) of the Solid Use Cases Document. It goes as follows:
 
 > Alice has a blog and allows comments on her posts. Ideally, everyone’s comments would be immediately visible, but she has previously been overwhelmed by spammers. So now she would like to try a compromise: allow the posts from her extended social network (friend of her friends, colleagues and family) to be immediately visible. Other posts should only be visible and editable to those who wrote them. They can then be viewable to the world when they get reviewed.
 
-We can illustate this with the following diagram, where we show a rule expressing that Bob's friends and their friends can write to the comments folder on Alice's blog. The blog post could well be word readable, but the blob owner may wish to have review comments from people that are not known. This rule could of course be a lot more complicated, but this is good start.
+We can illustrate this with the following diagram, where we show a rule expressing that Bob's friends and their friends can write to the comments folder on Alice's blog. The blog post could well be word readable, but the blob owner may wish to have review comments from people that are not known. This rule could of course be a lot more complicated, but this is a good start.
 
 ![Extended Network Example](UseCaseDiagrams/ExtendedNetwork.svg)
 
@@ -333,8 +332,8 @@ foaf:knows rdfs:subPropertyOf <#isKnownByMax3> .
 ```
 
 We here have 
-1. a rule with a local definitions that is not in the same file
-2. a class that groups individuals up to three levels of indirection which is clearly not something the web server Guard should be trying to keep real-time track of as that could easily be a class containing `300*300*300 = 9 million` individuals. 
+1. a rule with a local definition that is not in the same file
+2. a class that groups individuals up to three levels of indirection which is not something the web server Guard should be trying to keep real-time track of as that could easily be a class containing `300*300*300 = 9 million` individuals. 
 3. we can easily see that these rules could use arbitrary owl concepts, which means that the client needs to be able to reason with arbitrary owl concepts, produce such proofs, and the server needs to be able to verify them.
 
 So we have a pretty hefty problem to solve.
@@ -343,7 +342,7 @@ So we have a pretty hefty problem to solve.
 
 Imagine that Dan Brickley from danbri.org wants to comment on Bob's blog. His client needs to work out that he belongs to the `sn:BobFoaf3Cls` class. 
 
-His client would need to fetch Bob's foaf graph. (Note that may be split across a number of resources, some protected some not). We may assume that Dan's client already has a database of his foaf network. Note: he may not know everyone that knows him, so this could be incomplete. Given these two networks, the client needs to find if there is an intersection between Bob's friend Group and Dan's foaf group. If there is such a group then Dan's client can use this to built a proof of `foaf:knows` relations starting from Bob's WebID to Dan.
+His client would need to fetch Bob's foaf graph. (Note that may be split across several resources, some protected some not). We may assume that Dan's client already has a database of his foaf network. Note: he may not know everyone that knows him, so this could be incomplete. Given these two networks, the client needs to find if there is an intersection between Bob's friend Group and Dan's foaf group. If there is such a group then Dan's client can use this to build a proof of `foaf:knows` relations starting from Bob's WebID to Dan.
 
 Todo: we need to integrate that we don't just want links from Bob's WebId via a foaf:knows chain to Dan's WebID, but we also want to consider foaf:knows relations that appear in associated `rdfs:seeAlso` documents.
 
@@ -353,15 +352,15 @@ The proof that Dan's client should send would contain this chain of links with i
 
 ## Server Auth logic
 
-What type of chain would satisfy Bob's Guard? It has to be a chain that starts from Bob's WebID (and perhaps linked to `rdfs:seeAlso` documents? what other types of links would be legal to look at?) and ends at Dan's WebID. 
+What type of chain would satisfy Bob's Guard? It has to be a chain that starts from Bob's WebID (and perhaps linked to `rdfs:seeAlso` documents? What other types of links would be legal to look at?) and ends at Dan's WebID. 
 
 # Client Authorization
 
-The Solid community often brings in questions of limiting client access. But there are two very different use cases encompassed by theis idea: the user wishing to limit access to various resources, and the server wishing to limit access by certain apps.
+The Solid community often raises use cases of limiting client access. But there are two very different types of use cases encompassed by this idea: the user wishing to limit access to various resources, and the server wishing to limit access by certain apps.
 
-## User Limitiations on clients
+## User Limitations on clients
 
-Most users will wish to limit newly downloaded apps to certain safe spaces to test them out and learn to gain confidence in them. They may thereafter be happy to enlarge the space of resources those apps are allowed access locally or extend the web sites they are allowed to access. These restrictions need only be visible to the Launcher App, which can use those to decide when to sign headers for the app.
+Most users will wish to limit newly downloaded apps to certain safe spaces to test them out and learn to gain confidence in them. They may thereafter be happy to enlarge the space of resources those apps are allowed access locally or extend the websites they are allowed to access. These restrictions need only be visible to the Launcher App, which can use those to decide when to sign headers for the app.
 
 Can we use the same WAC ontology to express those limitations?
 
@@ -381,9 +380,9 @@ place that only it can read:
 
 The above rule would tell the Launcher App that the photo app could only read and write to any subdirectory of the `</app/photo/>` folder. The app would be able to read and write to `</app/photo/2021/04/01/>` but not to `</app/banking/2024/>` for example.
 
-### 2. Limiting access to specific types of web sites 
+### 2. Limiting access to specific types of websites 
 
-Another rule could be to only allow a banking app access to banking web sites.
+Another rule could be to only allow a banking app access to banking websites.
 
 ```turtle
 <#r2> a :Authorization.
@@ -393,9 +392,9 @@ Another rule could be to only allow a banking app access to banking web sites.
 ```
 
 The question then becomes: how does one define `won:BankingWebSites` ? Let us assume it is defined by a future [Web Of Nations](https://co-operating.systems/2020/06/01/WoN/) standard ([pdf](https://co-operating.systems/2020/06/01/WoN.pdf)). That may come with a proof procedure
-that requires the Wallet to find out if an accessed web site can be reached via the users national trust chain. 
+that requires the Wallet to find out if an accessed website can be reached via the users national trust chain. 
 
-So imagine that Dorothy who lives in Kansas, has her FreedomBox at home running a Solid POD. This information is known to her Launcher App. So let us say the banking app wants to fetch some resource on [credit-agricole.fr](https://www.credit-agricole.fr/). How would the LauncherApp's Wallet know if credit-agricole is a `won:BankingWebSite` or not? The procedure would be here to start from the [kansas.gov](https://kansas.gov) web site and find the link pointing to [usa.gov](https://usa.gov/) which would contain links to the countries in diplomatic relations to the USA, and a link also to Kansas proving that kansas is part of the USA. The credit-agricole web site would in the same way link to a french company registrar [infogreffes](https://www.infogreffe.fr) with a RDF translatable representation for [Credit-Agricole de la Brie](https://www.infogreffe.fr/entreprise/caisse-locale-credit-agricole-de-la-brie/413588948/d2ebb654-e060-471b-8772-e20de6cafd86), and that representation should link to the french root [gouv.fr](https://gouv.fr/) which would point back to infogreffes and to all the similar documents in all the other countries that are diplomatically related to France, of which of course the USA is one. From this one can then build a chain of trust from the Kansas POD to the Credit-Agricole web site which is perhaps the only direction that is needed.
+So imagine that Dorothy who lives in Kansas, has her FreedomBox at home running a Solid POD. This information is known to her Launcher App. So let us say the banking app wants to fetch some resource on [credit-agricole.fr](https://www.credit-agricole.fr/). How would the LauncherApp's Wallet know if credit-agricole is a `won:BankingWebSite` or not? The procedure would be here to start from the [kansas.gov](https://kansas.gov) website and find the link pointing to [usa.gov](https://usa.gov/) which would contain links to the countries in diplomatic relations to the USA, and a link also to Kansas proving that kansas is part of the USA. The credit-agricole website would in the same way link to a French company registrar [infogreffes](https://www.infogreffe.fr) with a RDF translatable representation for [Credit-Agricole de la Brie](https://www.infogreffe.fr/entreprise/caisse-locale-credit-agricole-de-la-brie/413588948/d2ebb654-e060-471b-8772-e20de6cafd86), and that representation should link to the French root [gouv.fr](https://gouv.fr/) which would point back to Infogreffes and to all the similar documents in all the other countries that are diplomatically related to France, of which of course the USA is one. From this one can then build a chain of trust from the Kansas POD to the Credit-Agricole website which is perhaps the only direction that is needed.
 Now if the description in the French registrar contains a relation 
 
 ```turtle
@@ -405,16 +404,16 @@ crAgr:co a won:BankingWebSite;
    foaf:homepage <https://www.credit-agricole.fr/> . 
 ```
 
-Then that plus the  chain of links from kansas to infogreffe constitutes a proof that the Credit-Agricole web site is a `won:BankingWebSite` and hence that the banking app is allowed to access it, and so that the Wallet in the Launcher App can sign requests going to the credit-agricole web site.
+Then that plus the chain of links from Kansas to Infogreffe constitutes a proof that the Credit-Agricole website is a `won:BankingWebSite` and hence that the banking app is allowed to access it, and so that the Wallet in the Launcher App can sign requests going to the credit-agricole web site.
 
 todo: it would be interesting to express this chain of trust as a set of N3 rules.  
 
 
 ## Server limitations on clients
 
-Many use cases for limiting access of clients to servers can be implemented using client side restrictions as shown in the previous section. Where possible it is much prefereable that restrictions on apps be placed on the client side and not on the data production side, as it leaves much more freedom for apps to evolve, and reduces the work on the server to keep track of good and bad apps.
+Many use cases for limiting access of clients to servers can be implemented using client-side restrictions as shown in the previous section. Where possible it is much preferable that restrictions on apps be placed on the client side and not on the data production side, as it leaves much more freedom for apps to evolve, and reduces the work on the server to keep track of good and bad apps.
 
-Nevertheless we can imagine that some data providers may want access to be limited to certified apps. 
+Nevertheless, we can imagine that some data providers may want access to be limited to certified apps. 
 
 ```Turtle
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -453,9 +452,9 @@ credAgr:Customer a owl:Class;
 How would the Guard on the server know that the given app was being used by the customer. There are two ways this could be done:
 
 1. Weak: the Wallet could add a header specifying the client WebID used in the headers and then sign that with the customer key. This would allow the user to override the ID of an app to try out other ones, but that would be his responsibility and his risk to take.
-2. Strong: the app could provide a header signed by a private key linked to a well known public key of the app. A simple way to do that would be for the App to send a request to some service the app controls that would sign the header. This would be slow and immediately leak all requests to the app owner, so one should look for better solutions. The App could use opaque keys created in the browser that would then be signed by the app to do this. In any case mutliple signatures for a same request are possible with HTTPSig.
+2. Strong: the app could provide a header signed by a private key linked to a well-known public key of the app. A simple way to do that would be for the App to send a request to some service the app controls that would sign the header. This would be slow and immediately leak all requests to the app owner, so one should look for better solutions. The App could use opaque keys created in the browser that would then be signed by the app to do this. In any case, multiple signatures for the same request are possible with HTTPSig.
 
-Given these two ways the server would need a way to tell the client which method it will accept. It should be possible to do that by using two relations:
+Given these two ways, the server would need a way to tell the client which method it will accept. It should be possible to do that by using two relations:
 
 ```Turtle
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -486,17 +485,17 @@ todo
 
 # Age claim
 
-We may want to give access to resources tagged as adult to anyone who can prove that they are over 18. A further refinement would be to have the age vary per country and per action requested: in the USA the minimum drinking age  is over 21 wheres in the UK it is 18, and the minimum age for driving is 16 in some states and 18 in others. (This may be getting more complicated than what we want to do here, but it is worth keeping in mind.)
+We may want to give access to resources tagged as "adult" to anyone who can prove that they are over 18. A further refinement would be to have the age vary per country and per action requested: in the USA the minimum drinking age is over 21 whereas in the UK it is 18, and the minimum age for driving is 16 in some states and 18 in others. (This may be getting more complicated than what we want to do here, but it is worth keeping in mind.)
 
-For we will need a [Web Of Nations](https://co-operating.systems/2020/06/01/WoN/) that can let us know which organisations in which countries are legally entitled to make such claims for someone, and perhaps also which actions are legally allowed in that country for any citizen or for citizens of that country in any country. Clearly this cannot be something where self claims are going to work. It would als be possible as a bootstrapping step to have a list maintained by some organisation of age verification organisations across the globe. But that would create a centralisation problem that is not correctly aligned with the geopolitical structure of the world, giving the maintainer of the list a lot more power than they should have. Still both could work together.
+For we will need a [Web Of Nations](https://co-operating.systems/2020/06/01/WoN/) that can let us know which organizations in which countries are legally entitled to make such claims for someone, and perhaps also which actions are legally allowed in that country for any citizen or for citizens of that country in any country. Clearly this cannot be something where self-claims are going to work. It would also be possible as a bootstrapping step to have a list maintained by some organization of age verification organizations across the globe. But that would create a centralization problem that is not correctly aligned with the geopolitical structure of the world, giving the maintainer of the list a lot more power than they should have. Still, both could work together.
 
-Actually with age it is quite possible for a number of organisations to be entitled to make such claims: schools, banks, army, etc.... If a given country does not allow a credit card to be given out for people under a certain age, then posessing a card in that country would be a proof of being over a certain age. Arguably they all rely on the birth certificate claim in the end, so that these organisations would be just repeating claims from a canonical organisation, such as the birth registrars in a country.
+Actually, with age, a number of organisations can be entitled to make such claims: schools, banks, the army, etc... If a given country does not allow a credit card to be given out to people under a certain age, then possessing a card in that country would be a proof of being over a certain age. Arguably they all rely on the birth certificate claim in the end, so these organizations would be just repeating claims from a canonical organization, such as the birth registrars in a country.
 
-We should try to simplify the problem here in a way that allows for complexities to be added later. So let us assume that we have a canonical organisation that can link to organisations in a number of countries that can make age claims. We will call that organisation the `AgeRegistrarRegistrar`. 
+We should try to simplify the problem here in a way that allows for complexities to be added later. So let us assume that we have a canonical organization that can link to organizations in a number of countries that can make age claims. We will call that organization the `AgeRegistrarRegistrar``. 
 
 ## Age Rule
 
-What would a rule look like? Well we need a way to describe somone over a given age. Here is a proposal I made on [Jan 2021](https://github.com/solid/authorization-panel/issues/160#issuecomment-764722858)
+What would a rule look like? Well, we need a way to describe someone over a given age. Here is a proposal I made on [Jan 2021](https://github.com/solid/authorization-panel/issues/160#issuecomment-764722858)
 
 ```Turtle
 <#PersonOver21> owl:equivalentClass [  a owl:Restriction;
@@ -509,7 +508,7 @@ What would a rule look like? Well we need a way to describe somone over a given 
        ] .
 ```
 
-(the max restriction is not really needed, but we leave it there to illustrate the syntax)
+(the max restriction is not needed, but we leave it there to illustrate the syntax)
 
 Then we can create a rule
 
@@ -524,7 +523,7 @@ Then we can create a rule
      ] .
 ```
 
-So here we can imagine that resources are tagged in some way - perhaps we need a new `Tag` http header, and that the rule allows access to any resource that has the tag `adult` if the agent is over 21.
+So here we can imagine that resources are tagged in some way - perhaps we need a new `Tag` HTTP header, and that the rule allows access to any resource that has the tag `adult` if the agent is over 21.
 
 Question: Is having the `:default` relation to a container needed here? 
 Answer: In the current usage `:default` is a way of selecting all resources under the given container that do not themselves contain their own specified WAC resource. So here it should mean that we take that set and add the further restriction given by the `:accessToClass` relation. That seems correct as RDF graphs triples are conjunctions of statements. 
@@ -533,15 +532,15 @@ Answer: In the current usage `:default` is a way of selecting all resources unde
 
 The client will need to check two things:
 
-1. It will need to work out that the `<#adultRule>` applies to the resource it is trying to access. It could do that by checking that the resource has a header `Tag: adult` in it. It would know that if it received a 401 on making the request. As an optimisation, we may want the resource to also link to a set of resources that are tagged that way, so that the client can avoid having to make requests leading to a 401 and can sign requests immediately. 
+1. It will need to work out that the `<#adultRule>` applies to the resource it is trying to access. It could do that by checking that the resource has a header `Tag: adult` in it. It would know that if it received a 401 on making the request. As an optimization, we may want the resource to also link to a set of resources that are tagged that way, so that the client can avoid having to make requests leading to a 401 and can sign requests immediately. 
 
-2. Having found that the rule applies, the client would then need to check if it can prove that it is a mamber of the class `<#PersonOver21>`.  If it has a credential that proves its age and that fits the description, then it could use that in providing the proof. 
+2. Having found that the rule applies, the client would then need to check if it can prove that it is a member of the class `<#PersonOver21>`.  If it has a credential that proves its age and that fits the description, then it could use that in providing the proof. 
 
 ### Server verification of Age
 
-The Guard knowing that the requested resource is tagged "adult" will know that the rule `<#adultRule>` applies. In the simplest of cases the key used by the client to sign the headers is the same key as the one referenced by the Verifiable Claim of age signed by one of the recognised Age Registrars. More complex situations can occur where a chain of keys needs to be verified.
+The Guard knowing that the requested resource is tagged "adult" will know that the rule `<#adultRule>` applies. In the simplest of cases, the key used by the client to sign the headers is the same key as the one referenced by the Verifiable Claim of Age signed by one of the recognized Age Registrars. More complex situations can occur where a chain of keys needs to be verified.
 
-So in order to find the `:age` property of an agent, the Guard will need to find a claim of age age made by a recognised registar and then verify that the agent fits the given restriction. 
+So to find the `:age` property of an agent, the Guard will need to find a claim of age made by a recognized regisrar and then verify that the agent fits the given restriction. 
 
 Todo: find an example of a Verifiable Claim of age, to illustrate the whole process.
 
