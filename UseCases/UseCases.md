@@ -17,6 +17,17 @@ The aim is that by looking at a growing number of use cases we will be able to i
 - [Three step indirection: Foaf of a friend](#three-step-indirection-foaf-of-a-friend)
   - [Client Auth logic](#client-auth-logic-2)
   - [Server Auth logic](#server-auth-logic-2)
+- [Client Authorization](#client-authorization)
+  - [User Limitiations on clients](#user-limitiations-on-clients)
+    - [1. Limiting access to a local folder](#1-limiting-access-to-a-local-folder)
+    - [2. Limiting access to specific types of web sites](#2-limiting-access-to-specific-types-of-web-sites)
+  - [Server limitations on clients](#server-limitations-on-clients)
+    - [Proof of App being used](#proof-of-app-being-used)
+- [Delegation](#delegation)
+- [Age claim](#age-claim)
+  - [Age Rule](#age-rule)
+    - [Client Proof of Age](#client-proof-of-age)
+    - [Server verification of Age](#server-verification-of-age)
 
 
 # Basic Use cases 
@@ -343,4 +354,194 @@ The proof that Dan's client should send would contain this chain of links with i
 ## Server Auth logic
 
 What type of chain would satisfy Bob's Guard? It has to be a chain that starts from Bob's WebID (and perhaps linked to `rdfs:seeAlso` documents? what other types of links would be legal to look at?) and ends at Dan's WebID. 
+
+# Client Authorization
+
+The Solid community often brings in questions of limiting client access. But there are two very different use cases encompassed by theis idea: the user wishing to limit access to various resources, and the server wishing to limit access by certain apps.
+
+## User Limitiations on clients
+
+Most users will wish to limit newly downloaded apps to certain safe spaces to test them out and learn to gain confidence in them. They may thereafter be happy to enlarge the space of resources those apps are allowed access locally or extend the web sites they are allowed to access. These restrictions need only be visible to the Launcher App, which can use those to decide when to sign headers for the app.
+
+Can we use the same WAC ontology to express those limitations?
+
+### 1. Limiting access to a local folder
+
+The Launcher App could write the following rule to a
+place that only it can read:
+
+```turtle
+@prefix : <http://www.w3.org/ns/auth/acl#> .
+
+<#r1> a :Authorization;
+  :mode :Read, :Write;
+  :agent <https://photo.app/demoV#>;
+  :accessToClass [ :subdirs </app/photo/> ] .
+```
+
+The above rule would tell the Launcher App that the photo app could only read and write to any subdirectory of the `</app/photo/>` folder. The app would be able to read and write to `</app/photo/2021/04/01/>` but not to `</app/banking/2024/>` for example.
+
+### 2. Limiting access to specific types of web sites 
+
+Another rule could be to only allow a banking app access to banking web sites.
+
+```turtle
+<#r2> a :Authorization.
+   :mode :Read, Write;
+   :agent <https://banking.app/view#>;
+   :accessToClass won:BankingWebSites.
+```
+
+The question then becomes: how does one define `won:BankingWebSites` ? Let us assume it is defined by a future [Web Of Nations](https://co-operating.systems/2020/06/01/WoN/) standard ([pdf](https://co-operating.systems/2020/06/01/WoN.pdf)). That may come with a proof procedure
+that requires the Wallet to find out if an accessed web site can be reached via the users national trust chain. 
+
+So imagine that Dorothy who lives in Kansas, has her FreedomBox at home running a Solid POD. This information is known to her Launcher App. So let us say the banking app wants to fetch some resource on [credit-agricole.fr](https://www.credit-agricole.fr/). How would the LauncherApp's Wallet know if credit-agricole is a `won:BankingWebSite` or not? The procedure would be here to start from the [kansas.gov](https://kansas.gov) web site and find the link pointing to [usa.gov](https://usa.gov/) which would contain links to the countries in diplomatic relations to the USA, and a link also to Kansas proving that kansas is part of the USA. The credit-agricole web site would in the same way link to a french company registrar [infogreffes](https://www.infogreffe.fr) with a RDF translatable representation for [Credit-Agricole de la Brie](https://www.infogreffe.fr/entreprise/caisse-locale-credit-agricole-de-la-brie/413588948/d2ebb654-e060-471b-8772-e20de6cafd86), and that representation should link to the french root [gouv.fr](https://gouv.fr/) which would point back to infogreffes and to all the similar documents in all the other countries that are diplomatically related to France, of which of course the USA is one. From this one can then build a chain of trust from the Kansas POD to the Credit-Agricole web site which is perhaps the only direction that is needed.
+Now if the description in the French registrar contains a relation 
+
+```turtle
+@prefix crAgr: <https://www.infogreffe.fr/entreprise/caisse-locale-credit-agricole-de-la-brie/413588948/d2ebb654-e060-471b-8772-e20de6cafd86#> .
+
+crAgr:co a won:BankingWebSite;
+   foaf:homepage <https://www.credit-agricole.fr/> . 
+```
+
+Then that plus the  chain of links from kansas to infogreffe constitutes a proof that the Credit-Agricole web site is a `won:BankingWebSite` and hence that the banking app is allowed to access it, and so that the Wallet in the Launcher App can sign requests going to the credit-agricole web site.
+
+todo: it would be interesting to express this chain of trust as a set of N3 rules.  
+
+
+## Server limitations on clients
+
+Many use cases for limiting access of clients to servers can be implemented using client side restrictions as shown in the previous section. Where possible it is much prefereable that restrictions on apps be placed on the client side and not on the data production side, as it leaves much more freedom for apps to evolve, and reduces the work on the server to keep track of good and bad apps.
+
+Nevertheless we can imagine that some data providers may want access to be limited to certified apps. 
+
+```Turtle
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix : <http://www.w3.org/ns/auth/acl#> .
+
+<#r3> a :Authorization;
+   :mode :Read;
+   :default </client/>;
+   :agentClass [ 
+      owl:intersectionOf ( 
+         creAgr:Customer 
+         [ a owl:Restriction; 
+           owl:onProperty app:isUsing;
+           owl:hasValuesFrom bank:CertifiedApp 
+         ]) 
+   ].
+```
+
+So this Web Access control rule expresses that the class of agents that can have access to the `</client/>` container on the bank's web site are only customers of the bank that are using CertifiedApps. 
+
+CertifiedApps could be defined as a union of a number of lists produced by different app certifiers, and `credAgr:Customer` could be potentially defined by some regex on the Bank WebID of the customer, so perhaps something like
+
+```Turtle
+@prefix pwdr: <http://www.w3.org/2007/05/powder-s#> .
+
+credAgr:Customer a owl:Class;
+   powder:domain <https://credit-agricole.fr>;
+   powder:pathregex "/accnt/*/id#" . #prop is made up
+```
+
+[todo: find out the best way to express this]
+
+
+### Proof of App being used
+
+How would the Guard on the server know that the given app was being used by the customer. There are two ways this could be done:
+
+1. Weak: the Wallet could add a header specifying the client WebID used in the headers and then sign that with the customer key. This would allow the user to override the ID of an app to try out other ones, but that would be his responsibility and his risk to take.
+2. Strong: the app could provide a header signed by a private key linked to a well known public key of the app. A simple way to do that would be for the App to send a request to some service the app controls that would sign the header. This would be slow and immediately leak all requests to the app owner, so one should look for better solutions. The App could use opaque keys created in the browser that would then be signed by the app to do this. In any case mutliple signatures for a same request are possible with HTTPSig.
+
+Given these two ways the server would need a way to tell the client which method it will accept. It should be possible to do that by using two relations:
+
+```Turtle
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+app:App a owl:Class;
+  rdfs:comment "The class of all Apps. WebIDs of these Apps are contained in documents that link to the authors that wrote them, company that financed the production and maintains code, links to insuraces, and of course to the code or exacutable itself. It can also link to public keys the app can use indirectly to sign headers to prove it is running the code". 
+
+app:isUsing a owl:ObjectProperty;
+   rdfs:comment "relation linking an agent to the app they are using. ";
+   rdfs:domain foaf:Agent;
+   rdfs:range app:App .
+
+app:isProvablyUsing a owl:ObjectProperty;
+   rdfs:comment "relation linking an agent to the app they are using and can prove they are using it. The proof would consist in showing that something was signed with a key linked to the app.";
+   rdfs:domain foaf:Agent;
+   rdfs:range app:App .
+```
+
+# Delegation
+
+We may want to delegate access to a resource to another agent. A person may want to delegate 
+1. I can delegate to my mobile phone or solid wallet the job of signing requests for me
+2. my personal online data store (POD) may crawl the web, send notifications for me while I am doing other things
+3. Delegation example from [§2.3.8 Delegation](https://solid.github.io/authorization-panel/authorization-ucr/#uc-delegation-subset) of the Solid Use Cases Document.
+
+todo
+
+
+# Age claim
+
+We may want to give access to resources tagged as adult to anyone who can prove that they are over 18. A further refinement would be to have the age vary per country and per action requested: in the USA the minimum drinking age  is over 21 wheres in the UK it is 18, and the minimum age for driving is 16 in some states and 18 in others. (This may be getting more complicated than what we want to do here, but it is worth keeping in mind.)
+
+For we will need a [Web Of Nations](https://co-operating.systems/2020/06/01/WoN/) that can let us know which organisations in which countries are legally entitled to make such claims for someone, and perhaps also which actions are legally allowed in that country for any citizen or for citizens of that country in any country. Clearly this cannot be something where self claims are going to work. It would als be possible as a bootstrapping step to have a list maintained by some organisation of age verification organisations across the globe. But that would create a centralisation problem that is not correctly aligned with the geopolitical structure of the world, giving the maintainer of the list a lot more power than they should have. Still both could work together.
+
+Actually with age it is quite possible for a number of organisations to be entitled to make such claims: schools, banks, army, etc.... If a given country does not allow a credit card to be given out for people under a certain age, then posessing a card in that country would be a proof of being over a certain age. Arguably they all rely on the birth certificate claim in the end, so that these organisations would be just repeating claims from a canonical organisation, such as the birth registrars in a country.
+
+We should try to simplify the problem here in a way that allows for complexities to be added later. So let us assume that we have a canonical organisation that can link to organisations in a number of countries that can make age claims. We will call that organisation the `AgeRegistrarRegistrar`. 
+
+## Age Rule
+
+What would a rule look like? Well we need a way to describe somone over a given age. Here is a proposal I made on [Jan 2021](https://github.com/solid/authorization-panel/issues/160#issuecomment-764722858)
+
+```Turtle
+<#PersonOver21> owl:equivalentClass [  a owl:Restriction;
+      owl:onProperty :hasAge ;
+      owl:someValuesFrom   
+          [ rdf:type   rdfs:Datatype ;
+            owl:onDatatype       xsd:integer ;
+            owl:withRestrictions (  [ xsd:minExclusive     21 ]   [ xsd:maxInclusive    150 ] )
+          ]
+       ] .
+```
+
+(the max restriction is not really needed, but we leave it there to illustrate the syntax)
+
+Then we can create a rule
+
+```Turtle
+<#adultRule> a :Authorization;
+  :mode :Read;
+  :default </>;
+  :agentClass <#PersonOver21>;
+  :accessToClass [ a owl:Restriction;
+      owl:onProperty :hasTag;
+      owl:hasValue "adult" 
+     ] .
+```
+
+So here we can imagine that resources are tagged in some way - perhaps we need a new `Tag` http header, and that the rule allows access to any resource that has the tag `adult` if the agent is over 21.
+
+Question: Is having the `:default` relation to a container needed here? 
+Answer: In the current usage `:default` is a way of selecting all resources under the given container that do not themselves contain their own specified WAC resource. So here it should mean that we take that set and add the further restriction given by the `:accessToClass` relation. That seems correct as RDF graphs triples are conjunctions of statements. 
+
+### Client Proof of Age
+
+The client will need to check two things:
+
+1. It will need to work out that the `<#adultRule>` applies to the resource it is trying to access. It could do that by checking that the resource has a header `Tag: adult` in it. It would know that if it received a 401 on making the request. As an optimisation, we may want the resource to also link to a set of resources that are tagged that way, so that the client can avoid having to make requests leading to a 401 and can sign requests immediately. 
+
+2. Having found that the rule applies, the client would then need to check if it can prove that it is a mamber of the class `<#PersonOver21>`.  If it has a credential that proves its age and that fits the description, then it could use that in providing the proof. 
+
+### Server verification of Age
+
+The Guard knowing that the requested resource is tagged "adult" will know that the rule `<#adultRule>` applies. In the simplest of cases the key used by the client to sign the headers is the same key as the one referenced by the Verifiable Claim of age signed by one of the recognised Age Registrars. More complex situations can occur where a chain of keys needs to be verified.
+
+So in order to find the `:age` property of an agent, the Guard will need to find a claim of age age made by a recognised registar and then verify that the agent fits the given restriction. 
+
+Todo: find an example of a Verifiable Claim of age, to illustrate the whole process.
 
