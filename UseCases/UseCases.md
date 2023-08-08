@@ -17,13 +17,24 @@ The aim is that by looking at a growing number of use cases we will be able to i
 - [Three step indirection: Foaf of a friend](#three-step-indirection-foaf-of-a-friend)
   - [Client Auth logic](#client-auth-logic-2)
   - [Server Auth logic](#server-auth-logic-2)
+- [Delegation](#delegation)
+  - [1: Full delegation](#1-full-delegation)
+    - [Full access: adding public keys to the WebID](#full-access-adding-public-keys-to-the-webid)
+    - [Declarative statement of full delegation](#declarative-statement-of-full-delegation)
+    - [The `ban:speaksFor` relation](#the-banspeaksfor-relation)
+    - [Partial access](#partial-access)
 - [Client Authorization](#client-authorization)
   - [User Limitations on clients](#user-limitations-on-clients)
     - [1. Limiting access to a local folder](#1-limiting-access-to-a-local-folder)
     - [2. Limiting access to specific types of websites](#2-limiting-access-to-specific-types-of-websites)
+    - [Relationship to BAN](#relationship-to-ban)
   - [Server limitations on clients](#server-limitations-on-clients)
     - [Proof of App being used](#proof-of-app-being-used)
-- [Delegation](#delegation)
+  - [V1: Full delegation](#v1-full-delegation)
+    - [Full access: adding public keys to the WebID](#full-access-adding-public-keys-to-the-webid-1)
+    - [Declarative statement of full delegation](#declarative-statement-of-full-delegation-1)
+    - [The `ban:speaksFor` relation](#the-banspeaksfor-relation-1)
+    - [Partial access](#partial-access-1)
 - [Age claim](#age-claim)
   - [Age Rule](#age-rule)
     - [Client Proof of Age](#client-proof-of-age)
@@ -354,6 +365,65 @@ The proof that Dan's client should send would contain this chain of links with i
 
 What type of chain would satisfy Bob's Guard? It has to be a chain that starts from Bob's WebID (and perhaps linked to `rdfs:seeAlso` documents? What other types of links would be legal to look at?) and ends at Dan's WebID. 
 
+# Delegation
+
+We may want to delegate access to a resource to another agent. A person may want to delegate 
+1. I can delegate to my mobile phone or solid wallet the job of signing requests for me
+2. my personal online data store (POD) may crawl the web, send notifications for me while I am doing other things
+3. Delegation example from [§2.3.8 Delegation](https://solid.github.io/authorization-panel/authorization-ucr/#uc-delegation-subset) of the Solid Use Cases Document.
+
+## 1: Full delegation
+
+The 2012 paper [Extending the WebID Protocol with Access Delegation
+](https://ceur-ws.org/Vol-905/TrampEtAl_COLD2012.pdf) proposed a simple way to do delegation for the WebID-TLS protocol. HttpSig does not suffer from some of the technical limitations mentioned there. For example with TLS, changing the client certificate requires opening a completely new TLS connection. Whereas with HttpSig, each request can be signed with a different key if needed.
+
+### Full access: adding public keys to the WebID
+
+Adding some other agent's key to one's WebID would be equivalent to giving them full power to act everywhere on one's behalf.  This makes sense in at least the following scenarios:
+
+If one thinks of software such as a Wallet as a separate agent and one could well have several wallets, then it makes sense to attach the keys those wallets use directly to one's WebID identity. One could thus still track which wallet was signing requests, but the Guard giving access to remote resources would not need to distinguish any of them.
+
+Another use case is parents adding their key to their children's WebID. 
+This would allow them to have access to the websites their children are accessing.
+
+A company server that wanted to act on behalf of its users - e.g. to send out notifications of changes, prefetch content, ... -  would be able to add its key to each of the employee's profiles. This case would not suffer from having to open a new TLS connection for each user, as described in the 2012 paper.
+
+### Declarative statement of full delegation
+
+The 2021 paper also proposes that one could add a `:secretary` relation to one's WebId to another agent to fully act on one's behalf. 
+
+```turtle
+@prefix trust: <https://bblfish.net/work/2012/09/trust#>
+<#me> trust:secretary </s/riley#>
+```
+
+This would allow `</s/riley#>` to sign requests on behalf of `</me#>`. This would be equivalent to adding the key of `</s/riley#>` to `</me#>`.
+
+### The `ban:speaksFor` relation
+
+This is equivalent to what BAN logic (as explained in the 1992 paper [Authentication in Distributed Systems: Theory and Practice](https://dl.acm.org/doi/pdf/10.1145/138873.138874)) is the `speaksFor` relation. 
+Indeed we can map one to the other using an n3 rule
+
+```turtle
+{ ?a ban:speaksFor ?b } <=> { ?b trust:secretary ?a }
+```
+
+or more simply using owl
+
+```Turtle
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+ban:speaksFor owl:inverseOf trust:secretary .
+```
+
+
+### Partial access
+
+We can 
+
+
+
+
 # Client Authorization
 
 The Solid community often raises use cases of limiting client access. But there are two very different types of use cases encompassed by this idea: the user wishing to limit access to various resources, and the server wishing to limit access by certain apps.
@@ -407,6 +477,44 @@ crAgr:co a won:BankingWebSite;
 Then that plus the chain of links from Kansas to Infogreffe constitutes a proof that the Credit-Agricole website is a `won:BankingWebSite` and hence that the banking app is allowed to access it, and so that the Wallet in the Launcher App can sign requests going to the credit-agricole web site.
 
 todo: it would be interesting to express this chain of trust as a set of N3 rules.  
+
+### Relationship to BAN
+
+In "§6 Roles and Programs" of the 1992 paper [Authentication in Distributed Systems: Theory and Practice](https://dl.acm.org/doi/pdf/10.1145/138873.138874) the authors write "A principal often wants to limit its authority, in order to express the fact that it is acting according to a certain set of rules." That is, in a way what we are doing when the Wallet limits what resources a client can access. Can we use some of the concepts from the paper?
+
+BAN defines the composite Principle `A as R` where A is the main Principal and R is a role, as something that can be understood with
+
+
+`(A as R) says s <=> A says (R says s)`
+
+That is `A as R` is the principal `A | R`, understood as A speaking in role R.  It is clear that the limitation on an App is creating a new Principal for that App and that it is a self-imposed limitation.
+
+This makes it clear that the client authorization rules we set out
+above are not quite right, as we have identified the software as the agent. Ie, we wrote:
+
+```turtle
+<#r2> a :Authorization.
+   :mode :Read, Write;
+   :agent <https://banking.app/view#>;
+   :accessToClass won:BankingWebSites.
+```
+
+We don't want to limit the banking app in general, but our use of the banking App, in this case, Alice's.
+
+Or if several people could use that app in Alice's family,
+perhaps Alice wants to limit her use of it, in which case she would
+need a rule that is closer to the BAN idea of Alice as BankingApp 
+
+```turtle
+<#r2> a :Authorization.
+   :mode :Read, Write;
+   :agent [ :id </alice#>;
+            :as <https://alice.name/apps/banking/a#> ];
+   :accessToClass won:BankingWebSites.
+```
+
+todo: this needs to be thought through more carefully.
+
 
 
 ## Server limitations on clients
@@ -473,14 +581,65 @@ app:isProvablyUsing a owl:ObjectProperty;
    rdfs:range app:App .
 ```
 
-# Delegation
 
 We may want to delegate access to a resource to another agent. A person may want to delegate 
 1. I can delegate to my mobile phone or solid wallet the job of signing requests for me
 2. my personal online data store (POD) may crawl the web, send notifications for me while I am doing other things
 3. Delegation example from [§2.3.8 Delegation](https://solid.github.io/authorization-panel/authorization-ucr/#uc-delegation-subset) of the Solid Use Cases Document.
 
-todo
+## V1: Full delegation
+
+The 2012 paper [Extending the WebID Protocol with Access Delegation
+](https://ceur-ws.org/Vol-905/TrampEtAl_COLD2012.pdf) proposed a simple way to do delegation for the WebID-TLS protocol. HttpSig does not suffer from some of the technical limitations mentioned there. For example with TLS, changing the client certificate requires opening a completely new TLS connection. Whereas with HttpSig, each request can be signed with a different key if needed.
+
+### Full access: adding public keys to the WebID
+
+Adding some other agent's key to one's WebID would be equivalent to giving them full power to act everywhere on one's behalf.  This makes sense in at least the following scenarios:
+
+If one thinks of software such as a Wallet as a separate agent and one could well have several wallets, then it makes sense to attach the keys those wallets use directly to one's WebID identity. One could thus still track which wallet was signing requests, but the Guard giving access to remote resources would not need to distinguish any of them.
+
+Another use case is parents adding their key to their children's WebID. 
+This would allow them to have access to the websites their children are accessing.
+
+A company server that wanted to act on behalf of its users - e.g. to send out notifications of changes, prefetch content, ... -  would be able to add its key to each of the employee's profiles. This case would not suffer from having to open a new TLS connection for each user, as described in the 2012 paper.
+
+### Declarative statement of full delegation
+
+The 2021 paper also proposes that one could add a `:secretary` relation to one's WebId to another agent to fully act on one's behalf. 
+
+```turtle
+@prefix trust: <https://bblfish.net/work/2012/09/trust#>
+<#me> trust:secretary </s/riley#>
+```
+
+This would allow `</s/riley#>` to sign requests on behalf of `</me#>`. This would be equivalent to adding the key of `</s/riley#>` to `</me#>`.
+
+### The `ban:speaksFor` relation
+
+This is equivalent to what BAN logic (as explained in the 1992 paper [Authentication in Distributed Systems: Theory and Practice](https://dl.acm.org/doi/pdf/10.1145/138873.138874)) is the `speaksFor` relation. 
+Indeed we can map one to the other using an n3 rule
+
+```turtle
+{ ?a ban:speaksFor ?b } <=> { ?b trust:secretary ?a }
+```
+
+or more simply using owl
+
+```Turtle
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+
+ban:speaksFor owl:inverseOf trust:secretary .
+```
+
+
+
+### Partial access
+
+We can 
+
+
+
+
 
 
 # Age claim
@@ -540,7 +699,7 @@ The client will need to check two things:
 
 The Guard knowing that the requested resource is tagged "adult" will know that the rule `<#adultRule>` applies. In the simplest of cases, the key used by the client to sign the headers is the same key as the one referenced by the Verifiable Claim of Age signed by one of the recognized Age Registrars. More complex situations can occur where a chain of keys needs to be verified.
 
-So to find the `:age` property of an agent, the Guard will need to find a claim of age made by a recognized regisrar and then verify that the agent fits the given restriction. 
+So to find the `:age` property of an agent, the Guard will need to find a claim of age made by a recognized registrar and then verify that the agent fits the given restriction. 
 
 Todo: find an example of a Verifiable Claim of age, to illustrate the whole process.
 
