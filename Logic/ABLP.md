@@ -44,6 +44,6 @@ ablp:says :says s:label "says";
      s:domain :Principal.
 ```
 
-The range is not defined, though it really should be either a graph or a dereferenceable information resource, which on HTTP GET would return a Graph.
+The range is not defined, though it really should be either a graph or a dereferenceable information resource, which on HTTP GET would return a Graph. That use is visible from the [httpspeech.n3](https://github.com/w3c/N3/blob/master/tests/N3Tests/07test/httpspeech.n3) example.
 
 
