@@ -6,7 +6,7 @@
 
 # The ABLP logic
 
-In the early 1990s Mart́in Abadi, Michael Burrows, and Butler Lampson of Digitial Equipment Corporation and Gordon Plotkin of the University of Edinborough wrote some key papers on authentication and access control in distributed system, developing a modal logic built around a basic "says" operator. (Michael Burrows wrote the AltaVista search engine) 
+In the early 1990s Mart́in Abadi, Michael Burrows, and Butler Lampson of Digital Equipment Corporation and Gordon Plotkin of the University of Edinborough wrote some key papers on authentication and access control in distributed systems, developing a modal logic built around a basic "says" operator. (Michael Burrows wrote the AltaVista search engine) 
 
 The key papers are:
  * 1992: [Authentication in Distributed Systems: Theory and Practice](https://dl.acm.org/doi/pdf/10.1145/138873.138874)
@@ -23,11 +23,11 @@ We want to see how we can use the formalism developed there to explain aspect of
 
  The ABLP logic is built around a `says` operator which relates a subject to a statement. 
 
- ```math
-  s says p
- ```
+$$
+  s \text{ says } p
+$$
 
- In RDF we can simply name that relation with a url `ablp:says` and specify that it relates an agent to a statement. This was done by Dan Connolly around 2009 in the [speech n3 ontology](https://www.w3.org/2001/tag/dj9/speech) which is part of [A Model of Authority on the Web](https://www.w3.org/2001/tag/dj9/story.html). The ontology is published on the w3c servers as [/2001/tag/dj9/speech](https://www.w3.org/2001/tag/dj9/speech).
+ In RDF we can simply name that relation with a URL `ablp:`says` and specify that it relates an agent to a statement. This was done by Dan Connolly around 2009 in the [speech n3 ontology](https://www.w3.org/2001/tag/dj9/speech) which is part of [A Model of Authority on the Web](https://www.w3.org/2001/tag/dj9/story.html). The ontology is published on the w3c servers as [/2001/tag/dj9/speech](https://www.w3.org/2001/tag/dj9/speech).
 
 
 This is also being worked on by the [N3 community group](https://www.w3.org/community/n3-dev/), on [github.com/w3c/N3](https://github.com/w3c/N3/):
@@ -37,7 +37,7 @@ This is also being worked on by the [N3 community group](https://www.w3.org/comm
 
 The community group has produced [Notation3 Language - Draft Community Group Report](https://w3c.github.io/N3/reports/20230703/)
 
-The says relation is defined as follows:
+The $\text{says}$ relation is defined as follows:
 
 ```turtle
 @prefix ablp: <https://www.w3.org/2001/tag/dj9/speech#> .
@@ -58,7 +58,7 @@ $$
 
 In other words: when the principal $A|B$ says something it is equivalent to $A$ saying $B$ says something, or $A$ quoting $B$ as saying. Hence $A|B$ is read "$A$ quoting $B$".
 
-Dan Connolly defined it in N3 as
+Dan Connolly defined it as
 
 ```n3
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -71,7 +71,7 @@ Dan Connolly defined it in N3 as
 
 Arguably there is no need to limit the list to 2 since the operator is associative, that is $A|(B|C) = (A|B)|C$.
 
-Dan Conolly in [Decision making in ABLP logic](https://www.w3.org/2001/tag/dj9/refi_ex.html) gives the example of Sam hearing Melissa-on-the-Phone saying that Mellisa quoting the Wall Street Journal `WSJ` says that the fed rate is 4.5.  He then writes it
+Dan Connolly in [Decision-making in ABLP logic](https://www.w3.org/2001/tag/dj9/refi_ex.html) gives the example of Sam hearing Melissa-on-the-Phone saying that Mellisa quoting the Wall Street Journal `WSJ` says that the fed rate is 4.5.  He then writes it
 like this in n3 where the "is ... of" construct gives the relation in the opposite direction:
 
 ```n3
@@ -96,14 +96,14 @@ Roles are introduced in the 1993 paper as follows:
 
 > There are many situations in which a principal may wish to reduce his powers. We now describe a few, as motivation for our treatment of roles. They are all examples of the principle of “least privilege,” according to which a principal should have only the privileges it needs to accomplish its task.
 
-A user $U$ in a role $R$, written $U \text{ as } R$ is modelled as $A | R$ (expressed as "A quoting R") where both A is a Principal, and R is a Role (which is a type of Principal). That is both $\text{ as }$ and $|$ are binary operators on principals, that return a new principal.
+A user $U$ in a role $R$, written $U \text{ as } R$ is modeled as $A | R$ (expressed as "A quoting R") where both A is a Principal, and R is a Role (which is a type of Principal). That is both $\text{ as }$ and $|$ are binary operators on principals, that return a new principal.
 (todo: we need a definition of Principals, Roles)
 
 $$
 A \text{ as } R = A | R 
 $$
 
-So we could create as "as" relation
+So we could create an `as`` relation
 
 ```n3
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
@@ -114,9 +114,9 @@ So we could create as "as" relation
       rdfs:range :Role .
 ```
 
-Note that this does not give us the precision we want. A more typesafe
-model would be that the domain is a tuple type where the first
-element of the tuple is a principal and every other element of the tuple is a role. Or equivalently a pair of a principal and a list of roles. Or we could also specify a type
+Note that this does not give us the precision we want. A more type-safe model would be that the domain is a tuple type where the first element of the tuple is a principal and every other element of the tuple is a role. 
+Or equivalently a pair of a principal and a list of roles. 
+Or we could also specify a type `Role` with two required relations:
 
 ```n3
 @prefix owl: <http://www.w3.org/2002/07/owl#> .

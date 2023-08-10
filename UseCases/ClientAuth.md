@@ -4,7 +4,7 @@
 The Solid community often raises use cases of limiting client access. But there are two very different types of use cases encompassed by this idea: the user wishing to limit access to various resources, and the server wishing to limit access by certain apps.
 
 - [Client Authorization](#client-authorization)
-  - [User Limitations on clients](#user-limitations-on-clients)
+  - [User Limitations on Clients](#user-limitations-on-clients)
     - [Links to ABLP logic](#links-to-ablp-logic)
     - [1. Limiting access to a local folder](#1-limiting-access-to-a-local-folder)
     - [2. Limiting access to specific types of websites](#2-limiting-access-to-specific-types-of-websites)
@@ -14,11 +14,11 @@ The Solid community often raises use cases of limiting client access. But there 
     - [Proof of App being used](#proof-of-app-being-used)
 
 
-## User Limitations on clients
+## User Limitations on Clients
 
-Most users will wish to limit newly downloaded apps to safe spaces in order to test them out. As they gain confidence in an app, users may later want to enlarge the space of resources those apps are allowed access locally or even extend their reach to the whole web. 
+Most users will wish to limit newly downloaded apps to safe spaces to test them out. As they gain confidence in an app, users may later want to enlarge the space of resources those apps are allowed access to locally or even extend their reach to the whole web. 
 
-These restrictions can be written out in the form of policies, which need only be known to the Wallet - a seperate trusted app that can sign for identified apps. On each request by an app to sign a given request the Wallet can consult its policies and decide whether to sign or not. 
+These restrictions can be written out in the form of policies, which need only be known to the wallet - a separate trusted app that can sign for identified apps. On each request by an app to sign a given request the Wallet can consult its policies and decide whether to sign or not. 
 
 The role here is very similar to that of the Guard on the server. It needs a rule to decide given a resource and a mode of access requested by a given agent, should it or not sign the request?
 
@@ -30,7 +30,7 @@ A self-imposed limitation is close to what [ABLP](../Logic/ABLP.md) logic calls 
 
 > There are many situations in which a principal may wish to reduce his powers. We now describe a few, as motivation for our treatment of roles. They are all examples of the principle of “least privilege,” according to which a principal should have only the privileges it needs to accomplish its task.
 
-A user in a role, written $A \text{ as } R$, is modelled as $A | R$ where $A$ is the user and $R$ is the role. 
+A user in a role, written $A \text{ as } R$, is modeled as $A | R$ where $A$ is the user and $R$ is the role. 
 
 $$
 A \text{ as } R \equiv A | R 
@@ -42,10 +42,11 @@ $$
 A|R \text{ says } s \equiv A \text{ says } R \text{ says } s
 $$
 
-Client side limitation is about limiting what someone can do
+The client-side limitation is about limiting what someone can do
 when in a given role, where the role is the role of using a given app here. Ie. the Wallet is limiting what an agent can say via a given app.
 
-The advantage of having this self imposed limitation on the client side is that it simplifies the access control logic on the server, which needs only know what Agent is allowed access. In a decentralised environment there are uncountably many types of apps that could be produced, and having resources across the web having to keep up to date on what apps the user has authorised is not a scalable solution, as that can change at any time as the user's trust in the app increases.
+The advantage of having this self-imposed limitation on the client side is that it simplifies the access control logic on the server, which needs only know what Agent is allowed access. 
+In a decentralized environment there are uncountably many types of apps that could be produced, and having resources across the web to keep up to date on what apps the user has authorized is not a scalable solution, as that can change at any time as the user's trust in the app increases.
 
 ### 1. Limiting access to a local folder
 
@@ -63,11 +64,9 @@ We imagine Alice trying out a new photo App. After adding it to her [Launcher Ap
 This should limit the photo app demo to read and write
 to only resources in the `</app/photo/>` collection of her POD.
 
-Here `<https://photo.app/demoV#>` is the name
-of the App type. But in RDF we need to think about
-graphs remaining true even when merged with other true RDF graphs.
-But clearly if we merged such RDF graphs for the preferences of any number of other users we would end up 
-with every app having access to everything on the web. 
+Here `<https://photo.app/demoV#>` is the name of the App type. 
+But in RDF we need to think about graphs remaining true even when merged with other true RDF graphs.
+But clearly, if we merged such RDF graphs for the preferences of any number of other users we would end up with every app having access to everything on the web. 
 
 What we need is to specify that it is the user $U$ as app $A$
 who should be limited. Ie we need the Authorization to be limited to 
@@ -83,8 +82,7 @@ $U \text{ as } A$ . Following the suggesting in [the ABLP § roles section](../L
   :accessToClass [ :subdirs </app/photo/> ] .
 ```
 
-This makes it clear how we can use of ABLP roles to limit
-client side access to resources for various apps.
+This makes it clear how we can use ABLP roles to limit client-side access to resources for various apps.
 
 
 ### 2. Limiting access to specific types of websites 
@@ -100,9 +98,9 @@ Another rule could be to only allow a banking app access to banking websites.
 ```
 
 The bigger problem here is not how to model rules but how to globally define `won:BankingWebSites` ? Let us assume it is defined by a future [Web Of Nations](https://co-operating.systems/2020/06/01/WoN/) standard ([pdf](https://co-operating.systems/2020/06/01/WoN.pdf)). That may come with a proof procedure
-that requires the Wallet to find out if an accessed website can be reached via the users national trust chain. 
+that requires the Wallet to find out if an accessed website can be reached via the user's national trust chain. 
 
-So imagine that Dorothy who lives in Kansas, has her FreedomBox at home running a Solid POD. This information is known to her Launcher App. So let us say the banking app wants to fetch some resource on [credit-agricole.fr](https://www.credit-agricole.fr/). How would the LauncherApp's Wallet know if credit-agricole is a `won:BankingWebSite` or not? The procedure would be here to start from the [kansas.gov](https://kansas.gov) website and find the link pointing to [usa.gov](https://usa.gov/) which would contain links to the countries in diplomatic relations to the USA, and a link also to Kansas proving that kansas is part of the USA. The credit-agricole website would in the same way link to a French company registrar [infogreffes](https://www.infogreffe.fr) with a RDF translatable representation for [Credit-Agricole de la Brie](https://www.infogreffe.fr/entreprise/caisse-locale-credit-agricole-de-la-brie/413588948/d2ebb654-e060-471b-8772-e20de6cafd86), and that representation should link to the French root [gouv.fr](https://gouv.fr/) which would point back to Infogreffes and to all the similar documents in all the other countries that are diplomatically related to France, of which of course the USA is one. From this one can then build a chain of trust from the Kansas POD to the Credit-Agricole website which is perhaps the only direction that is needed.
+So imagine that Dorothy who lives in Kansas, has her FreedomBox at home running a Solid POD. This information is known to her Launcher App. So let us say the banking app wants to fetch some resource on [credit-agricole.fr](https://www.credit-agricole.fr/). How would the LauncherApp's Wallet know if credit-agricole is a `won:BankingWebSite` or not? The procedure would be here to start from the [kansas.gov](https://kansas.gov) website and find the link pointing to [usa.gov](https://usa.gov/) which would contain links to the countries in diplomatic relations to the USA, and a link also to Kansas proving that kansas is part of the USA. The credit-agricole website would in the same way link to a French company registrar [infogreffes](https://www.infogreffe.fr) with an RDF translatable representation for [Credit-Agricole de la Brie](https://www.infogreffe.fr/entreprise/caisse-locale-credit-agricole-de-la-brie/413588948/d2ebb654-e060-471b-8772-e20de6cafd86), and that representation should link to the French root [gouv.fr](https://gouv.fr/) which would point back to Infogreffes and to all the similar documents in all the other countries that are diplomatically related to France, of which of course the USA is one. From this one can then build a chain of trust from the Kansas POD to the Credit-Agricole website which is perhaps the only direction that is needed.
 Now if the description in the French registrar contains a relation 
 
 ```turtle
@@ -112,7 +110,7 @@ crAgr:co a won:BankingWebSite;
    foaf:homepage <https://www.credit-agricole.fr/> . 
 ```
 
-Then that plus the chain of links from Kansas to Infogreffe constitutes a proof that the Credit-Agricole website is a `won:BankingWebSite` and hence that the banking app is allowed to access it, and so that the Wallet in the Launcher App can sign requests going to the credit-agricole web site.
+Then that plus the chain of links from Kansas to Infogreffe constitutes proof that the Credit-Agricole website is a `won:BankingWebSite` and hence that the banking app is allowed to access it, and so that the Wallet in the Launcher App can sign requests going to the Credit-Agricole web site.
 
 todo: it would be interesting to express this chain of trust as a set of N3 rules.  
 
@@ -125,14 +123,14 @@ Many use cases for limiting access of clients to servers can be implemented usin
 ### ABLP principal conjunction
 
 ABLP allows us to define conjunctions of Principals.
-Earlier we saw the $|$ quoting operator on Principals. Similarly we have the $\land$ operator that takes two
+Earlier we saw the $|$ quoting operator on Principals. Similarly, we have the $\land$ operator that takes two
 Principals and returns a new Principal that is the conjunction of the two. We are thus to think of principals as forming a partial lattice. The rule is
 
 $$
 A \land B \text{ says } s \equiv A \text{ says } s \land B \text{ says } s
 $$
 
-With this we can see what the server really wants: it wants to know that the right type of agent and the right type of app are together participating in the request.
+With this we can see what the server wants: it wants to know that the right type of agent and the right type of app are together participating in the request.
 
 
 ### As a Web Access Control rule
@@ -159,9 +157,9 @@ They could write this use case out in WAC as:
    ].
 ```
 
-So this Web Access control rule expresses that the class of agents that can have access to the `</client/>` container on the bank's web site are only customers of the bank that are using CertifiedApps. 
+So this Web Access control rule expresses that the class of agents that can have access to the `</client/>` container on the bank's website are only customers of the bank that are using CertifiedApps. 
 
-CertifiedApps could be defined as a union of a number of lists produced by different app certifiers, and `credAgr:Customer` could be potentially defined by some regex on the Bank WebID of the customer, so perhaps something like
+CertifiedApps could be defined as a union of several lists produced by different app certifiers, and `credAgr:Customer` could be potentially defined by some regex on the Bank WebID of the customer, so perhaps something like
 
 ```Turtle
 @prefix pwdr: <http://www.w3.org/2007/05/powder-s#> .
@@ -176,7 +174,7 @@ credAgr:Customer a owl:Class;
 
 ### Proof of App being used
 
-How would the Guard on the server know that the given app was being used by the customer. There are two ways this could be done:
+How would the Guard on the server know that the given app was being used by the customer? There are two ways this could be done:
 
 1. Weak: the Wallet could add a header specifying the client WebID used in the headers and then sign that with the customer key. This would allow the user to override the ID of an app to try out other ones, but that would be his responsibility and his risk to take.
 2. Strong: the app could provide a header signed by a private key linked to a well-known public key of the app. 
