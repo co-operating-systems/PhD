@@ -1,17 +1,57 @@
+
 # Client Authorization
 
 The Solid community often raises use cases of limiting client access. But there are two very different types of use cases encompassed by this idea: the user wishing to limit access to various resources, and the server wishing to limit access by certain apps.
 
+- [Client Authorization](#client-authorization)
+  - [User Limitations on clients](#user-limitations-on-clients)
+    - [Links to ABLP logic](#links-to-ablp-logic)
+    - [1. Limiting access to a local folder](#1-limiting-access-to-a-local-folder)
+    - [2. Limiting access to specific types of websites](#2-limiting-access-to-specific-types-of-websites)
+  - [Server limitations on clients](#server-limitations-on-clients)
+    - [ABLP concept](#ablp-concept)
+    - [As a Web Access Control rule](#as-a-web-access-control-rule)
+    - [Proof of App being used](#proof-of-app-being-used)
+
+
 ## User Limitations on clients
 
-Most users will wish to limit newly downloaded apps to certain safe spaces to test them out and learn to gain confidence in them. They may thereafter be happy to enlarge the space of resources those apps are allowed access locally or extend the websites they are allowed to access. These restrictions need only be visible to the Launcher App, which can use those to decide when to sign headers for the app.
+Most users will wish to limit newly downloaded apps to safe spaces in order to test them out. As they gain confidence in an app, users may later want to enlarge the space of resources those apps are allowed access locally or even extend their reach to the whole web. 
 
-Can we use the same WAC ontology to express those limitations?
+These restrictions can be written out in the form of policies, which need only be known to the Wallet - a seperate trusted app that can sign for identified apps. On each request by an app to sign a given request the Wallet can consult its policies and decide whether to sign or not. 
+
+The role here is very similar to that of the Guard on the server. It needs a rule to decide given a resource and a mode of access requested by a given agent, should it or not sign the request?
+
+So we ask: Can we use the same WAC ontology to express those limitations?
+
+### Links to ABLP logic
+
+Note that this is a self-imposed limitation is close to what [ABLP](../Logic/ABLP.md) logic calls a role. The paper "A Calculus for Access Control" says on p11:
+
+> There are many situations in which a principal may wish to reduce his powers. We now describe a few, as motivation for our treatment of roles. They are all examples of the principle of “least privilege,” according to which a principal should have only the privileges it needs to accomplish its task.
+
+A user in a role is modelled as `A | R` where `A` is the user and `R` is the role. 
+
+$$
+A \text{ as } R \equiv A | R 
+$$
+
+where $A|R$ is defined as
+
+$$
+A|R \text{ says } s \equiv A \text{ says } R \text{ says } s
+$$
+
+Client side limitation is about limiting what someone can do
+when in a given role, where the role is the role of using a given app here.  
+
+The advantage of having this self imposed limitation on the client side is that it simplifies the access control logic on the server, which needs only know what Agent is allowed access. In a decentralised environment there are uncountably many types of apps that could be produced, and having resources across the web having to keep up to date on what apps the user has authorised is not a scalable solution, as that can change at any time as the user's trust in the app increases.
 
 ### 1. Limiting access to a local folder
 
-The Launcher App could write the following rule to a
-place that only it can read:
+The client wallet could write the following rule to a
+place that only a photo app demo can read and write
+to only some files on the user's POD.
 
 ```turtle
 @prefix : <http://www.w3.org/ns/auth/acl#> .
@@ -22,7 +62,30 @@ place that only it can read:
   :accessToClass [ :subdirs </app/photo/> ] .
 ```
 
-The above rule would tell the Launcher App that the photo app could only read and write to any subdirectory of the `</app/photo/>` folder. The app would be able to read and write to `</app/photo/2021/04/01/>` but not to `</app/banking/2024/>` for example.
+We think of the `<https://photo.app/demoV#>` as the
+WebID of the App type. But in RDF we need to think about
+graphs remaining true even when merged with other RDF graphs.
+Here clearly if we merged such RDF graphs for the preferences
+of any number of apps from different users we would end up 
+with every app having access to everything on the web. 
+
+What we need is to specify that it is the user $U$ as app $A$
+who should be limited. Ie we need the Authorization to be limited to 
+$U \text{ as } A$ . Following the suggesting in [the ABLP § roles section](../Logic/ABLP.md#roles) we could write our client side rule as
+
+
+```turtle
+@prefix c: <https://www.w3.org/2001/tag/dj9/speech#>
+<#r1> a :Authorization;
+  :mode :Read, :Write;
+  :agent [ c:principal <#Alice>;
+           c:as <https://photo.app/demo#> ]; 
+  :accessToClass [ :subdirs </app/photo/> ] .
+```
+
+And so we clearly see here that we are using ABLP logic roles to limit
+client side access.
+
 
 ### 2. Limiting access to specific types of websites 
 
@@ -31,7 +94,8 @@ Another rule could be to only allow a banking app access to banking websites.
 ```turtle
 <#r2> a :Authorization.
    :mode :Read, Write;
-   :agent <https://banking.app/view#>;
+   :agent [ c:principal <#Alice> ;
+            c:as <https://banking.app/view#> ];
    :accessToClass won:BankingWebSites.
 ```
 
@@ -52,50 +116,31 @@ Then that plus the chain of links from Kansas to Infogreffe constitutes a proof 
 
 todo: it would be interesting to express this chain of trust as a set of N3 rules.  
 
-### Relationship to BAN
-
-In "§6 Roles and Programs" of the 1992 paper [Authentication in Distributed Systems: Theory and Practice](https://dl.acm.org/doi/pdf/10.1145/138873.138874) the authors write "A principal often wants to limit its authority, in order to express the fact that it is acting according to a certain set of rules." That is, in a way what we are doing when the Wallet limits what resources a client can access. Can we use some of the concepts from the paper?
-
-BAN defines the composite Principle `A as R` where A is the main Principal and R is a role, as something that can be understood with
-
-
-`(A as R) says s <=> A says (R says s)`
-
-That is `A as R` is the principal `A | R`, understood as A speaking in role R.  It is clear that the limitation on an App is creating a new Principal for that App and that it is a self-imposed limitation.
-
-This makes it clear that the client authorization rules we set out
-above are not quite right, as we have identified the software as the agent. Ie, we wrote:
-
-```turtle
-<#r2> a :Authorization.
-   :mode :Read, Write;
-   :agent <https://banking.app/view#>;
-   :accessToClass won:BankingWebSites.
-```
-
-We don't want to limit the banking app in general, but our use of the banking App, in this case, Alice's.
-
-Or if several people could use that app in Alice's family,
-perhaps Alice wants to limit her use of it, in which case she would
-need a rule that is closer to the BAN idea of Alice as BankingApp 
-
-```turtle
-<#r2> a :Authorization.
-   :mode :Read, Write;
-   :agent [ :id </alice#>;
-            :as <https://alice.name/apps/banking/a#> ];
-   :accessToClass won:BankingWebSites.
-```
-
-todo: this needs to be thought through more carefully.
-
 
 
 ## Server limitations on clients
 
-Many use cases for limiting access of clients to servers can be implemented using client-side restrictions as shown in the previous section. Where possible it is much preferable that restrictions on apps be placed on the client side and not on the data production side, as it leaves much more freedom for apps to evolve, and reduces the work on the server to keep track of good and bad apps.
+Many use cases for limiting access of clients to servers can be implemented using client-side restrictions as shown in the previous section. Where possible it is much preferable that restrictions on apps be placed on the client side and not on the data production side, as it leaves much more freedom for apps to evolve, and reduces the work on the server to keep track of good and bad apps, or of user preferences. 
 
-Nevertheless, we can imagine that some data providers may want access to be limited to certified apps. 
+### ABLP concept
+
+ABLP allows us to define conjunctions of Principals.
+Earlier we saw the $|$ quoting operator on Principals. Similarly we have the $\land$ operator that takes two
+Principals and returns a new Principal that is the conjunction of the two. We are thus to think of principals as forming a partial lattice. The rule is
+
+$$
+A \land B \text{ says } s \equiv A \text{ says } s \land B \text{ says } s
+$$
+
+Now we can see what the server really wants: it wants to know that the right type of agent and the right type of app are together gaining access.
+
+
+### As a Web Access Control rule
+
+Using the idea of conjunction of Principals we can 
+address the use case where data providers want access to be limited to certified apps. 
+
+They could write this use case out in WAC as:
 
 ```Turtle
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
@@ -160,56 +205,6 @@ We may want to delegate access to a resource to another agent. A person may want
 1. I can delegate to my mobile phone or solid wallet the job of signing requests for me
 2. my personal online data store (POD) may crawl the web, send notifications for me while I am doing other things
 3. Delegation example from [§2.3.8 Delegation](https://solid.github.io/authorization-panel/authorization-ucr/#uc-delegation-subset) of the Solid Use Cases Document.
-
-## V1: Full delegation
-
-The 2012 paper [Extending the WebID Protocol with Access Delegation
-](https://ceur-ws.org/Vol-905/TrampEtAl_COLD2012.pdf) proposed a simple way to do delegation for the WebID-TLS protocol. HttpSig does not suffer from some of the technical limitations mentioned there. For example with TLS, changing the client certificate requires opening a completely new TLS connection. Whereas with HttpSig, each request can be signed with a different key if needed.
-
-### Full access: adding public keys to the WebID
-
-Adding some other agent's key to one's WebID would be equivalent to giving them full power to act everywhere on one's behalf.  This makes sense in at least the following scenarios:
-
-If one thinks of software such as a Wallet as a separate agent and one could well have several wallets, then it makes sense to attach the keys those wallets use directly to one's WebID identity. One could thus still track which wallet was signing requests, but the Guard giving access to remote resources would not need to distinguish any of them.
-
-Another use case is parents adding their key to their children's WebID. 
-This would allow them to have access to the websites their children are accessing.
-
-A company server that wanted to act on behalf of its users - e.g. to send out notifications of changes, prefetch content, ... -  would be able to add its key to each of the employee's profiles. This case would not suffer from having to open a new TLS connection for each user, as described in the 2012 paper.
-
-### Declarative statement of full delegation
-
-The 2021 paper also proposes that one could add a `:secretary` relation to one's WebId to another agent to fully act on one's behalf. 
-
-```turtle
-@prefix trust: <https://bblfish.net/work/2012/09/trust#>
-<#me> trust:secretary </s/riley#>
-```
-
-This would allow `</s/riley#>` to sign requests on behalf of `</me#>`. This would be equivalent to adding the key of `</s/riley#>` to `</me#>`.
-
-### The `ban:speaksFor` relation
-
-This is equivalent to what BAN logic (as explained in the 1992 paper [Authentication in Distributed Systems: Theory and Practice](https://dl.acm.org/doi/pdf/10.1145/138873.138874)) is the `speaksFor` relation. 
-Indeed we can map one to the other using an n3 rule
-
-```turtle
-{ ?a ban:speaksFor ?b } <=> { ?b trust:secretary ?a }
-```
-
-or more simply using owl
-
-```Turtle
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-
-ban:speaksFor owl:inverseOf trust:secretary .
-```
-
-
-
-### Partial access
-
-We can 
 
 
 
