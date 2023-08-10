@@ -1,0 +1,3 @@
+In this section we explore important use cases for Solid
+
+* [Foaf.md](Foaf.md) we explore the important social networking use cases that launched interest in this whole enterpreise to start with. We look at simple friend network, followed by friend of a friend. We end up with a very large network of friend of a friend of a friend, which if each person ends up with 300 non-overlapping friends would end up creating a social networks 300*300*300=27 000 000=27 million people large
