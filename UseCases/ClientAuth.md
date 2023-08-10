@@ -83,6 +83,14 @@ $U \text{ as } A$. Following the suggestion in ABLP [§ roles](../Logic/ABLP.md#
 
 This makes it clear how we can use ABLP roles to limit client-side access to resources for various apps.
 
+Note, instead of using `:accessToClass` we could have used `wac:default`, which has the advantage of being defined and implemented. On the other hand the `:accessToClass` link has the advantage of showing us how very simple concepts from the [RelBac description logic](../Logic/RelBac.md) could be useful.
+
+It looks like we could map between them with an N3 rule such as
+
+```N3
+{ ?rule :default ?r} => { ?r :accessToClass [ :subdirs ?r ]}
+```
+
 
 ### 2. Limiting access to specific types of websites 
 
