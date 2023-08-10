@@ -11,7 +11,7 @@ The Solid community often raises use cases of limiting client access. But there 
   - [Server limitations on clients](#server-limitations-on-clients)
     - [ABLP principal conjunction](#ablp-principal-conjunction)
     - [As a Web Access Control rule](#as-a-web-access-control-rule)
-    - [Proof of App being used](#proof-of-app-being-used)
+    - [With Proof of App being used](#with-proof-of-app-being-used)
 
 
 ## User Limitations on Clients
@@ -66,12 +66,11 @@ to only resources in the `</app/photo/>` collection of her POD.
 
 Here `<https://photo.app/demoV#>` is the name of the App type. 
 But in RDF we need to think about graphs remaining true even when merged with other true RDF graphs.
-But clearly, if we merged such RDF graphs for the preferences of any number of other users we would end up with every app having access to everything on the web. 
+But, if we merged such RDF graphs for the preferences of any number of other users for the same photo app, we would end up with that app having access to everything on the web. 
 
 What we need is to specify that it is the user $U$ as app $A$
 who should be limited. Ie we need the Authorization to be limited to 
-$U \text{ as } A$ . Following the suggesting in [the ABLP § roles section](../Logic/ABLP.md#roles) we could write our client side rule as
-
+$U \text{ as } A$. Following the suggestion in ABLP [§ roles](../Logic/ABLP.md#roles) we could write our client-side rule as
 
 ```turtle
 @prefix c: <https://www.w3.org/2001/tag/dj9/speech#>
@@ -169,10 +168,10 @@ credAgr:Customer a owl:Class;
    powder:pathregex "/accnt/*/id#" . #prop is made up
 ```
 
-[todo: find out the best way to express this]
+[todo: find out the best way to express regular expressions now - other methods would also work.]
 
 
-### Proof of App being used
+### With Proof of App being used
 
 How would the Guard on the server know that the given app was being used by the customer? There are two ways this could be done:
 
@@ -200,5 +199,26 @@ app:isProvablyUsing a owl:ObjectProperty;
    rdfs:range app:App .
 ```
 
+With definitions such as those it would be possible for the server to request
+a signature from an App with proof that the app is Certified by publishing
+the following AC Resource:
 
+```Turtle
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix : <http://www.w3.org/ns/auth/acl#> .
+
+<#r3> a :Authorization;
+   :mode :Read;
+   :default </client/>;
+   :agentClass [ 
+      owl:intersectionOf ( 
+         creAgr:Customer 
+         [ a owl:Restriction; 
+           owl:onProperty app:isProvablyUsing;
+           owl:hasValuesFrom bank:CertifiedApp 
+         ]) 
+   ].
+```
+
+The HTTPBis' draft RFC [Message Signatures](https://datatracker.ietf.org/doc/draft-ietf-httpbis-message-signatures/) allows for multiple signatures from different agents, so that would be one way to implement Principal conjunction.
 
