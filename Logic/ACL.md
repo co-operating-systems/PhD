@@ -63,9 +63,12 @@ level : \text{Manager} + \text{Resource} \to \Bbb{N} \\
 $$
 Then given the following facts
 $$
-\text{alice}: \text{Manager} \\
-\text{level}(\text{alice}) = 2 \\
-\text{level}(\texttt{</secret/doc>}) = 2 \\
+\newcommand{\x}{\text}
+\begin{align}
+&\x{alice}: \x{Manager} \\
+&\x{level}(\x{alice}) = 2 \\
+&\x{level}(\texttt{</secret/doc>}) = 2 \\
+\end{align}
 $$
 
 With that, we can build a proof that 
