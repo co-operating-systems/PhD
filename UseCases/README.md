@@ -1,4 +1,4 @@
-In this section we explore important use cases of access control for Solid, and the type of reasoning that would be needed on the client and on the server for those to succeed.
+In this section we explore important use cases of access control for Solid, and the type of reasoning that would be needed on the client and on the server for those to succeed. The idea is to see if one can think of intuitive reasoning strategies for individual cases, and then to see if there is a way to generalize those.
 
 * [Basic.md](Basic.md) looks at the basic authentication use cases using a public key and then extending it to a WebId to make it easier to maintain access control rules
 * [Foaf.md](Foaf.md) explores the important social networking use cases that launched interest in this whole enterprise to start with. 

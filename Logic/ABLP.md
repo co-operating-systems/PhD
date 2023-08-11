@@ -1,5 +1,6 @@
 
 - [The ABLP logic](#the-ablp-logic)
+  - [The says modality](#the-says-modality)
 - [ABLP logic in N3](#ablp-logic-in-n3)
   - [Quoting](#quoting)
   - [Roles](#roles)
@@ -14,9 +15,27 @@ The key papers are:
 
  The work continued in the 2000s with:
 * 2006: [Access control in a core calculus of dependency](https://dl.acm.org/doi/abs/10.1145/1159803.1159839) by Martin Abadi
-* ...
+* 2008: [A Modal Deconstruction of Access Control Logics](https://link.springer.com/chapter/10.1007/978-3-540-78499-9_16), by Martin Abadi and Deepak Garg
+* 2009: [Proof Theory for Authorization Logic and Its Application to a Practical File System](https://people.mpi-sws.org/~dg/papers/papers.html#theses) Deepak Garg's Ph.D. dissertation,  2009.
 
-We want to see how we can use the formalism developed there to explain aspect of access control in Solid, for which we have developed [Use Cases](../UseCases/UseCases.md).
+We want to see how we can use the formalism developed there to explain an aspect of access control in Solid, for which we have developed [Use Cases](../UseCases/UseCases.md).
+
+ABLP logic is built on two concepts:
+ * the $\text{says}$ modality indexed by principal 
+ * a lattice of principals and operators on them 
+
+## The says modality
+
+The 1993 paper "A Calculus for Access Control in Distributed Systems" states that the says operator is a modal one.
+
+$$
+  s \text{ says } p
+$$
+
+
+The paper 
+
+
 
 
  # ABLP logic in N3
@@ -46,7 +65,7 @@ ablp:says :says s:label "says";
      s:domain :Principal.
 ```
 
-The range is not defined, though it really should be either a graph or a dereferenceable information resource, which on HTTP GET would return a Graph. That use is visible from the [httpspeech.n3](https://github.com/w3c/N3/blob/master/tests/N3Tests/07test/httpspeech.n3) example.
+The range is not defined, though it really should be either a graph or a dereferenceable information resource, which an HTTP GET would return an RDF Graph. That use is visible from the [httpspeech.n3](https://github.com/w3c/N3/blob/master/tests/N3Tests/07test/httpspeech.n3) example.
 
 ## Quoting
 
