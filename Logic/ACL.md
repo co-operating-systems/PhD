@@ -2,7 +2,7 @@ From Access Control Lists to AC Logic.
 
 # Access Control Lists 
 
-The simplest Authorization Policy is Access Control Lists. It clearly separates the process of Authentication and Authorization. The Guard on the server (a.k.a a Reference Monitor) can check for any resource and find out if a particular principal can access that resource in the given mode.
+The simplest Authorization Policy is Access Control Lists. It separates the process of Authentication and Authorization. The Guard on the server (a.k.a a Reference Monitor) can check for any resource and find out if a particular principal can access that resource in the given mode.
 This can be implemented as an exhaustive list of atomic ground statements, which would then be easy to index and search, but as we will see not to maintain.
 
 This is nicely explained in Martin Abadi's 2009 [Logic in Access Control Tutorial Notes](https://users.soe.ucsc.edu/~abadi/Papers/fosad-acllogic.pdf) ([Springer](https://link.springer.com/chapter/10.1007/978-3-642-03829-7_5)). All one needs is a three-place predicate $\text{may-access}$ to define atomic statements, so that one can define that Alice may read `foo.txt` as: 
@@ -55,10 +55,10 @@ The advantage of this rule is that it would not require deleting all the individ
 ### A typesafe version
 
 Rather than give access to individual documents that way one could give access to all documents with a certain label.
-In a more typesafe notation[^1] we could write the rule that uses a function $\text{level}$ that takes a manager or resource to a level represented as a natural number.
+In a more typesafe notation [^1] we could write the rule that uses a function $\text{level}$ that takes a manager or resource to a level represented as a natural number.
 
 $$
-level : \text{Manager} + \text{Resource} \to \N \\
+level : \text{Manager} + \text{Resource} \to \mathds{N} \\
 \forall m: \text{Manager}, r: \text{Resource}.\space \text{level}(m) \geqslant \text{level}(r) \rightarrow \text{CanRead}(x, r) 
 $$
 Then given the following facts
@@ -92,7 +92,7 @@ linking a set of resources and a set of agents via description.
         owl:hasValue 2 ].
 ```
 
-That is a rule that says that if the clearance of the agent is 2 and the clearance of the resource is 2, then the agent can read the resource.  With OWL we cannot (easily?) link the two values, so that one can find the relation specify that the agent's clearance must be greater than or equal to the resource's clearance.
+That is a rule that says that if the clearance of the agent is 2 and the clearance of the resource is 2, then the agent can read the resource.  With OWL we cannot (easily?) link the two values so that one can find the relation specifying that the agent's clearance must be greater than or equal to the resource's clearance.
 
 On the other hand, OWL can give us some complexity guarantees.
 todo: How much are complexity guarantees of OWL needed if we want the client, in the end, to pass a proof to the server?
