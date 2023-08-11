@@ -6,6 +6,7 @@ From Access Control Lists to AC Logic.
     - [A typesafe version](#a-typesafe-version)
     - [Using OWL DL](#using-owl-dl)
   - [Using N3](#using-n3)
+  - [Providing a proof](#providing-a-proof)
 
 
 # Access Control Lists 
@@ -128,8 +129,12 @@ N3 gives us first-order logic, so we could write the rule as
 }
 ```
 
+## Providing a proof
 
+In the example used above a client would have to prove that it is
+a given agent with the given clearance and that that is greater than or equal to the clearance of the resource.
 
+Todo: detail some of these proofs.
 
 
 
