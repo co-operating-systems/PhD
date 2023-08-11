@@ -131,8 +131,14 @@ N3 gives us first-order logic, so we could write the rule as
 
 ## Providing a proof
 
-In the example used above a client would have to prove that it is
-a given agent with the given clearance and that that is greater than or equal to the clearance of the resource.
+In the example used above the server could just calculate the proof by itself. But as the data space gets larger the size of the space to search for a proof grows exponentially. So it would be better if the client could provide a proof that the server could check.
+
+If the client can find the access control rules relevant to the resources it is looking for, then it can quite easily look at its data to find a proof needed to access the resource.
+
+For the rules we saw above, it won't be sufficient for the client to just prove its control of a key or WebID. It will also need to prove that the identity is correctly related to the required attributes. In the case of a clearance level that could be done by pointing to an internet resource it knows the Guard trusts or by providing a certificate from a trusted authority. But in any case
+it won't be enough for the client to just state that it has those properties. It will have to provide a statement that someone trustworthy claims those properties.
+
+Hence we enter the modal logic of "saying that".
 
 Todo: detail some of these proofs.
 
