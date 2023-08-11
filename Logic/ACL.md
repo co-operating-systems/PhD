@@ -47,7 +47,7 @@ How far can one go with just this, if we then add rules?
 One can give access by role, such as the following rule that allows only a Manager above level 2 to see the `<secret>` document.
 
 $$
-\forall x. \text{ Manager}(x) \land \text{level}(x) \geqslant 2 \rightarrow \text{CanRead}(x, \texttt{<secret>}) 
+\forall x. \text{ Manager}(x) \land \text{level}(x) \geqslant 2 \rightarrow \text{CanRead}(x, \texttt{secret}) 
 $$
 
 The advantage of this rule is that it would not require deleting all the individual facts when someone's role changed in the company.
@@ -63,10 +63,9 @@ level : \text{Manager} + \text{Resource} \to \Bbb{N} \\
 $$
 Then given the following facts
 $$
-\newcommand{\x}{\text}
-\x{alice}: \x{Manager} \\
-\x{level}(\x{alice}) = 2 \\
-\x{level}(\texttt{</secret/doc>}) = 2 \\
+\text{alice}: \text{Manager} \\
+\text{level}(\text{alice}) = 2 \\
+\text{level}(\texttt{</secret/doc>}) = 2 \\
 $$
 
 With that, we can build a proof that 
