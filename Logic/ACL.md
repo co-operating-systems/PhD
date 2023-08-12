@@ -131,7 +131,9 @@ todo: How much are complexity guarantees of OWL needed if we want the client, in
 N3 gives us first-order logic, so we could write the rule as
 
 ```turtle
-{ ?agent security:clearance ?agentClearance .
+
+{ ?agent a :GovTeam; 
+      security:clearance ?agentClearance .
   ?resource security:clearance ?resourceClearance .
   ?agentClearance >= ?resourceClearance .
 } => {
@@ -139,9 +141,11 @@ N3 gives us first-order logic, so we could write the rule as
 }
 ```
 
+Here a backward reasoner, knowing it wants read access to a given resource says `</gov/work>`, could plugin that value for `?resource` and try out one of the `?agent` identifiers it has available, and then by backward chaining reasoning, see what other values it needs to find to make the rule true. (namely see if the security and resource clearance are in the right relation)
+
 ## Providing a proof
 
-In the example used above the server could just calculate the proof by itself. But as the data space gets larger, so the size of the space to search for a proof grows exponentially, as shown by the  [Social Web use cases](../UseCases/Foaf.md). The client on the other hand can search a much more limited data space, since it knows what keys and credentials it has available to use. Thus the client should provide a proof that the server could check.
+In the example used above the server could just calculate the proof by itself. But as the data space gets larger, so the size of the space to search for a proof grows exponentially, as shown by the  [Social Web use cases](../UseCases/Foaf.md). The client on the other hand can search a much more limited data space, since it knows what keys and credentials it has available to use. Thus the client should provide a proof that the server will check.
 
 For the rules we saw above, it won't be sufficient for the client to just prove its control of a key or WebID. It will also need to prove that the identity is correctly related to the required attributes. In the case of a clearance level that could be done by pointing to an internet resource it knows the Guard trusts or by providing a certificate from a trusted authority. But in any case
 it won't be enough for the client to just state that it has those properties. It will have to provide a statement that someone trustworthy claims those properties.
