@@ -130,7 +130,7 @@ todo: How much are complexity guarantees of OWL needed if we want the client, in
 
 N3 gives us first-order logic, so we could write the rule as
 
-```n3
+```turtle
 { ?agent security:clearance ?agentClearance .
   ?resource security:clearance ?resourceClearance .
   ?agentClearance >= ?resourceClearance .
