@@ -66,21 +66,21 @@ The advantage of this rule is that it would not require deleting all the individ
 Rather than give access to individual documents that way one could give access to all documents with a certain label.
 In a more typesafe notation [^1], we could write the rule that uses a function $\text{level}$ that takes a manager or resource to a level represented as a natural number. (For this, we require types to be organized in a partial lattice, as Scala is)
 
-$$
+```math
 \begin{align}
 level &: \text{Person} + \text{Resource} \to \Bbb{N} \\
 \forall p&: \text{Person}, r: \text{Resource}.\space \text{GovTeam}(p) \land \text{level}(p) \geqslant \text{level}(r) \rightarrow \text{CanRead}(p, r)
 \end{align}
-$$
+```
 Then given the following facts
-$$
+```math
 \begin{align}
-&\text{alice}: \text{Person} \\
-&\text{GovTeam}(\text{alice}) = true \\
-&\text{level}(\text{alice}) = 2 \\
-&\text{level}(\texttt{"/secret/doc"}) = 2 \\
+\text{alice}&: \text{Person} \\
+\text{GovTeam}(\text{alice})& = true \\
+\text{level}(\text{alice}) &= 2 \\
+\text{level}(\texttt{"/secret/doc"}) &= 2 \\
 \end{align}
-$$
+```
 
 We can build a proof that 
 $$\text{CanRead}(\text{alice}, \texttt{"/secret/doc"})$$
