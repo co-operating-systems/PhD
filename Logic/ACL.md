@@ -44,9 +44,9 @@ But that does not contain the reason why it is true.
 
 If later her clearance level is reduced to level 1, the simple statement of fact in the database does not indicate that it needs to be changed. Furthermore, no log trace can be kept as to why access was granted.
 
-**Furthermore** in a decentralised system, one cannot know everyone wanting to access a resource. 
+**Furthermore** in a decentralized system, one cannot know everyone wanting to access a resource. 
 * One may want people from other companies with a specific relation to one's company to access. 
-* Or perhaps the resource can be accessed by anyone that has paid for it. Of course, once someone has paid, one could update the access control rules by giving that person access. But then one would be back to the previous problems of not knowing why those people have access.
+* Or perhaps the resource can be accessed by anyone that has paid for it. Of course, once someone has paid, one could update the access control rules by giving that person access. But then one would return to the previous problems of not knowing why those people have access.
 * Finally, one may want to allow access to people that can present a token useable for 3 accesses. That type of access could not be expressed in that simple ACL.
 
 # Adding Rules gives Access Control Logic
@@ -64,7 +64,7 @@ The advantage of this rule is that it would not require deleting all the individ
 ### A typesafe version
 
 Rather than give access to individual documents that way one could give access to all documents with a certain label.
-In a more typesafe notation [^1], we could write the rule that uses a function $\text{level}$ that takes a manager or resource to a level represented as a natural number. (For this we require types to be organized in a partial lattice, as Scala is)
+In a more typesafe notation [^1], we could write the rule that uses a function $\text{level}$ that takes a manager or resource to a level represented as a natural number. (For this, we require types to be organized in a partial lattice, as Scala is)
 
 $$
 \begin{align}
@@ -88,7 +88,7 @@ $$\text{CanRead}(\text{alice}, \texttt{"/secret/doc"})$$
 ### Using OWL DL
 
 What we were doing above with typed logic could also be
-done with Description Logic, standardized as [OWL](https://www.w3.org/TR/owl2-primer/)](https://www.w3.org/TR/owl2-primer/). 
+done with Description Logic, standardized as [OWL](https://www.w3.org/TR/owl2-primer/). 
 We can think of a rule as
 linking a set of resources and a set of agents via description.
 
@@ -106,7 +106,7 @@ linking a set of resources and a set of agents via description.
 
 <#allowCleared> a acl:Authorization;
     acl:modes acl:Read;
-    acl:accessToClass  <#clearanceLevel2> ;
+    acl:accessToClass  <#clearanceLevel2Resource> ;
     acl:agentClass [ owl:intesectionOf (
         <#clearanceLevel2Person>
         gov:Team
