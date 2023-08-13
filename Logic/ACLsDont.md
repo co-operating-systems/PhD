@@ -58,12 +58,9 @@ Essentially the bank's policy is expressed in [ABLP Logic](ABLP.md) as
 BankWebPage c:speaksFor Bank .
 ```
 
-This and the rule that the Bank quoting Alice - $\text{Bank}|\text{Alice}$ - controls the money transfer from Alice's account.
+which needs to be conjoined with the rule that the Bank quoting Alice - $\text{Bank}|\text{Alice}$ - controls the money transfer from Alice's account.
 
 todo: for a full account, we need to model the browser speaking for Alice speaking from pages with URLs.
-
- How did that rule come about? 
- Well, somewhere the handoff axiom was used by the bank to allow it to handoff statements 
 
 Perhaps because $\text{Bank}$ controls the transfer of any money from all accounts (though that super-admin power should perhaps ever be directly invoked).
 
@@ -93,7 +90,7 @@ So this is a good example of the importance of considering who is saying what.
 Does it create a problem for AC Logic? Well, if we allow for combined principals like $A|B$, then it looks like we could still boil things down to a simple relation access control fact such as:
 
 ```Turtle
-[ is conjunction Of (BankPage Alice)] :create </transfer/> .
+[ is conjunction of (BankPage Alice)] :create </transfer/> .
 ```
 
 ### Bank Example mapped to Solid
