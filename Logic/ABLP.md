@@ -3,15 +3,23 @@
   - [The says modality](#the-says-modality)
 - [ABLP logic in N3](#ablp-logic-in-n3)
   - [Quoting](#quoting)
+  - [Conjunction](#conjunction)
   - [Roles](#roles)
+  - [speaksFor](#speaksfor)
+  - [controls](#controls)
+  - [hand-off axiom](#hand-off-axiom)
+
+### todo
+
+- more consistent math notation: use $\supset$ for implication as in the original papers.
 
 # The ABLP logic
 
 In the early 1990s Mart́in Abadi, Michael Burrows, and Butler Lampson of Digital Equipment Corporation and Gordon Plotkin of the University of Edinborough wrote some key papers on authentication and access control in distributed systems, developing a modal logic built around a basic "says" operator. (Michael Burrows wrote the AltaVista search engine) 
 
 The key papers are:
- * 1992: [Authentication in Distributed Systems: Theory and Practice](https://dl.acm.org/doi/pdf/10.1145/138873.138874)
- * 1993: [A Calculus for Access Control in Distributed Systems](https://dl.acm.org/doi/pdf/10.1145/155183.155225)
+ * 1992: [Authentication in Distributed Systems: Theory and Practice](https://dl.acm.org/doi/pdf/10.1145/138873.138874) Butler Lampson, Martin Abadi, Michael Burrows, and Edward Wobber
+ * 1993: [A Calculus for Access Control in Distributed Systems](https://dl.acm.org/doi/pdf/10.1145/155183.155225) Martin Abadi, Michael Burrows, Butler Lampson and Gordon Plotkin
 
  The work continued in the 2000s with:
 * 2006: [Access control in a core calculus of dependency](https://dl.acm.org/doi/abs/10.1145/1159803.1159839) by Martin Abadi
@@ -109,6 +117,33 @@ In the latest N3 this would be written
 }.
 ```
 
+## Conjunction
+
+The N3 does not define conjunction of principals A and B, written $A \land B$.
+So let us do it here
+
+
+```n3
+:conjunction a owl:FunctionalProperty;
+   s:domain rdf:List; # of 2 ore more principals
+	 s:range :Principal.
+```
+
+The rule is that 
+
+$$
+\vdash A \land B \text{ says } s \equiv A \text{ says } s \land B \text{ says } s
+$$
+
+which in N3 we render as
+
+```n3
+{ [ is :conjunction of (?A ?B) ] c:says ?s } => { 
+    ?A c:says ?s  . 
+    ?B c:says ?s  
+  }.
+```
+
 ## Roles
 
 Roles are introduced in the 1993 paper as follows:
@@ -161,5 +196,54 @@ Then we can write a client b
   :accessToClass [ :subdirs </app/photo/> ] .
 ```
 
+## speaksFor
+
+The speaks for relation is defined in usual logical notation as
+
+$$
+\forall a, b: \text{Principal} .\space a \text{ speaksFor } b \implies \forall s: \text{Prop}. (a \text{ says } s \implies b \text{ says } s )
+$$
+
+
+In N3 we can express it as follows:
+
+```turtle
+:speaks_for s:label "speaks for";
+	  s:domain :Principal;
+	  s:range :Principal.
+
+{ ?A :speaks_for ?B . ?A :says ?s } => { ?B :says ?s }.
+```
+
+Another way of thinking of it is that it states that
+there is an arrow in a trust lattice of principals between
+A and B with B trusting A fully.
+
+todo: draw  diagram
+
+## controls
+
+An agent controls a statement if when it says that statement,
+then that statement becomes or is true. This is the basic notion of a speech act.
+
+```N3
+:controls s:label "controls";
+         s:domain :Principal.
+
+{ ?A :controls ?s . ?A :says ?s } => { ?s a log:Truth } .
+```
+
+
+## hand-off axiom
+
+The 1992 paper introduces the HandOff axiom as follows:
+
+$$
+\vdash (A \text{ says } (B \Rightarrow A)) \supset (B \Rightarrow A)
+$$
+
+which says that if a principal says that someone else speaks for it, then they do. Martin Abadi's 2006 paper "Access Control in a Core Calculus of Dependency" shows how the indexed monadic structure implies this axiom. 
+
+todo: see the paper and explain 
 
 

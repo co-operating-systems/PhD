@@ -7,6 +7,7 @@ From Access Control Lists to AC Logic.
     - [Using OWL DL](#using-owl-dl)
   - [Using N3](#using-n3)
   - [Providing a proof](#providing-a-proof)
+- [ACL's don't](#acls-dont)
 
 
 # Access Control Lists 
@@ -128,10 +129,9 @@ todo: How much are complexity guarantees of OWL needed if we want the client, in
 
 ## Using N3
 
-N3 gives us first-order logic, so we could write the rule as
+[N3](https://github.com/w3c/N3/tree/master) gives us first-order logic, so we could write the rule as
 
 ```turtle
-
 { ?agent a :GovTeam; 
       security:clearance ?agentClearance .
   ?resource security:clearance ?resourceClearance .
@@ -141,7 +141,7 @@ N3 gives us first-order logic, so we could write the rule as
 }
 ```
 
-Here a backward reasoner, knowing it wants read access to a given resource says `</gov/work>`, could plugin that value for `?resource` and try out one of the `?agent` identifiers it has available, and then by backward chaining reasoning, see what other values it needs to find to make the rule true. (namely see if the security and resource clearance are in the right relation)
+Here a client wanting access to a resource `</gov/work>` in read access to can plugin that value for `?resource` and try out one of the `?agent` identifiers it has available, and then by backward chaining reasoning, see what other values it needs to find to make the rule true. (namely, see if the security and resource clearance are in the right relation)
 
 ## Providing a proof
 
@@ -156,7 +156,6 @@ Todo: detail some of these proofs.
 
 
 [^1] [On Type Distinctions and Expressivity](https://twitter.com/DavidCorfield8/status/1628815276702670850) but also [the Tweet by David Corfield](https://twitter.com/DavidCorfield8/status/1628815276702670850) and an interesting point about [presuppositions and consequences](https://twitter.com/DavidCorfield8/status/1689631794604523523)
-
 
 
 
