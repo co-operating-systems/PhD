@@ -5,7 +5,8 @@ In a 2009 article [ACLs don’t](https://www.hpl.hp.com/techreports/2009/HPL-200
 
 Since we are extending the term [ACL](ACL.md) to Access Control Logic, and we are furthermore extending it with the says modal logic, and using it with HTTP Signatures, it is not immediately obvious if we are suffering from the problem described by Tyler Close. So we need to investigate.
 
-In part 3 Tyler Close gives 3 examples from the browser world. Let us try to translate them into a Solid one.
+In part 3 Tyler Close gives 3 examples from the browser world. 
+I will look in detail at the first two.
 
 - [ACL's don't](#acls-dont)
   - [Bank Example](#bank-example)
