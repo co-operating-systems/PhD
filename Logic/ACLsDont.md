@@ -1,12 +1,15 @@
 
 # ACL's don't
 
-In a 2009 article [ACLs don’t](https://www.hpl.hp.com/techreports/2009/HPL-2009-20.pdf) Tyler Close explains very clearly the confused deputy problem, and its relation to Access Control Lists with examples taken from the web. The article comes up regularly in discussions about access control, especially whenever ACLs are mentioned.
+In a 2009 article [ACLs don’t](https://www.hpl.hp.com/techreports/2009/HPL-2009-20.pdf) Tyler Close explains very clearly the confused deputy problem, and its relation to Access Control Lists with examples taken from the web. 
+The article comes up regularly in discussions about access control, especially whenever ACLs are mentioned. 
+The point of the article is taken to be that ACLs cannot work, and so one needs to use Capability systems.
 
-Since we are extending the term [ACL](ACL.md) to Access Control Logic, and we are furthermore extending it with the says modal logic, and using it with HTTP Signatures, it is not immediately obvious if we are suffering from the problem described by Tyler Close. So we need to investigate.
+Since we are extending the term CL to [Access Control Logic][ACL.md] and we are furthermore extending it with the says modal logic, and using it with [HTTP Signatures](https://github.com/bblfish/authentication-panel/blob/sigUpdate/proposals/HttpSig/HttpSignature.md) - which is a lot more flexible than WebID-TLS - it is not immediately obvious if we are suffering from the problem described by Tyler Close. 
+So we need to investigate.
 
-In part 3 Tyler Close gives 3 examples from the browser world. 
-I will look in detail at the first two.
+In part 3 Tyler Close gives 3 examples from the web to illustrate the problem.
+I will look in detail at the first two, as the last one is not that relevant.
 
 - [ACL's don't](#acls-dont)
   - [Bank Example](#bank-example)
@@ -32,7 +35,7 @@ The first example is the Cross-Site Request Forgery Example (CSRF)
  The Bank accepts the request because Alice's browser automatically sends cookies with the request identifying Alice as the user as she is logged in.
 
 Notes:
- * In 2021 Chrome brought in various types of cookies, including ones that would not be transferred on a cross site request. See [SameSite Cookie Changes in February 2020: What You Need to Know](https://blog.chromium.org/2020/02/samesite-cookie-changes-in-february.html)
+ * In 2021 Chrome brought in various types of cookies, including ones that would not be transferred on a cross-site request. See [SameSite Cookie Changes in February 2020: What You Need to Know](https://blog.chromium.org/2020/02/samesite-cookie-changes-in-february.html)
  * The attack would not work if the form were sent using Javascript Fetch or XMLHttpRequest, because the same site origin policy would prevent the browser from sending the cookies.
 
 #### Analysis
@@ -62,7 +65,7 @@ todo: for a full account we need to model the browser speaking for Alice speakin
  How did that rule come about? 
  Well somewhere the handoff axiom was used by the bank to allow it to handoff statements 
 
-Perhaps because $\text{Bank}$ controls the transfer of any money from all accounts (though that superadmin power should perhaps ever be directly invoked).
+Perhaps because $\text{Bank}$ controls the transfer of any money from all accounts (though that super-admin power should perhaps ever be directly invoked).
 
 todo: write out the proof in detail. The rule would have to be that Bank|Alice controls the transfer of money from Alice's account.
 We need a way for the bank to state that the Bank|Alice controls statements about Alice's account (that are valid).
@@ -116,19 +119,12 @@ The 1992 paper by Lampson, Abadi, Burrows and Wobber uses principals that are ch
 If we could model Alice telling someone to p then 
 we can see that the clickjacking attack is an attack relying on confusing these two statements:
 
-```turtle
-Alice tells Chudpage to click button
-Alice tells Bankpage to click button
-```
-
-The answers to this problem could be to make the naming of the pages difficult to guess, which is what Taylor Close suggests, but it could also be
-to use [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) or the newer [CSP: frame-ancestors](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors) to limit which apps can frame the page. 
+The answer to this problem could be to make the naming of the pages difficult to guess, which is what Taylor Close suggests, but it could also be to use [X-Frame-Options](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options) or the newer [CSP: frame-ancestors](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors) to limit which apps can frame the page. 
 Solid Apps should not be framed, so that seems like a good solution. 
-
 
 ## Conclusion
 
-From this preliminary overview, it does not seem that Tyler Close' Confused Deputy problem is something that affects Solid Access Control Logic when used with Http Signatures. 
+From this preliminary overview, it does not seem that Tyler Close' Confused Deputy problem is something that affects Solid Access Control Logic when used with HTTP Signatures. 
 
 This is because using HttpSig we sign the request, specifying the target of the request and the mode. As such the signature itself contains the proof of the request. 
 
@@ -142,9 +138,9 @@ Then would allow the compiler to verify that information immediately, resulting 
 
 The problem arises because the modality of who said what is
 ignored in simple ACL systems. 
-If those are not ignored, then the problem does not arrive.
-The capabilities are just what one would call in intuitionistic
-logic a proof object. 
+If those are not ignored, then the problem does not manifest itself.
+The capabilities are just what one would call, in intuitionistic
+logic, a proof object. 
 
-Proof objects need not be opaque. 
+Note that Proof objects need not be opaque. 
 They can be signed statements with semantics.
