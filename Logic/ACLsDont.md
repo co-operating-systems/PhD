@@ -5,7 +5,7 @@ In a 2009 article, [ACLs don’t](https://www.hpl.hp.com/techreports/2009/HPL-20
 The article regularly comes up in discussions about access control, especially whenever ACLs are mentioned. 
 The point of the article is taken to be that ACLs cannot work, and so one needs to use Capability systems.
 
-Since we are extending the term ACL to [Access Control Logic][ACL.md] and we are furthermore extending it with the says modal logic, and using it with [HTTP Signatures](https://github.com/bblfish/authentication-panel/blob/sigUpdate/proposals/HttpSig/HttpSignature.md) - which is a lot more flexible than WebID-TLS - it is not immediately obvious if we are suffering from the problem described by Tyler Close. 
+Since we are extending the term ACL to [Access Control Logic](./ACL.md) and we are furthermore extending it with the says modal logic, and using it with [HTTP Signatures](https://github.com/bblfish/authentication-panel/blob/sigUpdate/proposals/HttpSig/HttpSignature.md) - which is a lot more flexible than WebID-TLS - it is not immediately obvious if we are suffering from the problem described by Tyler Close. 
 So we need to investigate.
 
 In part 3, Tyler Close gives 3 examples from the web to illustrate the problem.
