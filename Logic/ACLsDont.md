@@ -92,9 +92,11 @@ $$
 $$
 
 But the rule for the bank should be that only (1b) is allowed to act on the transfer of money, not (2b), because only 
+
 $$
 \text{ BankPage } \text{ speaksFor } \text{Bank}
 $$
+
 but we don't have that $\text{ ChudPage } \text{ speaksFor } \text{Bank}$.
 
 The arguments against using headers from the "ACL's don't" paper are that those could be manipulated by the user installing a plugin. But if the user altering the browser is an attack vector then nearly anything is possible, nothing can be trusted, neither cookies, nor passwords, nor anything.  
