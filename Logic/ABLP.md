@@ -8,6 +8,8 @@
   - [speaksFor](#speaksfor)
   - [controls](#controls)
   - [hand-off axiom](#hand-off-axiom)
+- [Deepak Garg's 2009 $BL\_s$ logic](#deepak-gargs-2009-bl_s-logic)
+  - [The claim principle](#the-claim-principle)
 
 ### todo
 
@@ -245,5 +247,42 @@ $$
 which says that if a principal says that someone else speaks for it, then they do. Martin Abadi's 2006 paper "Access Control in a Core Calculus of Dependency" shows how the indexed monadic structure implies this axiom. 
 
 todo: see the paper and explain 
+
+# Deepak Garg's 2009 $BL_s$ logic
+
+
+ Deepak Garg, in his 2009 Ph.D. dissertation [Proof Theory for Authorization Logic and Its Application to a Practical File System](https://people.mpi-sws.org/~dg/papers/papers.html#theses) proposes some improvements on the previous work on the says modal logic and formalises it using sequent calculus. 
+
+ The interesting question is how can we precisely translate this to RDF and N3.
+
+ 
+
+## The claim principle
+
+On page 35: "A distinguishing characteristic of BLS is that hypothetical reasoning is always performed relative to the claims of a principal k".  This is written as $\vdash^k$, and 
+it allows us to reason from the point of view of an agent. It is the equivalent of the world relativity of David Lewis' Counterfactual modal logics.
+
+What I find the most interesting is that hypothetical reasoning is always performed relative to the claims of a principal k, which is indicated in the hypothetical judgment by writing the latter as $\Sigma; \Gamma \vdash^{k} s$ .
+Having defined the judgement shortcut claims as
+$$
+k \text{ claims } s \equiv (k \text{ says } s) \text{ true}
+$$
+
+$$ \Sigma \vdash k ≽ k_0$$
+$$-----$$
+$$ \Sigma; \Gamma, k \text{ claims } s\vdash^{k_0} s$$
+
+where ≽ gives a partial order of principals. $\Sigma$ is the context of typed variables and $\Gamma$ the context of Judgements such as $s \text{ true }$ or $k \text{ claims } s$.
+
+What this shows is how we use rdf datasets, which consist of a default graph, and a set of named graphs. The default graph is the one that has a hidden implicit agent pronouncing it, so it matches very nicely.
+
+This leads to the "claims principle. Having defined we defined an operator $\Gamma|$ that restricts the hypothesis $\Gamma$ to the claims of principals.
+$$
+\Gamma| = \{(k′ \text{ claims } s) ∈ \Gamma\}
+$$
+Deepak Garg defines the claims principle which informally states that  f we can establish $s$ true in the view k from only the claims of other principals, and from that another principal $k'$ can establish $s'$ true from the same context with the additional claim that k holds s true, then that new principal $k_0$ can hold s' true, without reference to k.
+
+$\Sigma; \Gamma| \vdash^{k} s$ **and** $\Sigma; \Gamma, k \text{ claims } s \vdash^{k_0} s'$ **implies** $\Gamma \vdash^{k_0} s'$
+
 
 
