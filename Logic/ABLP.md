@@ -8,7 +8,7 @@
   - [speaksFor](#speaksfor)
   - [controls](#controls)
   - [hand-off axiom](#hand-off-axiom)
-- [Deepak Garg's 2009 $BL\_s$ logic](#deepak-gargs-2009-bl_s-logic)
+- [Deepak Garg's 2009 $BL$ logic](#deepak-gargs-2009-bl-logic)
   - [The claim principle](#the-claim-principle)
   - [Mapping to RDF](#mapping-to-rdf)
 
@@ -249,7 +249,7 @@ which says that if a principal says that someone else speaks for it, then they d
 
 todo: see the paper and explain 
 
-# Deepak Garg's 2009 $BL_s$ logic
+# Deepak Garg's 2009 $BL$ logic
 
 
  Deepak Garg, in his 2009 Ph.D. dissertation [Proof Theory for Authorization Logic and Its Application to a Practical File System](https://people.mpi-sws.org/~dg/papers/papers.html#theses) proposes some improvements on the previous work on the says modal logic and formalises it using sequent calculus. 
