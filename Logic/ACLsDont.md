@@ -1,5 +1,5 @@
 
-# ACL's don't
+# ACLs don't
 
 In a 2009 article, [ACLs don’t](https://www.hpl.hp.com/techreports/2009/HPL-2009-20.pdf), Tyler Close explains very clearly the confused deputy problem and its relation to Access Control Lists with examples taken from the web. 
 The article regularly comes up in discussions about access control, especially whenever ACLs are mentioned. 
@@ -11,7 +11,7 @@ So we need to investigate.
 In part 3, Tyler Close gives 3 examples from the web to illustrate the problem.
 I will look in detail at the first two, as the last one is not that relevant.
 
-- [ACL's don't](#acls-dont)
+- [ACLs don't](#acls-dont)
   - [Bank Example](#bank-example)
     - [The CSRF example](#the-csrf-example)
       - [Analysis](#analysis)
@@ -99,7 +99,7 @@ $$
 
 but we don't have that $\text{ ChudPage } \text{ speaksFor } \text{Bank}$.
 
-The arguments against using headers from the "ACL's don't" paper are that those could be manipulated by the user installing a plugin. But if the user altering the browser is an attack vector then nearly anything is possible, nothing can be trusted, neither cookies, nor passwords, nor anything.  
+The arguments against using headers from the "ACLs don't" paper are that those could be manipulated by the user installing a plugin. But if the user altering the browser is an attack vector then nearly anything is possible, nothing can be trusted, neither cookies, nor passwords, nor anything.  
 
 Adding a unique token to the BankPage does help, but just because it reinforces the proof that the request is coming from $\text{BankPage}$, it does not essentially change the logic being used.
 

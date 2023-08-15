@@ -7,7 +7,7 @@ From Access Control Lists to AC Logic.
     - [Using OWL DL](#using-owl-dl)
   - [Using N3](#using-n3)
   - [Providing a proof](#providing-a-proof)
-- [ACL's Don't](#acls-dont)
+- [ACLs Don't](#acls-dont)
 
 
 # Access Control Lists 
@@ -158,14 +158,14 @@ Todo: detail some of these proofs.
 [^1] [On Type Distinctions and Expressivity](https://twitter.com/DavidCorfield8/status/1628815276702670850) but also [the Tweet by David Corfield](https://twitter.com/DavidCorfield8/status/1628815276702670850) and an interesting point about [presuppositions and consequences](https://twitter.com/DavidCorfield8/status/1689631794604523523)
 
 
-# ACL's Don't
+# ACLs Don't
 
 In a 2009 article, [ACLs don’t](https://www.hpl.hp.com/techreports/2009/HPL-2009-20.pdf), Tyler Close explains very clearly the confused deputy problem and its relation to Access Control Lists with examples taken from the web. 
 The article regularly comes up in discussions about access control, especially whenever ACLs are mentioned. 
 The point of the article is taken to be that ACLs cannot work, and so one needs to use Capability systems.
 
 Since we are extending the term ACL to [Access Control Logic](./ACL.md) and we are furthermore extending it with the says modal logic, and using it with [HTTP Signatures](https://github.com/bblfish/authentication-panel/blob/sigUpdate/proposals/HttpSig/HttpSignature.md) - which is a lot more flexible than WebID-TLS - it is not immediately obvious if we are suffering from the problem described by Tyler Close. 
-So we need to investigate. See the page [ACL's Don't](ACLsDont.md) for more details.
+So we need to investigate. See the page [ACLs Don't](ACLsDont.md) for more details.
 
 The current result of that investigation is that the problem is not with ACLs, but with the lack of use of context in the reasoning used.
 With the says logic we get just such a minimal logic.
