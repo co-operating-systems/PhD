@@ -108,7 +108,7 @@ So this is a good example of the importance of considering who is saying what.
 Does it create a problem for AC Logic? Well, if we allow for combined principals like $A|B$, then it looks like we could still boil things down to a simple relation access control fact such as:
 
 ```Turtle
-[ is speaksFor of (BankPage Alice)] :create </transfer/> .
+[ is quoting of (BankPage Alice)] :create </transfer/> .
 ```
 
 ### Bank Example mapped to Solid
