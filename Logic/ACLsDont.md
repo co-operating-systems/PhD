@@ -67,30 +67,46 @@ Perhaps because $\text{Bank}$ controls the transfer of any money from all accoun
 todo: write out the proof in detail. The rule would have to be that Bank|Alice controls money transfers from Alice's account.
 We need a way for the bank to state that the Bank|Alice controls statements about Alice's account (that are valid).
 
+The bank's reasoning was modeled in N3 very nicely by Dan Connolly in his 2009 note [Mashup Speech Acts](https://www.w3.org/2001/tag/dj9/mashup.html). The Bank's reasoning mistake is to only use the cookie as identification of who speaks. That
+works as it should. But the user is not speaking directly to the bank, but via a web page served by a browser. So the authentication rule needs to take into account who is quoting the user. Is it the BankPage or is it ChudPage? 
+
 #### Analysis Conclusion
 
 The above initial analysis shows that the bank is failing to take context into account. It could have done that by looking at the `Referer` header, which in HTTP indicates to the server where the request is coming from. 
 That would have allowed the bank to distinguish the following two principals
 
 $$
-\text{Browser}|(\text{BankPage} \land \text{Alice})
+(1a) \text{ Browser}|(\text{BankPage} | \text{Alice}) 
 $$ 
 $$
-\text{Browser}|(\text{ChudPage}\land \text{Alice})
+(2a) \text{ Browser}|(\text{ChudPage}| \text{Alice})
 $$
 
+If Alice correctly authenticated to the bank with the Browser over an HTTPS connection and with the right cookies being sent, then her choice of Browser is also proof that she trusts that browser, so that what that Browser says is true. So the Browser is in control. Hence we can simplify the above Principals respectively to
 
-The arguments against headers are that they could be manipulated by the user installing a plugin. But if the user altering the browser is an attack vector then nearly anything is possible. 
+$$
+(1b) \text{ BankPage} | \text{Alice}
+$$ 
+$$
+(2b) \text{ChudPage}| \text{Alice}
+$$
 
-Adding a unique token to the BankPage just reinforces the proof
-that the request is coming from there, but it does not essentially change the logic being used.
+But the rule for the bank should be that only (1b) is allowed to act on the transfer of money, not (2b), because only 
+$$
+\text{ BankPage } \text{ speaksFor } \text{Bank}
+$$
+but we don't have that $\text{ ChudPage } \text{ speaksFor } \text{Bank}$.
+
+The arguments against using headers from the "ACL's don't" paper are that those could be manipulated by the user installing a plugin. But if the user altering the browser is an attack vector then nearly anything is possible, nothing can be trusted, neither cookies, nor passwords, nor anything.  
+
+Adding a unique token to the BankPage does help, but just because it reinforces the proof that the request is coming from $\text{BankPage}$, it does not essentially change the logic being used.
 
 So this is a good example of the importance of considering who is saying what.
 
 Does it create a problem for AC Logic? Well, if we allow for combined principals like $A|B$, then it looks like we could still boil things down to a simple relation access control fact such as:
 
 ```Turtle
-[ is conjunction of (BankPage Alice)] :create </transfer/> .
+[ is speaksFor of (BankPage Alice)] :create </transfer/> .
 ```
 
 ### Bank Example mapped to Solid
