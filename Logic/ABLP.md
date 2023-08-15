@@ -10,6 +10,7 @@
   - [hand-off axiom](#hand-off-axiom)
 - [Deepak Garg's 2009 $BL\_s$ logic](#deepak-gargs-2009-bl_s-logic)
   - [The claim principle](#the-claim-principle)
+  - [Mapping to RDF](#mapping-to-rdf)
 
 ### todo
 
@@ -280,9 +281,12 @@ This leads to the "claims principle. Having defined we defined an operator $\Gam
 $$
 \Gamma| = \{(k′ \text{ claims } s) ∈ \Gamma\}
 $$
-Deepak Garg defines the claims principle which informally states that  f we can establish $s$ true in the view k from only the claims of other principals, and from that another principal $k'$ can establish $s'$ true from the same context with the additional claim that k holds s true, then that new principal $k_0$ can hold s' true, without reference to k.
+Deepak Garg defines the claims principle which informally states that f we can establish $s$ true in the view k from only the claims of other principals, and from that another principal $k'$ can establish $s'$ true from the same context with the additional claim that k holds s true, then that new principal $k_0$ can hold s' true, without reference to k.
 
 $\Sigma; \Gamma| \vdash^{k} s$ **and** $\Sigma; \Gamma, k \text{ claims } s \vdash^{k_0} s'$ **implies** $\Gamma \vdash^{k_0} s'$
 
+## Mapping to RDF
 
+One place to start the mapping is by looking at Evan Patterson's 2017 [Knowledge Representation in Bicategories of Relations](https://arxiv.org/abs/1706.00526) whose appendix comes with a sequent calculus for RDF. 
+The modal part would then need to be added.
 
