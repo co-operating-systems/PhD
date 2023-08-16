@@ -6,6 +6,13 @@ So below I will look at various use cases as they come to my attention.
 - [Credentials data Model](#credentials-data-model)
 - [Only Trust certain Issuers of Identity](#only-trust-certain-issuers-of-identity)
   - [Building the WAC rule with the VC Ontology](#building-the-wac-rule-with-the-vc-ontology)
+    - [The subject of the Credential](#the-subject-of-the-credential)
+  - [The issuer of the Credential](#the-issuer-of-the-credential)
+    - [Building the hasCredentialIssuer relation](#building-the-hascredentialissuer-relation)
+    - [Defining the credentialed agents class](#defining-the-credentialed-agents-class)
+    - [Build the WAC rule](#build-the-wac-rule)
+  - [Client Proof procedures](#client-proof-procedures)
+  - [Server Guard Proof procedure](#server-guard-proof-procedure)
 
 
 # Credentials data Model
@@ -24,7 +31,7 @@ This is use case [§2.8.1 from Use Case and Requirements for Authorization in So
 Note that this use-case is not telling us what kind of claim we should be interested in, only that we want to know that the claim is made by one of a set of agents. We assume that the Agent is known to make only certain types of claims, and not sign a claim such as "we do not know this person". 
 
 
-The use-case could be understood in one of two ways:
+The use case could be understood in one of two ways:
 1. The identity provider is an agency such as Twitter, Github, Google, ... which provides OAuth access to an identity
 2. The identity is provided via a Verifiable Credential, signed by one or more issuers
 
@@ -32,6 +39,27 @@ According to the `says` logic both of those should be treated the same way. In b
 
 
 ## Building the WAC rule with the VC Ontology
+
+We need a relation from an agent with a credential to the credential issuer so that we can then define a class of agents with that relation to trusted issuers.
+We can find both of those relations in the VC ontology.
+
+
+### The subject of the Credential
+
+First we need a relation to go from the agent to the credential. 
+The VC Data Model 1.1 defines a [credentialSubject](https://www.w3.org/TR/vc-data-model/#credential-subject) field which the [JSON profile](https://www.w3.org/2018/credentials/v1) tells us refers to the [cred:credentialSubject](https://www.w3.org/2018/credentials/#credentialSubject) relation [defined in Turtle](https://www.w3.org/2018/credentials/vocabulary.ttl) as
+
+```Turtle
+cred:credentialSubject a rdfs:Property, owl:ObjectProperty ;
+    rdfs:domain cred:VerifiableCredential ;
+    rdfs:label "Credential subject" ;
+    rdfs:comment """<div>An entity about which claims are made.</div>"""^^rdf:HTML ;
+    rdfs:isDefinedBy <https://www.w3.org/TR/vc-data-model-2.0/#defn-credentialSubject>, <https://w3.org/2018/credentials#> ;
+    vs:term_status "stable" ;
+.
+```
+
+## The issuer of the Credential
 
 The VC Data Model 1.1 defines an [issuer field](https://www.w3.org/TR/vc-data-model/#issuer) which the [json profile](https://www.w3.org/2018/credentials/v1) tells us refers to the [cred:issuer](https://www.w3.org/2018/credentials/#) relation [defined in Turtle](https://www.w3.org/2018/credentials/vocabulary.ttl) as
 
@@ -48,22 +76,10 @@ cred:issuer a rdfs:Property, owl:ObjectProperty ;
 
 If one puzzles together the various definitions listed above one gets to see that the range of the relation is essentially a URI that identifies an agent, so a WebID or did, or similar URIs.
 
-But we also need a way to go from the agent to the credential. 
-The VC Data Model 1.1 also defines a [credentialSubject](https://www.w3.org/TR/vc-data-model/#credential-subject) field which the [JSON profile](https://www.w3.org/2018/credentials/v1) tells us refers to the [cred:credentialSubject](https://www.w3.org/2018/credentials/#credentialSubject) relation [defined in Turtle](https://www.w3.org/2018/credentials/vocabulary.ttl) as
+### Building the hasCredentialIssuer relation
 
-```Turtle
-cred:credentialSubject a rdfs:Property, owl:ObjectProperty ;
-    rdfs:domain cred:VerifiableCredential ;
-    rdfs:label "Credential subject" ;
-    rdfs:comment """<div>An entity about which claims are made.</div>"""^^rdf:HTML ;
-    rdfs:isDefinedBy <https://www.w3.org/TR/vc-data-model-2.0/#defn-credentialSubject>, <https://w3.org/2018/credentials#> ;
-    vs:term_status "stable" ;
-.
-```
-
-With these two relations at hand, we can define a class of agents whose credential is issued by a trusted issuer.
-
-First, we define a relation that goes from an agent to its credential followed by a relation from the credential to the issuer.
+Using these two relations we define a relation that goes from an agent to its credential followed by a relation from the credential to the issuer. 
+We have to reverse the first relation credentialSubject relation to do this.
 
 ```Turtle
 <#hasCredentialIssuer> owl:propertyChainAxiom (
@@ -72,7 +88,12 @@ First, we define a relation that goes from an agent to its credential followed b
 )
 ```
 
-Then, if we have a class of trusted issuers named `:TrustedIssuers`, we can define a class of agents whose credential is issued by a trusted issuer as
+### Defining the credentialed agents class
+
+We can now define a class of agents whose credential is issued by a trusted issuer.
+
+For this, we need a class of `:TrustedIssuers` which we can build in any number of ways.
+That allows us to define a class of agents whose credential is issued by a trusted issuer as
 
 ```Turtle
 <#credentialedAgents> owl:sameAs [ a owl:Restriction;
@@ -81,7 +102,9 @@ Then, if we have a class of trusted issuers named `:TrustedIssuers`, we can defi
 ] .
 ```
 
-And finally, with that, we can write a WAC rule which gives access to agents that could present a credential issued by one of the trusted issuers.
+### Build the WAC rule
+
+And finally, with all that specified, we can write a WAC rule which gives access to agents that could present a credential issued by one of the trusted issuers.
 
 ```turtle
 @prefix acl: <http://www.w3.org/ns/auth/acl#>  .
@@ -89,6 +112,10 @@ And finally, with that, we can write a WAC rule which gives access to agents tha
 <#trCredRule> a acl:Authorization;
     acl:agentClass  :credentialedAgents;  
     acl:mode    acl:Read, acl:Write;  
-    acl:default <comments/>
+    acl:default <comments/> .
 ```
+
+## Client Proof procedures
+
+## Server Guard Proof procedure
 
