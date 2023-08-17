@@ -28,14 +28,14 @@ This is use case [§2.8.1 from Use Case and Requirements for Authorization in So
 
 > The system shall allow access to be limited based on the identity of the agent, only when that identity is issued by a trusted identity provider.
 
-Note that this use-case is not telling us what kind of claim we should be interested in, only that we want to know that the claim is made by one of a set of agents. We assume that the Agent is known to make only certain types of claims, and not sign a claim such as "we do not know this person". 
+Note that this use-case is not telling us what kind of claim we should be interested in, only that we want to know that the claim is made by one of a set of agents. We assume that the Agent is known to make only certain types of claims and not sign a claim such as "we do not know this person". 
 
 
 The use case could be understood in one of two ways:
 1. The identity provider is an agency such as Twitter, Github, Google, ... which provides OAuth access to an identity
 2. The identity is provided via a Verifiable Credential, signed by one or more issuers
 
-According to the `says` logic both of those should be treated the same way. In both cases, an authority is making a claim about an agent. In one case it is a locally stored signed document where the signature allows us to tell who made the claim, and in the other case, we listen to the authority make the claim directly - though this does involve TLS signatures going on in the background. The proof procedures to verify the claims are different, but the logic once the claims are verified is the same.
+According to the `says` logic, both should be treated the same way. In both cases, an authority is making a claim about an agent. In one case, it is a locally stored signed document where the signature allows us to tell who made the claim, and in the other case, we listen to the authority make the claim directly - though this does involve TLS signatures going on in the background. The proof procedures to verify the claims are different, but the logic once the claims are verified is the same.
 
 
 ## Building the WAC rule with the VC Ontology
