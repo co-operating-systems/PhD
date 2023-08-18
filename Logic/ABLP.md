@@ -256,8 +256,6 @@ todo: see the paper and explain
 
  The interesting question is how can we precisely translate this to RDF and N3.
 
- 
-
 ## The claim principle
 
 On page 35: "A distinguishing characteristic of BLS is that hypothetical reasoning is always performed relative to the claims of a principal k".  This is written as $\vdash^k$, and 
@@ -265,22 +263,27 @@ it allows us to reason from the point of view of an agent. It is the equivalent 
 
 What I find the most interesting is that hypothetical reasoning is always performed relative to the claims of a principal k, which is indicated in the hypothetical judgment by writing the latter as $\Sigma; \Gamma \vdash^{k} s$ .
 Having defined the judgement shortcut claims as
+
 $$
 k \text{ claims } s \equiv (k \text{ says } s) \text{ true}
 $$
 
-$$ \Sigma \vdash k ≽ k_0$$
-$$-----$$
-$$ \Sigma; \Gamma, k \text{ claims } s\vdash^{k_0} s$$
+```math
+\begin{align}
+\underline{\quad \Sigma \vdash k ≽ k_0 \quad \quad}\\
+\Sigma; \Gamma, k \text{ claims } s\vdash^{k_0} s
+\end{align}
+```
 
 where ≽ gives a partial order of principals. $\Sigma$ is the context of typed variables and $\Gamma$ the context of Judgements such as $s \text{ true }$ or $k \text{ claims } s$.
 
 What this shows is how we use rdf datasets, which consist of a default graph, and a set of named graphs. The default graph is the one that has a hidden implicit agent pronouncing it, so it matches very nicely.
 
 This leads to the "claims principle. Having defined we defined an operator $\Gamma|$ that restricts the hypothesis $\Gamma$ to the claims of principals.
-$$
+```math
 \Gamma| = \{(k′ \text{ claims } s) ∈ \Gamma\}
-$$
+```
+
 Deepak Garg defines the claims principle which informally states that f we can establish $s$ true in the view k from only the claims of other principals, and from that another principal $k'$ can establish $s'$ true from the same context with the additional claim that k holds s true, then that new principal $k_0$ can hold s' true, without reference to k.
 
 $\Sigma; \Gamma| \vdash^{k} s$ **and** $\Sigma; \Gamma, k \text{ claims } s \vdash^{k_0} s'$ **implies** $\Gamma \vdash^{k_0} s'$
