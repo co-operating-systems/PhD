@@ -1,3 +1,6 @@
+The logic of "says" is a logic developed at the turn of the 1990s for access control. 
+It is a modal logic with an indexed "says" modality, relating a Principal (an agent under a description) to a statement.
+The logic models what we do when someone tells us something: we don't immediately believe it, but we track who said it. If we trust the person, then we can add the statement, or parts of it to our knowledge base. The "says" relation allows us to keep a distance to what is said before we decide to believe it or not. All access control has to be based on that, since someone trying to access a resource is going to claim that they are allowed to do so. The Guard protecting the resource cannot start off believing it though: he has to verify the statement first.
 
 - [The ABLP logic](#the-ablp-logic)
   - [The says modality](#the-says-modality)
