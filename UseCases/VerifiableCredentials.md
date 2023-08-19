@@ -7,10 +7,11 @@ So below I will look at various use cases as they come to my attention.
 - [Only Trust certain Issuers of Identity](#only-trust-certain-issuers-of-identity)
   - [Building the WAC rule with the VC Ontology](#building-the-wac-rule-with-the-vc-ontology)
     - [The subject of the Credential](#the-subject-of-the-credential)
-  - [The issuer of the Credential](#the-issuer-of-the-credential)
+    - [The issuer of the Credential](#the-issuer-of-the-credential)
     - [Building the hasCredentialIssuer relation](#building-the-hascredentialissuer-relation)
     - [Defining the credentialed agents class](#defining-the-credentialed-agents-class)
     - [Build the WAC rule](#build-the-wac-rule)
+  - [Example1 Credential](#example1-credential)
   - [Client Proof procedures](#client-proof-procedures)
   - [Server Guard Proof procedure](#server-guard-proof-procedure)
 
@@ -46,7 +47,7 @@ We can find both of those relations in the VC ontology.
 
 ### The subject of the Credential
 
-First we need a relation to go from the agent to the credential. 
+First, we need a relation to go from the agent to the credential. 
 The VC Data Model 1.1 defines a [credentialSubject](https://www.w3.org/TR/vc-data-model/#credential-subject) field which the [JSON profile](https://www.w3.org/2018/credentials/v1) tells us refers to the [cred:credentialSubject](https://www.w3.org/2018/credentials/#credentialSubject) relation [defined in Turtle](https://www.w3.org/2018/credentials/vocabulary.ttl) as
 
 ```Turtle
@@ -59,7 +60,7 @@ cred:credentialSubject a rdfs:Property, owl:ObjectProperty ;
 .
 ```
 
-## The issuer of the Credential
+### The issuer of the Credential
 
 The VC Data Model 1.1 defines an [issuer field](https://www.w3.org/TR/vc-data-model/#issuer) which the [json profile](https://www.w3.org/2018/credentials/v1) tells us refers to the [cred:issuer](https://www.w3.org/2018/credentials/#) relation [defined in Turtle](https://www.w3.org/2018/credentials/vocabulary.ttl) as
 
@@ -109,13 +110,94 @@ And finally, with all that specified, we can write a WAC rule which gives access
 ```turtle
 @prefix acl: <http://www.w3.org/ns/auth/acl#>  .
 
-<#trCredRule> a acl:Authorization;
+<#trustedCredRule> a acl:Authorization;
     acl:agentClass  :credentialedAgents;  
     acl:mode    acl:Read, acl:Write;  
     acl:default <comments/> .
 ```
 
+## Example1 Credential
+
+Let us take [example 6 from the VC data model spec](https://www.w3.org/TR/vc-data-model/#credential-subject) with proof: 
+
+```jsonld
+{
+  "@context": [
+    "https://www.w3.org/2018/credentials/v1",
+    "https://www.w3.org/2018/credentials/examples/v1",
+    "https://w3id.org/security/suites/ed25519-2020/v1"
+  ],
+  "id": "http://example.edu/credentials/3732",
+  "type": [
+    "VerifiableCredential",
+    "UniversityDegreeCredential"
+  ],
+  "issuer": "https://example.edu/issuers/565049",
+  "issuanceDate": "2010-01-01T00:00:00Z",
+  "credentialSubject": {
+    "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
+    "degree": {
+      "type": "BachelorDegree",
+      "name": "Bachelor of Science and Arts"
+    }
+  },
+  "proof": {
+    "type": "Ed25519Signature2020",
+    "created": "2022-02-25T14:58:43Z",
+    "verificationMethod": "https://example.edu/issuers/565049#key-1",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "zeEdUoM7m9cY8ZyTpey83yBKeBcmcvbyrEQzJ19rD2UXArU2U1jPGoEt
+rRvGYppdiK37GU4NBeoPakxpWhAvsVSt"
+  }
+}
+```
+
+Using [json-ld playground](https://json-ld.org/playground/) we can translate it to NQuads, which I then by hand translate to N3 as it is much easier to read.  (the problem is that json-ld hides the namespaces and the graph contexts, so we can't tell what is signed and what is stated.)
+
+```Turtle
+@prefix sec:     <https://w3id.org/security#> .
+@prefix cred:    <https://www.w3.org/2018/credentials#> .
+@prefix eg:      <https://example.org/examples#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix dc:      <http://purl.org/dc/terms/> .
+@prefix sch:     <https://schema.org/> .
+        
+<http://example.edu/credentials/3732>
+    cred:issuer <https://example.edu/issuers/565049> ;
+    a   cred:VerifiableCredential ;
+    a   eg:UniversityDegreeCredential ;
+    cred:issuanceDate "2010-01-01T00:00:00Z"^^xsd:dateTime ;
+    cred:credentialSubject
+        <did:example:ebfeb1f712ebc6f1c276e12ec21> ;
+    sec:proof {
+      []  dc:created "2022-02-25T14:58:43Z"^^xsd:dateTime ;
+        rdf:type sec:Ed25519Signature2020 ;
+        sec:proofPurpose sec:assertionMethod ;
+        sec:proofValue "zeEdUoM7m9cY8ZyTpey83yBKeBcmcvbyrEQzJ19rD2UXArU2U1jPGoEtrRvGYppdiK37GU4NBeoPakxpWhAvsVSt"^^sec:multibase; 
+        sec:verificationMethod
+              <https://example.edu/issuers/565049#key-1> .        
+    } .
+
+<did:example:ebfeb1f712ebc6f1c276e12ec21>
+    eg:degree [ 
+      a   eg:BachelorDegree ;
+      sch:name "Bachelor of Science and Arts"^^rdf:HTML .
+    ].
+```
+
 ## Client Proof procedures
+
+So how does a client that wants to access a resource with the above rule go and find a credential that satisfies the rule?
+
+After having received a 401 response and having established that <#trustedCredRule> is applicable for the resource and the mode it is attempting to access, the client will find that it needs to understand how the agent class is defined.
+
+For that, the Wallet needs to see if it can find a relation from the Wallet's principal to an issuer via the `<#hasCredentialIssuer>` relation, and then see if the issuer is a trusted one.
+
+Since we are assuming at present that `<#hasCredentialIssuer>` is not a widely used relation, it would be surprising for it to be found in the wallet's QuadStore. 
+
+It may be useful to write out what kind of triples could be found in a Wallet's Quad store
+
 
 ## Server Guard Proof procedure
 
