@@ -11,7 +11,7 @@ So below I will look at various use cases as they come to my attention.
     - [Building the hasCredentialIssuer relation](#building-the-hascredentialissuer-relation)
     - [Defining the credentialed agents class](#defining-the-credentialed-agents-class)
     - [Build the WAC rule](#build-the-wac-rule)
-  - [Example1 Credential](#example1-credential)
+  - [Example Signed University Credential](#example-signed-university-credential)
   - [Client Proof procedures](#client-proof-procedures)
   - [Server Guard Proof procedure](#server-guard-proof-procedure)
 
@@ -116,7 +116,7 @@ And finally, with all that specified, we can write a WAC rule which gives access
     acl:default <comments/> .
 ```
 
-## Example1 Credential
+## Example Signed University Credential
 
 Let us take [example 6 from the VC data model spec](https://www.w3.org/TR/vc-data-model/#credential-subject) with proof: 
 
@@ -164,9 +164,9 @@ Using [json-ld playground](https://json-ld.org/playground/) we can translate it 
 @prefix sch:     <https://schema.org/> .
         
 <http://example.edu/credentials/3732>
-    cred:issuer <https://example.edu/issuers/565049> ;
     a   cred:VerifiableCredential ;
     a   eg:UniversityDegreeCredential ;
+    cred:issuer <https://example.edu/issuers/565049> ;
     cred:issuanceDate "2010-01-01T00:00:00Z"^^xsd:dateTime ;
     cred:credentialSubject
         <did:example:ebfeb1f712ebc6f1c276e12ec21> ;
