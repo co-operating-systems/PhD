@@ -22,6 +22,8 @@ The [VC Data Model](https://www.w3.org/TR/vc-data-model/) is the core of the Ver
 
 Todo: do that here.
 
+Note: there seems to be a problem with how the Json is currently mapped to RDF by the JSON-LD context. The wrong parts seem to be in a graph context. This is written up in [issue 1248 of the vc-data-model repo](https://github.com/w3c/vc-data-model/issues/1248).
+
 # Only Trust certain Issuers of Identity
 
 This is use case [§2.8.1 from Use Case and Requirements for Authorization in Solid](https://solid.github.io/authorization-panel/authorization-ucr/#uc-trustedissuers). The answer proposed here was first suggested in
