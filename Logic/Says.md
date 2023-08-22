@@ -5,7 +5,7 @@ It models the most basic of human interaction: the act of saying something to so
 
 The "says" modal logic can be considered as an indexed modality, relating a Principal (an agent under a description) to a statement.
 
-The logic models what we do when someone tells us something: we don't immediately believe it, but we track who said it. If we trust the person, then we can add the statement, or parts of it to our knowledge base as facts, that is take them out of their bubble and add them to our belief store. The "says" relation allows us to keep a distance to what is said before we decide to believe it or not. All access-control decisions must be based on that distancing of a guard from the content of what is said, since someone trying to access a resource is going to claim that they are allowed to do so. The Guard protecting the resource cannot start off believing whatever he is told: he has to verify the statement first.
+The logic models what we do when someone tells us something: we don't immediately believe it, but we track who said it. If we trust the person, then we can add the statement, or parts of it to our knowledge base as facts, that is take them out of their bubble and add them to our belief store. The "says" relation allows us to keep a distance from what is said before we decide to believe it or not. All access-control decisions must be based on that distancing of a guard from the content of what is said, since someone trying to access a resource is going to claim that they are allowed to do so. The Guard protecting the resource cannot start off believing whatever he is told: he has to verify the statement first.
 
 - [The ABLP logic](#the-ablp-logic)
   - [The says modality](#the-says-modality)

@@ -3,11 +3,10 @@
 The W3C verifiable Credentials standards ([VC Data Model](https://www.w3.org/TR/vc-data-model/), ...) come with [use cases](https://www.w3.org/TR/vc-use-cases/) that we can use to test our logic, and later our implementation. Some of the [Use Case and Requirements for Authorization in Solid](https://solid.github.io/authorization-panel/authorization-ucr/) require Credentials, so we should also look at them.
 For Verifiable Credentials to really work at a Global scale, we will need to implement a [Web of Nations](./WoN.md), but one can get part of the way there even without those yet.
 
-
-
 So below I will look at various use cases as they come to my attention.
 
-- [Credentials data Model](#credentials-data-model)
+- [VC data Model](#vc-data-model)
+  - [Credentials](#credentials)
 - [Only Trust certain Issuers of Identity](#only-trust-certain-issuers-of-identity)
   - [Building the WAC rule with the VC Ontology](#building-the-wac-rule-with-the-vc-ontology)
     - [The subject of the Credential](#the-subject-of-the-credential)
@@ -20,13 +19,29 @@ So below I will look at various use cases as they come to my attention.
   - [Server Guard Proof procedure](#server-guard-proof-procedure)
 
 
-# Credentials data Model
+# VC data Model
 
 The [VC Data Model](https://www.w3.org/TR/vc-data-model/) is the core of the Verifiable Credentials standards and is itself an example of something that should be explained in terms of the [says logic](../Logic/ABLP.md).
 
-Todo: do that here.
+## Credentials
 
-Note: there seems to be a problem with how the Json is currently mapped to RDF by the JSON-LD context. The wrong parts seem to be in a graph context. This is written up in [issue 1248 of the vc-data-model repo](https://github.com/w3c/vc-data-model/issues/1248).
+The structure of a Credential is clearly illustrated in Figure 6 of the VC Data Model document shown here. 
+
+![Figure 6 Information graphs associated with a basic verifiable credential.](https://camo.githubusercontent.com/d37bdf92cae6a0faeb4d9c25419d1e3b8c8ba74d68a64040f36d155b090081ee/68747470733a2f2f7777772e77332e6f72672f54522f76632d646174612d6d6f64656c2f6469616772616d732f63726564656e7469616c2d67726170682e737667)
+
+It consists of 3 claims, ie sets of relations that we can think of as being placed on surfaces, following an idea from Pat Hayes, that he took from Peirce, and which is now being worked on in the [RDF Surfaces CG](https://w3c-cg.github.io/rdfsurfaces/).
+
+As shown in the diagram, a VC is data about a claim. We see the claim on the Yellow surface to the right, stating that Pat is an alumnus of "Example University". That claim is made or "said" by the issuer - the University in this case - at a certain date. The data about that is on the pink surface. 
+
+Neither the Pink nor the yellow surface data should be taken as true or false initially by the Guard looking at it. Only if the signature is verified, can the top surface in pink be taken to be true. 
+
+But that does not yet tell the Guard whether the yellow surface is true. That depends on how much the Guard trusts the issuer to make a true claim. In this case the university is making a claim about one of its alumni, and that should be something it can reliably do.
+
+This is a clear use case or application of the [says modal logic](https://github.com/co-operating-systems/PhD/blob/main/Logic/Says.md),
+
+
+Note: there seems to be a problem with how the Json from the 1.1 Spec is mapping to RDF, by the JSON-LD context: the wrong parts seem to be in a graph context. This is written up in [issue 1248 of the vc-data-model repo](https://github.com/w3c/vc-data-model/issues/1248).
+
 
 # Only Trust certain Issuers of Identity
 
