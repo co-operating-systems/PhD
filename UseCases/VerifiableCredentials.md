@@ -1,5 +1,9 @@
+![Person showing a passport to a border guard questioning the resemblance to the picture](https://www.vmcdn.ca/f/files/victoriatimescolonist/json/2022/06/web1_raeside_passport_web.jpg;w=960;h=640;bgcolor=000000)
+
 The W3C verifiable Credentials standards ([VC Data Model](https://www.w3.org/TR/vc-data-model/), ...) come with [use cases](https://www.w3.org/TR/vc-use-cases/) that we can use to test our logic, and later our implementation. Some of the [Use Case and Requirements for Authorization in Solid](https://solid.github.io/authorization-panel/authorization-ucr/) require Credentials, so we should also look at them.
 For Verifiable Credentials to really work at a Global scale, we will need to implement a [Web of Nations](./WoN.md), but one can get part of the way there even without those yet.
+
+
 
 So below I will look at various use cases as they come to my attention.
 

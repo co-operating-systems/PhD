@@ -1,6 +1,11 @@
-The logic of "says" is a logic developed at the turn of the 1990s for access control. 
-It is a modal logic with an indexed "says" modality, relating a Principal (an agent under a description) to a statement.
-The logic models what we do when someone tells us something: we don't immediately believe it, but we track who said it. If we trust the person, then we can add the statement, or parts of it to our knowledge base. The "says" relation allows us to keep a distance to what is said before we decide to believe it or not. All access control has to be based on that, since someone trying to access a resource is going to claim that they are allowed to do so. The Guard protecting the resource cannot start off believing it though: he has to verify the statement first.
+![Dilbert - no trust](https://www.researchgate.net/publication/333905672/figure/fig2/AS:779402124206080@1562835355176/A-comic-strip-illustration-of-the-breakdown-of-trust-DILBERT-C-2009-Scott-Adams-Used-By.png)
+The logic of "says" is a logic developed at the turn of the 1990s for decentralized access control.
+
+It models the most basic of human interaction: the act of saying something to someone, which comic strip artists model as a speech bubble relating a cartoon character to a statement he is making. The statement need not be taken to be true or false by the other characters present. It is just a factual statement that the character who made the statement uttered those words. There is of course the presumption that the person making the statement believes it to be true and is beholden to the consequences of what he said.
+
+The "says" modal logic can be considered as an indexed modality, relating a Principal (an agent under a description) to a statement.
+
+The logic models what we do when someone tells us something: we don't immediately believe it, but we track who said it. If we trust the person, then we can add the statement, or parts of it to our knowledge base as facts, that is take them out of their bubble and add them to our belief store. The "says" relation allows us to keep a distance to what is said before we decide to believe it or not. All access-control decisions must be based on that distancing of a guard from the content of what is said, since someone trying to access a resource is going to claim that they are allowed to do so. The Guard protecting the resource cannot start off believing whatever he is told: he has to verify the statement first.
 
 - [The ABLP logic](#the-ablp-logic)
   - [The says modality](#the-says-modality)
