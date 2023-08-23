@@ -1,6 +1,7 @@
 <!-- 
 ![Dilbert - no trust](https://www.researchgate.net/publication/333905672/figure/fig2/AS:779402124206080@1562835355176/A-comic-strip-illustration-of-the-breakdown-of-trust-DILBERT-C-2009-Scott-Adams-Used-By.png)-->
 ![Dilbert - trust](https://bblfish.net/tmp/2023/08/dilbert.jpg)
+
 The logic of "says" is a logic developed at the turn of the 1990s for decentralized access control.
 
 It models the most basic of human interaction: the act of saying something which comic strip artists model as a speech bubble relating a cartoon character to a statement he is making. The statement need not be taken to be true or false by the other characters present. It is just a factual statement that the character who made the statement uttered those words. There is of course the presumption that the person making the statement believes it to be true and is beholden to the consequences of what he said.
