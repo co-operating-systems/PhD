@@ -58,7 +58,7 @@ $$
 \text{ Uni } \text{ says } \text{ PaU } 
 $$
 
-Again here, the Guard has a fact that does not assert or deny that `Pat` is an alumnus of `Uni``, only that the `Uni` said so. 
+Again here, the Guard has a fact that does not assert or deny that `Pat` is an alumnus of `Uni`, only that the `Uni` said so. 
 So we are now on the pink surface where the Guard does not yet know if the yellow surface is true or false. 
 If the Guard trusts the issuer about claims it makes regarding its own members - which seems like a reasonable assumption - then the Guard can proceed to believe that `Pat` is an alumnus of that university. Perhaps that is what is needed to be proven to satisfy an access control rule.
 
@@ -94,7 +94,7 @@ All that makes logical sense. If we wanted to write the above official diagram i
     ]  .
 ```
 
-The green surface disappears, because, in the language of [RDF Surfaces](https://w3c-cg.github.io/rdfsurfaces/), if the top surface is positive, then we can take it to be the default surface, i.e. in NQuads language we have the default graph.
+The green surface disappears, because, in the language of [RDF Surfaces](https://w3c-cg.github.io/rdfsurfaces/), if the top surface is positive, then we can take it to be the default surface, i.e. in NQuads language it is in the default graph.
 
 ## Verifiable Presentations
 
