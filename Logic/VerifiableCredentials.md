@@ -27,9 +27,10 @@ The Yellow surface is the claim that presumably the Guard needs to know as part 
 
 In the [says logic](Says.md) this would be expressed as something like this:
 
-$$
+```math
 \text{ UniKey } \text{ says } \text{ Uni } \text{ says } \text{ PaU }
-$$
+```
+
 where $\text{ PaU } \equiv \text{ Pat alumnusOf Uni }$
 
 This suggests that the pink and yellow surfaces should be drawn as placed onto the green surface, which follows by associativity of the `says` relation:
