@@ -97,4 +97,6 @@ The green surface disappears, because, in the language of [RDF Surfaces](https:/
 
 ## Verifiable Presentations
 
+![Dilbert Presentation](https://bblfish.net/tmp/2023/08/dilbert.jpg)
+
 todo

@@ -1,6 +1,5 @@
-<!-- 
-![Dilbert - no trust](https://www.researchgate.net/publication/333905672/figure/fig2/AS:779402124206080@1562835355176/A-comic-strip-illustration-of-the-breakdown-of-trust-DILBERT-C-2009-Scott-Adams-Used-By.png)-->
-![Dilbert - trust](https://bblfish.net/tmp/2023/08/dilbert.jpg)
+![Dilbert Trust](https://bblfish.net/tmp/2023/08/DilbertTrust.png)
+
 
 The logic of "says" is a logic developed at the turn of the 1990s for decentralized access control.
 
