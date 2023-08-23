@@ -93,9 +93,7 @@ All that makes logical sense. If we wanted to write the above official diagram i
     ]  .
 ```
 
-The green surface disappears, because, in the language of [RDF Surfaces](https://w3c-cg.github.io/rdfsurfaces/), if the top surface is positive, then we can take it to be the default surface.
-
-Here the VC signed the information about who made the claim and the claim together. 
+The green surface disappears, because, in the language of [RDF Surfaces](https://w3c-cg.github.io/rdfsurfaces/), if the top surface is positive, then we can take it to be the default surface, i.e. in NQuads language we have the default graph.
 
 ## Verifiable Presentations
 
