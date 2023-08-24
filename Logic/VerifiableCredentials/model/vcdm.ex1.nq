@@ -1,0 +1,14 @@
+<did:example:c276e12ec21ebfeb1f712ebc6f1> <http://schema.org/name> _:B52010219273f9988e88de78875c6268a .
+<did:example:c276e12ec21ebfeb1f712ebc6f1> <http://schema.org/name> _:B3281e7cd818436b66d0f14a60beba342 .
+<did:example:ebfeb1f712ebc6f1c276e12ec21> <http://schema.org/alumniOf> <did:example:c276e12ec21ebfeb1f712ebc6f1> .
+<http://example.edu/credentials/1872> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> .
+<http://example.edu/credentials/1872> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://example.org/examples#AlumniCredential> .
+<http://example.edu/credentials/1872> <https://w3id.org/security#proof> _:B467548dd1fcf6216ca9e88cd49adf4b3 .
+<http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#credentialSubject> <did:example:ebfeb1f712ebc6f1c276e12ec21> .
+<http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#issuanceDate> "2010-01-01T19:23:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> .
+<http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#issuer> <https://example.edu/issuers/565049> .
+_:Bc0973517bd81e81488de50103f067198 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/security#RsaSignature2018> _:B467548dd1fcf6216ca9e88cd49adf4b3 .
+_:Bc0973517bd81e81488de50103f067198 <http://purl.org/dc/terms/created> "2017-06-18T21:19:10Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> _:B467548dd1fcf6216ca9e88cd49adf4b3 .
+_:Bc0973517bd81e81488de50103f067198 <sec:jws> "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..TCYt5XsITJX1CxPCT8yAV-TVkIEq_PbChOMqsLfRoPsnsgw5WEuts01mq-pQy7UJiN5mgRxD-WUcX16dUEMGlv50aqzpqh4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb78cPN25DGlcTwLtjPAYuNzVBAh4vGHSrQyHUdBBPM" _:B467548dd1fcf6216ca9e88cd49adf4b3 .
+_:Bc0973517bd81e81488de50103f067198 <sec:proofPurpose> <https://w3id.org/security#assertionMethod> _:B467548dd1fcf6216ca9e88cd49adf4b3 .
+_:Bc0973517bd81e81488de50103f067198 <sec:verificationMethod> <https://example.edu/issuers/565049#key-1> _:B467548dd1fcf6216ca9e88cd49adf4b3 .

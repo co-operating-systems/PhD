@@ -1,0 +1,28 @@
+@prefix sec:     <https://w3id.org/security#> .
+@prefix cred:    <https://www.w3.org/2018/credentials#> .
+@prefix eg:      <https://example.org/examples#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <http://schema.org/>.
+
+{
+<did:example:c276e12ec21ebfeb1f712ebc6f1>
+    schema:name
+        "Exemple d'Université"@fr ,   "Example University"@en .
+
+<did:example:ebfeb1f712ebc6f1c276e12ec21>
+    schema:alumniOf <did:example:c276e12ec21ebfeb1f712ebc6f1> .
+
+<http://example.edu/credentials/1872>
+    cred:issuer <https://example.edu/issuers/565049> ;
+    a   eg:AlumniCredential ,  cred:VerifiableCredential ;
+    cred:issuanceDate "2010-01-01T19:23:24Z"^^xsd:dateTime ;
+    cred:credentialSubject
+        <did:example:ebfeb1f712ebc6f1c276e12ec21>  .
+} sec:proof [  a sec:RsaSignature2018 ;
+           dc:created "2017-06-18T21:19:10Z"^^xsd:dateTime ;
+           sec:jws "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..TCYt5XsITJX1CxPCT8yAV-TVkIEq_PbChOMqsLfRoPsnsgw5WEuts01mq-pQy7UJiN5mgRxD-WUcX16dUEMGlv50aqzpqh4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb78cPN25DGlcTwLtjPAYuNzVBAh4vGHSrQyHUdBBPM" ;
+            sec:proofPurpose sec:assertionMethod ;
+            sec:verificationMethod
+                    <https://example.edu/issuers/565049#key-1> 
+    ]  .
+

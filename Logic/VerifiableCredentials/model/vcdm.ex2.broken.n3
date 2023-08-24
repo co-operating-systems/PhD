@@ -1,0 +1,24 @@
+_:e_B1a9790e6dc62ae197e142d2ca2c95ba8_1 a <https://www.w3.org/2018/credentials#VerifiablePresentation>.
+_:e_B1a9790e6dc62ae197e142d2ca2c95ba8_1 <https://w3id.org/security#proof> _:e_B021bd48e831bd99008e8d1145f07bec7_1.
+_:e_B1a9790e6dc62ae197e142d2ca2c95ba8_1 <https://www.w3.org/2018/credentials#verifiableCredential> _:e_B0c6f26fa8b57738bad6303187e9bffa1_1.
+_:e_Bbf5ecca4b3944832e5d23e188cfe5f1e_1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/security#RsaSignature2018> _:e_B021bd48e831bd99008e8d1145f07bec7_1.
+_:e_Bbf5ecca4b3944832e5d23e188cfe5f1e_1 <http://purl.org/dc/terms/created> "2018-09-14T21:19:10Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> _:e_B021bd48e831bd99008e8d1145f07bec7_1.
+_:e_Bbf5ecca4b3944832e5d23e188cfe5f1e_1 <sec:challenge> "1f44d55f-f161-4938-a659-f8026467f126" _:e_B021bd48e831bd99008e8d1145f07bec7_1.
+_:e_Bbf5ecca4b3944832e5d23e188cfe5f1e_1 <sec:domain> "4jt78h47fh47" _:e_B021bd48e831bd99008e8d1145f07bec7_1.
+_:e_Bbf5ecca4b3944832e5d23e188cfe5f1e_1 <sec:jws> "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..kTCYt5XsITJX1CxPCT8yAV-TVIw5WEuts01mq-pQy7UJiN5mgREEMGlv50aqzpqh4Qq_PbChOMqsLfRoPsnsgxD-WUcX16dUOqV0G_zS245-kronKb78cPktb3rk-BuQy72IFLN25DYuNzVBAh4vGHSrQyHUGlcTwLtjPAnKb78" _:e_B021bd48e831bd99008e8d1145f07bec7_1.
+_:e_Bbf5ecca4b3944832e5d23e188cfe5f1e_1 <sec:proofPurpose> <https://w3id.org/security#authenticationMethod> _:e_B021bd48e831bd99008e8d1145f07bec7_1.
+_:e_Bbf5ecca4b3944832e5d23e188cfe5f1e_1 <sec:verificationMethod> <did:example:ebfeb1f712ebc6f1c276e12ec21#keys-1> _:e_B021bd48e831bd99008e8d1145f07bec7_1.
+<did:example:c276e12ec21ebfeb1f712ebc6f1> <http://schema.org/name> _:e_B36a9a1aff41954209084484a7ad6d6d5_1 _:e_B0c6f26fa8b57738bad6303187e9bffa1_1.
+<did:example:c276e12ec21ebfeb1f712ebc6f1> <http://schema.org/name> _:e_B1cf2a040e5c5ece691e74016c1e049e2_1 _:e_B0c6f26fa8b57738bad6303187e9bffa1_1.
+<did:example:ebfeb1f712ebc6f1c276e12ec21> <http://schema.org/alumniOf> <did:example:c276e12ec21ebfeb1f712ebc6f1> _:e_B0c6f26fa8b57738bad6303187e9bffa1_1.
+<http://example.edu/credentials/1872> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential> _:e_B0c6f26fa8b57738bad6303187e9bffa1_1.
+<http://example.edu/credentials/1872> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://example.org/examples#AlumniCredential> _:e_B0c6f26fa8b57738bad6303187e9bffa1_1.
+<http://example.edu/credentials/1872> <https://w3id.org/security#proof> _:e_Bb953e6dffb47d51fe7f241328c390114_1 _:e_B0c6f26fa8b57738bad6303187e9bffa1_1.
+<http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#credentialSubject> <did:example:ebfeb1f712ebc6f1c276e12ec21> _:e_B0c6f26fa8b57738bad6303187e9bffa1_1.
+<http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#issuanceDate> "2010-01-01T19:23:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> _:e_B0c6f26fa8b57738bad6303187e9bffa1_1.
+<http://example.edu/credentials/1872> <https://www.w3.org/2018/credentials#issuer> <https://example.edu/issuers/565049> _:e_B0c6f26fa8b57738bad6303187e9bffa1_1.
+_:e_Bcf5140b98c794b27d85ae364b35f58ff_1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/security#RsaSignature2018> _:e_Bb953e6dffb47d51fe7f241328c390114_1.
+_:e_Bcf5140b98c794b27d85ae364b35f58ff_1 <http://purl.org/dc/terms/created> "2017-06-18T21:19:10Z"^^<http://www.w3.org/2001/XMLSchema#dateTime> _:e_Bb953e6dffb47d51fe7f241328c390114_1.
+_:e_Bcf5140b98c794b27d85ae364b35f58ff_1 <sec:jws> "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..TCYt5XsITJX1CxPCT8yAV-TVkIEq_PbChOMqsLfRoPsnsgw5WEuts01mq-pQy7UJiN5mgRxD-WUcX16dUEMGlv50aqzpqh4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb78cPN25DGlcTwLtjPAYuNzVBAh4vGHSrQyHUdBBPM" _:e_Bb953e6dffb47d51fe7f241328c390114_1.
+_:e_Bcf5140b98c794b27d85ae364b35f58ff_1 <sec:proofPurpose> <https://w3id.org/security#assertionMethod> _:e_Bb953e6dffb47d51fe7f241328c390114_1.
+_:e_Bcf5140b98c794b27d85ae364b35f58ff_1 <sec:verificationMethod> <https://example.edu/issuers/565049#key-1> _:e_Bb953e6dffb47d51fe7f241328c390114_1.

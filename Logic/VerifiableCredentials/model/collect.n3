@@ -1,0 +1,20 @@
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+@prefix : <urn:example:>.
+
+:a :b :c :g1.
+:d :e :f :g1.
+:g :h :i :g1.
+
+:j :k :l :g2.
+
+:e :f :g .
+
+{
+    ?S ?P ?O ?G.
+    ({?A ?B ?C} {?A ?B ?C ?G} ?L) log:collectAllIn ?SCOPE.
+    ?GT graph:list ?L.
+} => {
+    ?G :graphTerm ?GT.
+}.
+

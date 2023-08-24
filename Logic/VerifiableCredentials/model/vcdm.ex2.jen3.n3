@@ -1,0 +1,53 @@
+@prefix cred:    <https://www.w3.org/2018/credentials#> .
+@prefix eg:      <http://example.org/examples#> .
+@prefix credEx:  <http://example.edu/credentials/> .
+@prefix log:     <http://www.w3.org/2000/10/swap/log#> .
+@prefix in:      <http://n3.w3c.org/builtin/input#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix list:    <http://www.w3.org/2000/10/swap/list#> .
+@prefix sec:     <https://w3id.org/security#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix edu:     <http://example.edu/credentials/> .
+@prefix sch:     <http://schema.org/> .
+@prefix math:    <http://www.w3.org/2000/10/swap/math#> .
+@prefix dc:      <http://purl.org/dc/terms/> .
+
+<http://example.edu/credentials/1872>
+    sec:proof {
+            _:b1  rdf:type sec:RsaSignature2018 .
+            _:b1  dc:created "2017-06-18T21:19:10Z"^^xsd:dateTime .
+            _:b1  sec:jws "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..TCYt5XsITJX1CxPCT8yAV-TVkIEq_PbChOMqsLfRoPsnsgw5WEuts01mq-pQy7UJiN5mgRxD-WUcX16dUEMGlv50aqzpqh4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb78cPN25DGlcTwLtjPAYuNzVBAh4vGHSrQyHUdBBPM" .
+            _:b1  sec:proofPurpose sec:assertionMethod .
+            _:b1  sec:verificationMethod
+                    <https://example.edu/issuers/565049#key-1> .        } .
+
+_:b2  cred:verifiableCredential
+        {
+            <did:example:c276e12ec21ebfeb1f712ebc6f1>
+                sch:name _:b3 .
+            <did:example:c276e12ec21ebfeb1f712ebc6f1>
+                sch:name _:b4 .
+            <did:example:ebfeb1f712ebc6f1c276e12ec21>
+                sch:alumniOf <did:example:c276e12ec21ebfeb1f712ebc6f1> .
+            <http://example.edu/credentials/1872>
+                rdf:type cred:VerifiableCredential .
+            <http://example.edu/credentials/1872>
+                rdf:type <https://example.org/examples#AlumniCredential> .
+            <http://example.edu/credentials/1872>
+                cred:credentialSubject
+                    <did:example:ebfeb1f712ebc6f1c276e12ec21> .
+            <http://example.edu/credentials/1872>
+                cred:issuanceDate "2010-01-01T19:23:24Z"^^xsd:dateTime .
+            <http://example.edu/credentials/1872>
+                cred:issuer <https://example.edu/issuers/565049> .        } ;
+    a   cred:VerifiablePresentation ;
+    sec:proof {
+            _:b5  rdf:type sec:RsaSignature2018 .
+            _:b5  dc:created "2018-09-14T21:19:10Z"^^xsd:dateTime .
+            _:b5  sec:challenge "1f44d55f-f161-4938-a659-f8026467f126" .
+            _:b5  sec:domain "4jt78h47fh47" .
+            _:b5  sec:jws "eyJhbGciOiJSUzI1NiIsImI2NCI6ZmFsc2UsImNyaXQiOlsiYjY0Il19..kTCYt5XsITJX1CxPCT8yAV-TVIw5WEuts01mq-pQy7UJiN5mgREEMGlv50aqzpqh4Qq_PbChOMqsLfRoPsnsgxD-WUcX16dUOqV0G_zS245-kronKb78cPktb3rk-BuQy72IFLN25DYuNzVBAh4vGHSrQyHUGlcTwLtjPAnKb78" .
+            _:b5  sec:proofPurpose sec:authenticationMethod .
+            _:b5  sec:verificationMethod
+                    <did:example:ebfeb1f712ebc6f1c276e12ec21#keys-1> .        } .
