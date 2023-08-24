@@ -1,4 +1,4 @@
-![Dilbert Trust](https://bblfish.net/tmp/2023/08/DilbertTrust.png)
+![Dilbert Trust](https://www.bblfish.net/tmp/2023/08/DilbertTrust.png)
 
 
 The logic of "says" is a logic developed at the turn of the 1990s for decentralized access control.
