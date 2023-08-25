@@ -1,14 +1,18 @@
 @prefix cred:    <https://www.w3.org/2018/credentials#> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix in:      <http://n3.w3c.org/builtin/input#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix uniCred:  <http://university.example/credentials/> .
 
 <did:example:c276e12ec21ebfeb1f712ebc6f1>
     <https://www.w3.org/ns/credentials/examples#name>
         "Example University" .
+<did:example:ebfeb1f712ebc6f1c276e12ec21>
+    <https://www.w3.org/ns/credentials/examples#alumniOf>
+        <did:example:c276e12ec21ebfeb1f712ebc6f1> .
 
-<http://university.example/credentials/1872>
+uniCred:1872
     cred:issuer <https://university.example/issuers/565049> ;
     a   <https://www.w3.org/ns/credentials/examples#ExampleAlumniCredential> ;
     a   cred:VerifiableCredential ;
@@ -16,16 +20,12 @@
         <did:example:ebfeb1f712ebc6f1c276e12ec21> ;
     cred:validFrom "2010-01-01T19:23:24Z"^^xsd:dateTime ;
     sec:proof {
-            []  <http://purl.org/dc/terms/created>
-                "2023-06-18T21:19:10Z"^^xsd:dateTime ;
-              rdf:type sec:DataIntegrityProof ;
-              sec:cryptosuite "eddsa-2022" ;
-              sec:proofPurpose sec:assertionMethod ;
-              sec:proofValue "zQeVbY4oey5q2M3XKaxup3tmzN4DRFTLVqpLMweBrSxMY2xHX5XTYV8nQApmEcqaqA3Q1gVHMrXFkXJeV6doDwLWx"^^sec:multibase ;
-              sec:verificationMethod
-                    <https://university.example/issuers/565049#key-123> .        
+       [] a sec:DataIntegrityProof ;  
+	  dct:created "2023-06-18T21:19:10Z"^^xsd:dateTime ;
+          sec:cryptosuite "eddsa-2022" ;
+          sec:proofPurpose sec:assertionMethod ;
+          sec:proofValue "zQeVbY4oey5q2M3XKaxup3tmzN4DRFTLVqpLMweBrSxMY2xHX5XTYV8nQApmEcqaqA3Q1gVHMrXFkXJeV6doDwLWx"^^sec:multibase ;
+          sec:verificationMethod
+                <https://university.example/issuers/565049#key-123> .        
     } .
 
-<did:example:ebfeb1f712ebc6f1c276e12ec21>
-    <https://www.w3.org/ns/credentials/examples#alumniOf>
-        <did:example:c276e12ec21ebfeb1f712ebc6f1> .
