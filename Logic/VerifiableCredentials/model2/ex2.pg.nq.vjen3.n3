@@ -1,12 +1,11 @@
 @prefix cred:    <https://www.w3.org/2018/credentials#> .
-@prefix credEx:  <https://www.w3.org/ns/credentials/examples#> .
 @prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix uniCred:  <http://university.example/credentials/> .
 @prefix sec:     <https://w3id.org/security#> .
 @prefix dct:     <http://purl.org/dc/terms/> .
 @prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix sem:     <https://example.org/ns/semantics#> .
+@prefix credEx:  <https://www.w3.org/ns/credentials/examples#> .
+@prefix uniCred:  <http://university.example/credentials/> .
 
 [] a  cred:VerifiablePresentation ;
    cred:verifiableCredential {
@@ -29,12 +28,12 @@
 	 } . 
       };
    sec:proof {
-           []  a sec:DataIntegrityProof ;
-              dct:created "2018-09-14T21:19:10Z"^^xsd:dateTime ;
-              sec:challenge "1f44d55f-f161-4938-a659-f8026467f126" ;
-              sec:cryptosuite "eddsa-2022" ;
-              sec:domain "4jt78h47fh47" ;
-              sec:proofPurpose sec:authenticationMethod ;
-              sec:proofValue "zqpLMweBrSxMY2xHX5XTYV8nQAJeV6doDwLWxQeVbY4oey5q2pmEcqaqA3Q1gVHMrXFkXM3XKaxup3tmzN4DRFTLV"^^sec:multibase ;
-              sec:verificationMethod <did:example:ebfeb1f712ebc6f1c276e12ec21#keys-1> 
+      [] a sec:DataIntegrityProof ;
+         dct:created "2018-09-14T21:19:10Z"^^xsd:dateTime ;
+         sec:challenge "1f44d55f-f161-4938-a659-f8026467f126" ;
+         sec:cryptosuite "eddsa-2022" ;
+         sec:domain "4jt78h47fh47" ;
+         sec:proofPurpose sec:authenticationMethod ;
+         sec:proofValue "zqpLMweBrSxMY2xHX5XTYV8nQAJeV6doDwLWxQeVbY4oey5q2pmEcqaqA3Q1gVHMrXFkXM3XKaxup3tmzN4DRFTLV"^^sec:multibase ;
+         sec:verificationMethod <did:example:ebfeb1f712ebc6f1c276e12ec21#keys-1> 
   } .
