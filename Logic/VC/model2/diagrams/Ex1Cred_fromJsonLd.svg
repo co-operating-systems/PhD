@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" viewBox="-610 -19 809 791" width="809" height="791">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:xl="http://www.w3.org/1999/xlink" version="1.1" viewBox="-651 -36 887 825" width="887" height="825">
   <defs>
-    <filter id="Shadow" filterUnits="userSpaceOnUse" x="-690.9" y="-98.1">
+    <filter id="Shadow" filterUnits="userSpaceOnUse" x="-739.7" y="-118.5">
       <feGaussianBlur in="SourceAlpha" result="blur" stdDeviation="1.308"/>
       <feOffset in="blur" result="offset" dx="0" dy="2"/>
       <feFlood flood-color="black" flood-opacity=".5" result="flood"/>
@@ -17,20 +17,14 @@
         <path d="M 8 0 L 0 -3 L 0 3 Z" fill="currentColor" stroke="currentColor" stroke-width="1"/>
       </g>
     </marker>
-    <filter id="Shadow_2" filterUnits="userSpaceOnUse" x="-690.9" y="-98.1">
-      <feOffset in="SourceAlpha" result="offset" dx="0" dy="2"/>
-      <feFlood flood-color="#919191" flood-opacity=".25" result="flood"/>
-      <feComposite in="flood" in2="offset" operator="in" result="color"/>
-      <feMerge>
-        <feMergeNode in="color"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
   </defs>
   <g id="Ex1Cred_fromJsonLd" fill="none" fill-opacity="1" stroke-opacity="1" stroke="none" stroke-dasharray="none">
     <title>Ex1Cred_fromJsonLd</title>
     <g id="Ex1Cred_fromJsonLd_Layer_1">
       <title>Layer 1</title>
+      <g id="Graphic_83">
+        <rect x="-651" y="-36" width="887" height="825" fill="white"/>
+      </g>
       <g id="Graphic_2" filter="url(#Shadow)">
         <rect x="-606.5" y="333" width="537.5" height="433" fill="#f2f9ef"/>
         <path d="M -606.5 333 L -69 333 L -69 766 L -606.5 766 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4.0,4.0" stroke-width="1"/>
@@ -94,28 +88,28 @@
           <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="0" y="15">issuer</tspan>
         </text>
       </g>
-      <g id="Graphic_36" filter="url(#Shadow_2)">
+      <g id="Graphic_36" filter="url(#Shadow)">
         <title>Superclass</title>
-        <rect x="-320" y="-18" width="200.15111" height="42" fill="white" fill-opacity=".5348458"/>
-        <rect x="-320" y="-18" width="200.15111" height="42" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        <text transform="translate(-314 -8)" fill="#515556">
-          <tspan font-family="Avenir" font-weight="bold" font-size="16" fill="#515556" x="19.803554" y="16">VerifiableCredential</tspan>
+        <rect x="-320" y="-18" width="200.15111" height="32" fill="white" fill-opacity=".534846"/>
+        <rect x="-320" y="-18" width="200.15111" height="32" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(-315 -11.223999)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="26.187554" y="15">VerifiableCredential</tspan>
         </text>
       </g>
-      <g id="Graphic_35" filter="url(#Shadow_2)">
+      <g id="Graphic_35" filter="url(#Shadow)">
         <title>Subclass</title>
-        <rect x="-514" y="75" width="241.02536" height="42" fill="white" fill-opacity=".534846"/>
-        <rect x="-514" y="75" width="241.02536" height="42" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        <text transform="translate(-508 85)" fill="#515556">
-          <tspan font-family="Avenir" font-weight="bold" font-size="16" fill="#515556" x="17.44068" y="16">ExampleAlumniCredential</tspan>
+        <rect x="-514" y="75" width="241.02536" height="32" fill="white" fill-opacity=".534846"/>
+        <rect x="-514" y="75" width="241.02536" height="32" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(-509 81.776)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="23.64068" y="15">ExampleAlumniCredential</tspan>
         </text>
       </g>
       <g id="Line_38">
-        <line x1="-215.2522" y1="156.2669" x2="-265.12684" y2="104.19374" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <line x1="-214.13735" y1="156.26518" x2="-266.34575" y2="98.35308" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
       </g>
       <g id="Graphic_37">
-        <rect x="-248.66217" y="116.86596" width="18.592" height="28.447998" fill="white"/>
-        <text transform="translate(-243.66217 121.86596)" fill="black">
+        <rect x="-248.4464" y="114.2955" width="18.592" height="28.447998" fill="white"/>
+        <text transform="translate(-243.4464 119.2955)" fill="black">
           <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="2762235e-19" y="15">a</tspan>
         </text>
       </g>
@@ -157,27 +151,20 @@
         <ellipse cx="-549.25" cy="498.6986" rx="16.2500259659058" ry="14.1986364372368" fill="white" fill-opacity=".5"/>
         <ellipse cx="-549.25" cy="498.6986" rx="16.2500259659058" ry="14.1986364372368" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
       </g>
-      <g id="Group_62">
-        <g id="Graphic_61">
-          <title>Attributes</title>
-          <rect x="-588.11024" y="398.53483" width="165.11024" height="14.396266" fill="#bcddab"/>
-          <rect x="-588.11024" y="398.53483" width="165.11024" height="14.396266" stroke="#b9c0c1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-        </g>
-        <g id="Graphic_60">
-          <title>Class Name</title>
-          <rect x="-588.11024" y="373.9311" width="165.11024" height="24.603734" fill="#bcddab"/>
-          <rect x="-588.11024" y="373.9311" width="165.11024" height="24.603734" stroke="#b9c0c1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
-          <text transform="translate(-582.11024 375.23297)" fill="black">
-            <tspan font-family="Avenir" font-weight="bold" font-size="16" fill="black" x="4.1071147" y="16">DataIIntegrityProof</tspan>
-          </text>
-        </g>
+      <g id="Graphic_60" filter="url(#Shadow)">
+        <title>Class Name</title>
+        <rect x="-588.11024" y="373.9311" width="165.11024" height="24.603734" fill="#bcddab"/>
+        <rect x="-588.11024" y="373.9311" width="165.11024" height="24.603734" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <text transform="translate(-583.11024 377.00897)" fill="black">
+          <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="10.595115" y="15">DataIIntegrityProof</tspan>
+        </text>
       </g>
       <g id="Line_64">
-        <line x1="-544.0252" y1="485.2506" x2="-514.30837" y2="408.76284" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <line x1="-544.0252" y1="485.2506" x2="-513.91985" y2="407.76284" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
       </g>
       <g id="Graphic_63">
-        <rect x="-539.16375" y="434.5869" width="18.592" height="28.447998" fill="white"/>
-        <text transform="translate(-534.16375 439.5869)" fill="black">
+        <rect x="-538.9986" y="434.1618" width="18.592" height="28.447998" fill="white"/>
+        <text transform="translate(-533.9986 439.1618)" fill="black">
           <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="2762235e-19" y="15">a</tspan>
         </text>
       </g>
@@ -249,11 +236,11 @@
         </text>
       </g>
       <g id="Line_79">
-        <line x1="-199.33836" y1="156.26419" x2="-218.24626" y2="34.782222" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+        <line x1="-199.14785" y1="156.26419" x2="-218.4938" y2="23.796084" marker-end="url(#FilledArrow_Marker)" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
       </g>
       <g id="Graphic_78">
-        <rect x="-217.3198" y="86.23686" width="18.592" height="28.447998" fill="white"/>
-        <text transform="translate(-212.3198 91.23686)" fill="black">
+        <rect x="-217.27644" y="81.56051" width="18.592" height="28.447998" fill="white"/>
+        <text transform="translate(-212.27644 86.56051)" fill="black">
           <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="2762235e-19" y="15">a</tspan>
         </text>
       </g>
