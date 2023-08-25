@@ -1,0 +1,66 @@
+@prefix cred: <https://www.w3.org/2018/credentials#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix in: <http://n3.w3c.org/builtin/input#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix sec: <https://w3id.org/security#>.
+@prefix credEx: <https://www.w3.org/ns/credentials/examples#>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix sem: <https://example.org/ns/semantics#>.
+@prefix uniCred: <http://university.example/credentials/>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+
+_:e_b3_1 sem:graphTerm {
+    <did:example:c276e12ec21ebfeb1f712ebc6f1> credEx:name "Example University".
+    <did:example:ebfeb1f712ebc6f1c276e12ec21> credEx:alumniOf <did:example:c276e12ec21ebfeb1f712ebc6f1>.
+    uniCred:1872 a cred:VerifiableCredential.
+    uniCred:1872 a credEx:ExampleAlumniCredential.
+    uniCred:1872 sec:proof _:e_b4_1.
+    uniCred:1872 cred:credentialSubject <did:example:ebfeb1f712ebc6f1c276e12ec21>.
+    uniCred:1872 cred:issuer <https://university.example/issuers/565049>.
+    uniCred:1872 cred:validFrom "2010-01-01T19:23:24Z"^^xsd:dateTime.
+}.
+_:e_b1_1 sem:graphTerm {
+    _:e_b2_1 dct:created "2018-09-14T21:19:10Z"^^xsd:dateTime.
+    _:e_b2_1 a sec:DataIntegrityProof.
+    _:e_b2_1 sec:challenge "1f44d55f-f161-4938-a659-f8026467f126".
+    _:e_b2_1 sec:cryptosuite "eddsa-2022".
+    _:e_b2_1 sec:domain "4jt78h47fh47".
+    _:e_b2_1 sec:proofPurpose sec:authenticationMethod.
+    _:e_b2_1 sec:proofValue "zqpLMweBrSxMY2xHX5XTYV8nQAJeV6doDwLWxQeVbY4oey5q2pmEcqaqA3Q1gVHMrXFkXM3XKaxup3tmzN4DRFTLV"^^sec:multibase.
+    _:e_b2_1 sec:verificationMethod <did:example:ebfeb1f712ebc6f1c276e12ec21#keys-1>.
+}.
+_:e_b4_1 sem:graphTerm {
+    _:e_b5_1 dct:created "2023-06-18T21:19:10Z"^^xsd:dateTime.
+    _:e_b5_1 a sec:DataIntegrityProof.
+    _:e_b5_1 sec:cryptosuite "eddsa-2022".
+    _:e_b5_1 sec:proofPurpose sec:assertionMethod.
+    _:e_b5_1 sec:proofValue "zQeVbY4oey5q2M3XKaxup3tmzN4DRFTLVqpLMweBrSxMY2xHX5XTYV8nQApmEcqaqA3Q1gVHMrXFkXJeV6doDwLWx"^^sec:multibase.
+    _:e_b5_1 sec:verificationMethod <https://university.example/issuers/565049#key-1>.
+}.
+<urn:here:x> sem:graphTerm {
+    <did:example:c276e12ec21ebfeb1f712ebc6f1> credEx:name "Example University".
+    <did:example:ebfeb1f712ebc6f1c276e12ec21> credEx:alumniOf <did:example:c276e12ec21ebfeb1f712ebc6f1>.
+    uniCred:1872 a cred:VerifiableCredential.
+    uniCred:1872 a credEx:ExampleAlumniCredential.
+    uniCred:1872 sec:proof _:e_b4_1.
+    uniCred:1872 cred:credentialSubject <did:example:ebfeb1f712ebc6f1c276e12ec21>.
+    uniCred:1872 cred:issuer <https://university.example/issuers/565049>.
+    uniCred:1872 cred:validFrom "2010-01-01T19:23:24Z"^^xsd:dateTime.
+    _:e_b2_1 dct:created "2018-09-14T21:19:10Z"^^xsd:dateTime.
+    _:e_b2_1 a sec:DataIntegrityProof.
+    _:e_b2_1 sec:challenge "1f44d55f-f161-4938-a659-f8026467f126".
+    _:e_b2_1 sec:cryptosuite "eddsa-2022".
+    _:e_b2_1 sec:domain "4jt78h47fh47".
+    _:e_b2_1 sec:proofPurpose sec:authenticationMethod.
+    _:e_b2_1 sec:proofValue "zqpLMweBrSxMY2xHX5XTYV8nQAJeV6doDwLWxQeVbY4oey5q2pmEcqaqA3Q1gVHMrXFkXM3XKaxup3tmzN4DRFTLV"^^sec:multibase.
+    _:e_b2_1 sec:verificationMethod <did:example:ebfeb1f712ebc6f1c276e12ec21#keys-1>.
+    _:e_b5_1 dct:created "2023-06-18T21:19:10Z"^^xsd:dateTime.
+    _:e_b5_1 a sec:DataIntegrityProof.
+    _:e_b5_1 sec:cryptosuite "eddsa-2022".
+    _:e_b5_1 sec:proofPurpose sec:assertionMethod.
+    _:e_b5_1 sec:proofValue "zQeVbY4oey5q2M3XKaxup3tmzN4DRFTLVqpLMweBrSxMY2xHX5XTYV8nQApmEcqaqA3Q1gVHMrXFkXJeV6doDwLWx"^^sec:multibase.
+    _:e_b5_1 sec:verificationMethod <https://university.example/issuers/565049#key-1>.
+}.
+

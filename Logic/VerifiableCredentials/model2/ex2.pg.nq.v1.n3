@@ -1,0 +1,42 @@
+@prefix cred: <https://www.w3.org/2018/credentials#>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix in: <http://n3.w3c.org/builtin/input#>.
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix sec: <https://w3id.org/security#>.
+@prefix credEx: <https://www.w3.org/ns/credentials/examples#>.
+@prefix dct: <http://purl.org/dc/terms/>.
+@prefix sem: <https://example.org/ns/semantics#>.
+@prefix uniCred: <http://university.example/credentials/>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix graph: <http://www.w3.org/2000/10/swap/graph#>.
+
+
+_:b0 <https://www.w3.org/2018/credentials#verifiableCredential> {
+<did:example:c276e12ec21ebfeb1f712ebc6f1> <https://www.w3.org/ns/credentials/examples#name> "Example University"  .
+<did:example:ebfeb1f712ebc6f1c276e12ec21> <https://www.w3.org/ns/credentials/examples#alumniOf> <did:example:c276e12ec21ebfeb1f712ebc6f1>  .
+<http://university.example/credentials/1872> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/2018/credentials#VerifiableCredential>  .
+<http://university.example/credentials/1872> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://www.w3.org/ns/credentials/examples#ExampleAlumniCredential>  .
+<http://university.example/credentials/1872> <https://w3id.org/security#proof> {
+_:b5 <http://purl.org/dc/terms/created> "2023-06-18T21:19:10Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>  .
+_:b5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/security#DataIntegrityProof>  .
+_:b5 <https://w3id.org/security#cryptosuite> "eddsa-2022"  .
+_:b5 <https://w3id.org/security#proofPurpose> <https://w3id.org/security#assertionMethod>  .
+_:b5 <https://w3id.org/security#proofValue> "zQeVbY4oey5q2M3XKaxup3tmzN4DRFTLVqpLMweBrSxMY2xHX5XTYV8nQApmEcqaqA3Q1gVHMrXFkXJeV6doDwLWx"^^<https://w3id.org/security#multibase>  .
+_:b5 <https://w3id.org/security#verificationMethod> <https://university.example/issuers/565049#key-1>  .
+} .
+<http://university.example/credentials/1872> <https://www.w3.org/2018/credentials#credentialSubject> <did:example:ebfeb1f712ebc6f1c276e12ec21>  .
+<http://university.example/credentials/1872> <https://www.w3.org/2018/credentials#issuer> <https://university.example/issuers/565049>  .
+<http://university.example/credentials/1872> <https://www.w3.org/2018/credentials#validFrom> "2010-01-01T19:23:24Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>  .
+} .
+_:b0 a <https://www.w3.org/2018/credentials#VerifiablePresentation> .
+_:b0 <https://w3id.org/security#proof> { #= _:b1
+_:b2 <http://purl.org/dc/terms/created> "2018-09-14T21:19:10Z"^^<http://www.w3.org/2001/XMLSchema#dateTime>  .
+_:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <https://w3id.org/security#DataIntegrityProof>  .
+_:b2 <https://w3id.org/security#challenge> "1f44d55f-f161-4938-a659-f8026467f126"  .
+_:b2 <https://w3id.org/security#cryptosuite> "eddsa-2022"  .
+_:b2 <https://w3id.org/security#domain> "4jt78h47fh47"  .
+_:b2 <https://w3id.org/security#proofPurpose> <https://w3id.org/security#authenticationMethod>  .
+_:b2 <https://w3id.org/security#proofValue> "zqpLMweBrSxMY2xHX5XTYV8nQAJeV6doDwLWxQeVbY4oey5q2pmEcqaqA3Q1gVHMrXFkXM3XKaxup3tmzN4DRFTLV"^^<https://w3id.org/security#multibase>  .
+_:b2 <https://w3id.org/security#verificationMethod> <did:example:ebfeb1f712ebc6f1c276e12ec21#keys-1>  .
+} .
