@@ -23,10 +23,10 @@
     <g id="Ex1Cred_fromJsonLd_Layer_1">
       <title>Layer 1</title>
       <g id="Graphic_83">
-        <rect x="-651" y="-36" width="887" height="825" fill="#ebebeb" fill-opacity=".4888245"/>
+        <rect x="-651" y="-36" width="887" height="825" fill="white" fill-opacity=".4943088"/>
       </g>
       <g id="Graphic_2" filter="url(#Shadow)">
-        <rect x="-606.5" y="333" width="537.5" height="433" fill="#f2f9ef"/>
+        <rect x="-606.5" y="333" width="537.5" height="433" fill="#baddab" fill-opacity=".32605546"/>
         <path d="M -606.5 333 L -69 333 L -69 766 L -606.5 766 Z" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="4.0,4.0" stroke-width="1"/>
         <text transform="translate(-601.5 338)" fill="black">
           <tspan font-family="Helvetica Neue" font-style="italic" font-size="16" fill="black" x="0" y="15">Credential Proof Graph</tspan>
@@ -178,7 +178,7 @@
         </text>
       </g>
       <g id="Graphic_65" filter="url(#Shadow)">
-        <rect x="-280.5" y="484.5" width="183.5" height="28.346457" fill="#bcddab"/>
+        <rect x="-280.5" y="484.5" width="183.5" height="28.346457" fill="#bcdcaa"/>
         <rect x="-280.5" y="484.5" width="183.5" height="28.346457" stroke="black" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
         <text transform="translate(-275.5 489.44923)" fill="black">
           <tspan font-family="Helvetica Neue" font-size="16" fill="black" x="4.326" y="15">2023-06-18T21:19:10Z</tspan>
