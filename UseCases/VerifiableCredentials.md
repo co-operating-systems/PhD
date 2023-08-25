@@ -116,77 +116,14 @@ And finally, with all that specified, we can write a WAC rule which gives access
 
 ## Example Signed University Credential
 
-Let us take [example 6 from the VC data model spec](https://www.w3.org/TR/vc-data-model/#credential-subject) with proof: 
+I started trying to take a few examples [from the VC data model spec](https://www.w3.org/TR/vc-data-model/) such as Examples 1, 2 and 6 in order to map them to N3, where it is easier to see the contexts. Doing that I found a problem with how the Credentials were modeled. Essentially the Signature is placed in an N3 context rather than having the claim being placed in the context. This is explained in [VC Data Model issue 1248](https://github.com/w3c/vc-data-model/issues/1248) and perhaps the deep problem is explained most concisely in [my third comment](https://github.com/w3c/vc-data-model/issues/1248#issuecomment-1691411099).
 
-```jsonld
-{
-  "@context": [
-    "https://www.w3.org/2018/credentials/v1",
-    "https://www.w3.org/2018/credentials/examples/v1",
-    "https://w3id.org/security/suites/ed25519-2020/v1"
-  ],
-  "id": "http://example.edu/credentials/3732",
-  "type": [
-    "VerifiableCredential",
-    "UniversityDegreeCredential"
-  ],
-  "issuer": "https://example.edu/issuers/565049",
-  "issuanceDate": "2010-01-01T00:00:00Z",
-  "credentialSubject": {
-    "id": "did:example:ebfeb1f712ebc6f1c276e12ec21",
-    "degree": {
-      "type": "BachelorDegree",
-      "name": "Bachelor of Science and Arts"
-    }
-  },
-  "proof": {
-    "type": "Ed25519Signature2020",
-    "created": "2022-02-25T14:58:43Z",
-    "verificationMethod": "https://example.edu/issuers/565049#key-1",
-    "proofPurpose": "assertionMethod",
-    "proofValue": "zeEdUoM7m9cY8ZyTpey83yBKeBcmcvbyrEQzJ19rD2UXArU2U1jPGoEt
-rRvGYppdiK37GU4NBeoPakxpWhAvsVSt"
-  }
-}
-```
-
-Using [json-ld playground](https://json-ld.org/playground/) we can translate it to NQuads, which I then by hand translate to N3 as it is much easier to read.  (the problem is that json-ld hides the namespaces and the graph contexts, so we can't tell what is signed and what is stated.)
-
-```Turtle
-@prefix sec:     <https://w3id.org/security#> .
-@prefix cred:    <https://www.w3.org/2018/credentials#> .
-@prefix eg:      <https://example.org/examples#> .
-@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
-@prefix dc:      <http://purl.org/dc/terms/> .
-@prefix sch:     <https://schema.org/> .
-        
-<http://example.edu/credentials/3732>
-    a   cred:VerifiableCredential ;
-    a   eg:UniversityDegreeCredential ;
-    cred:issuer <https://example.edu/issuers/565049> ;
-    cred:issuanceDate "2010-01-01T00:00:00Z"^^xsd:dateTime ;
-    cred:credentialSubject
-        <did:example:ebfeb1f712ebc6f1c276e12ec21> ;
-    sec:proof {
-      []  dc:created "2022-02-25T14:58:43Z"^^xsd:dateTime ;
-        rdf:type sec:Ed25519Signature2020 ;
-        sec:proofPurpose sec:assertionMethod ;
-        sec:proofValue "zeEdUoM7m9cY8ZyTpey83yBKeBcmcvbyrEQzJ19rD2UXArU2U1jPGoEtrRvGYppdiK37GU4NBeoPakxpWhAvsVSt"^^sec:multibase; 
-        sec:verificationMethod
-              <https://example.edu/issuers/565049#key-1> .        
-    } .
-
-<did:example:ebfeb1f712ebc6f1c276e12ec21>
-    eg:degree [ 
-      a   eg:BachelorDegree ;
-      sch:name "Bachelor of Science and Arts"^^rdf:HTML .
-    ].
-```
+They are working on [VC Data Model 2.0](https://w3c.github.io/vc-data-model/), and [VC Vocabulary 2.0](https://w3c.github.io/yml2vocab/previews/vcdm/vocabulary.html), so there may be a chance to fix this.
+I will get back to examples on this when I am sure I have the model right.
 
 ## Client Proof procedures
 
-So how does a client that wants to access a resource with the above rule go and find a credential that satisfies the rule?
+So how does a client who wants to access a resource with the above rule go and find a credential that satisfies the rule?
 
 After having received a 401 response and having established that <#trustedCredRule> is applicable for the resource and the mode it is attempting to access, the client will find that it needs to understand how the agent class is defined.
 
