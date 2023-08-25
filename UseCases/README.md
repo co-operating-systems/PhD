@@ -8,6 +8,6 @@ In this section, we explore important use cases of access control for Solid and 
    We distinguish two types of limitations from the client and server sides. 
    We show how these map to ABNL logic.
 * [Delegation](Delegation.md) looks at Delegation use cases
-* [Deepak Garg's Phd](DeepakGargPhd.md) Deepak Garg's 2009 Ph.D. built a detailed extension of the says logic for access control purposes with full proof-procedures. We want to see how far we can adapt those to the Web.
+* [Deepak Garg's Phd](DeepakGargPhD.md) Deepak Garg's 2009 Ph.D. built a detailed extension of the says logic for access control purposes with full proof-procedures. We want to see how far we can adapt those to the Web.
 * [Verifiable Credentials](VerifiableCredentials.md) looks at how one can use W3C Verifiable Credentials standards for access control
 * [WoN.md](WoN.md) The certificate-based examples often require a Web of Nations infrastructure. We look at examples of these.
