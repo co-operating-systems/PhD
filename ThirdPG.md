@@ -2,6 +2,13 @@
 
 The [2nd year report](https://co-operating.systems/2019/04/01/) in §4.2 laid out a road map of work that remained to be done. This section reviews the progress made on that road map. 
 
+- [Progression Review](#progression-review)
+  - [1. Use Cases](#1-use-cases)
+  - [2. Access Control Logic](#2-access-control-logic)
+  - [3. Implementation](#3-implementation)
+  - [4. Remaining to be done](#4-remaining-to-be-done)
+
+
 ## 1. Use Cases
 
 Working with the [Solid Authorization Panel](https://github.com/solid/authorization-panel), we put together a [Use Cases and Requirements for Authorization in Solid](https://solid.github.io/authorization-panel/authorization-ucr/) document in 2020.  This document covered some key use cases that needed to be supported at a high level of description.
@@ -23,7 +30,7 @@ To test out these ideas it was important to have an implementation of a Solid Se
 
 [![HttpSig demo for big data 2023-06-08](https://github.com/co-operating-systems/solid-control/blob/main/milestones/W2/Tweet-2023-06-08.png?raw=true)](https://twitter.com/bblfish/status/1666547828506742788)
 
-## Remaining to be done
+## 4. Remaining to be done
 
 As part of the Solid-Wallet EU project, I have to build a client wallet with knowledge of the credentials of the user and his social network graph, and that can reason through an access-control rule, find linked data that can prove the rule, and send a proof to the server that will then need to verify that it matches the required rule.  
 
