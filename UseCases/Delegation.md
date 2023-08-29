@@ -32,10 +32,8 @@ The 2021 paper also proposes that one could add a `:secretary` relation to one's
 
 This would allow `</s/riley#>` to sign requests on behalf of `</me#>`. This would be equivalent to adding the key of `</s/riley#>` to `</me#>`.
 
-### The `ban:speaksFor` relation
-
-This is equivalent to what BAN logic (as explained in the 1992 paper [Authentication in Distributed Systems: Theory and Practice](https://dl.acm.org/doi/pdf/10.1145/138873.138874)) is the `speaksFor` relation. 
-Indeed we can map one to the other using an n3 rule
+This is equivalent to what [says](../Logic/Says.md) logic (as explained in the 1992 paper [Authentication in Distributed Systems: Theory and Practice](https://dl.acm.org/doi/pdf/10.1145/138873.138874)) is the `speaksFor` relation. 
+Indeed we can map one to the other using an N3 rule
 
 ```turtle
 { ?a ban:speaksFor ?b } <=> { ?b trust:secretary ?a }
@@ -52,5 +50,4 @@ ban:speaksFor owl:inverseOf trust:secretary .
 
 ### Partial access
 
-We can 
-
+We would also like to give access to an agent but only to some data.
