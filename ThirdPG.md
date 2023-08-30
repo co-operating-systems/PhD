@@ -34,9 +34,15 @@ To test out these ideas it was important to have an implementation of a Solid Se
 
 As part of the Solid-Wallet EU project, I have to build a client wallet with knowledge of the credentials of the user and his social network graph, and that can reason through an access-control rule, find linked data that can prove the rule, and send a proof to the server that will then need to verify that it matches the required rule.  
 
-There remain 5 to 6 milestones for this work, which will require developing client and server-side libraries and building or finding a reasoning engine that can provide the required proofs.
+There remain 5 to 6 milestones for this work, which will require developing client and server-side libraries and building or finding a reasoning engine that can provide the required proofs. This will enable 
 
-The most uncertain part of this is the reasoning engine and logic. [Deepak Garg's Says logic](Logic/Says.md#deepak-gargs-2009-bl-logic) is a very good up-to-date candidate to try to map to the Prolog-based [EYE](https://eyereasoner.github.io/eye/#eye-reasoning) reasoning engine using N3 rules. 
+The most uncertain part of this is the reasoning engine and logic. [Deepak Garg's Says logic](Logic/Says.md#deepak-gargs-2009-bl-logic) is a good up-to-date (2009) candidate to try to map to the Prolog-based [N3 EYE](https://eyereasoner.github.io/eye/#eye-reasoning) reasoning engine rules.
+
+
+We then also need to map this so that it can be sent over HTTP. An early idea was to develop a [Wac-Hint HTTP header](https://github.com/co-operating-systems/Reactive-SoLiD/blob/master/src/main/scala/run/cosy/http/auth/Auth.md#creating-a-new-header-wac-hint) that would give a path for the reasoning engine to follow. Given that Deepak Garg's logic is expressed in sequent calculus and that can be mapped to a Category where turnstiles map to arrows, this may be a way to formalize a proof as a both through graph space...
+
+
+
 
 
 
