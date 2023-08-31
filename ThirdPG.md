@@ -1,6 +1,9 @@
 # Progression Review
 
-The [2nd year report](https://co-operating.systems/2019/04/01/) in §4.2 laid out a road map of work that remained to be done. This section reviews the progress made on that road map. 
+The [2nd year report](https://co-operating.systems/2019/04/01/) in §4.2 laid out a road map of work that remained to be done.
+This section reviews the progress made on that road map. 
+This document is available online at
+[https://github.com/co-operating-systems/PhD/blob/3rdPG/](https://github.com/co-operating-systems/PhD/blob/3rdPG/).
 
 - [Progression Review](#progression-review)
 - [Done](#done)
