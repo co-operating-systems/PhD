@@ -8,11 +8,14 @@ The [2nd year report](https://co-operating.systems/2019/04/01/) in §4.2 laid ou
   - [2. Access Control Logic](#2-access-control-logic)
   - [3. Implementation](#3-implementation)
   - [4. Standardisation](#4-standardisation)
+  - [5. Problems](#5-problems)
 - [Remaining](#remaining)
   - [1. Solid Wallet](#1-solid-wallet)
   - [2. Logic and Reasoning Engine](#2-logic-and-reasoning-engine)
   - [3. Proof Carrying Authorization for Solid](#3-proof-carrying-authorization-for-solid)
-  - [4. Writing up the Thesis](#4-writing-up-the-thesis)
+  - [4. Proof of HttpSig protocol](#4-proof-of-httpsig-protocol)
+  - [5. Writing up the Thesis](#5-writing-up-the-thesis)
+  - [6. Solid Working Group](#6-solid-working-group)
 
 # Done
 
@@ -51,6 +54,12 @@ In implementing the [HTTP Message Signatures](https://datatracker.ietf.org/doc/d
 
 Linking the IETF work to Solid is being documented in the [HttpSig Authentication Spec](https://github.com/solid/authentication-panel/blob/main/proposals/HttpSignature.md) with work starting on updating the spec and [translating it to HTML](https://co-operating.systems/2023/09/10/httpsig.html).
 
+## 5. Problems 
+
+I was hoping to be able to use the Verifiable Credentials suite of specs from W3C (either [VC Data Model 1.1](https://www.w3.org/TR/vc-data-model/) or [VC Data Model 2.0 Draft](https://w3c.github.io/vc-data-model/#example-a-simple-example-of-a-verifiable-credential)), to develop interesting examples of age verification, etc... but on mapping examples from those specs from JsonLD to N3 I found that the model was deeply flawed as [explained in issue 1248 of the vc-data-model](https://github.com/w3c/vc-data-model/issues/1248#issuecomment-1697508577).
+A potential solution might be to enhance JsonLD [as I propose in issue 817 of json-ld.org](https://github.com/json-ld/json-ld.org/issues/817) to allow a @shift operator that could shift the default graph. The initial reaction to deny the importance of the problem and to shift it to the future does not bode well, especially given that I [made a similar point 7 years ago](https://lists.w3.org/Archives/Public/public-webpayments/2016Jan/0020.html) when most of the work was still to be done.
+
+
 # Remaining 
 
 ## 1. Solid Wallet
@@ -75,13 +84,24 @@ EYE is an implementation of an [N3 logic](https://github.com/w3c/n3) reasoning e
 
 We then also need to map this to a language so that it can be sent over HTTP. An early idea was to develop a [Wac-Hint HTTP header](https://github.com/co-operating-systems/Reactive-SoLiD/blob/master/src/main/scala/run/cosy/http/auth/Auth.md#creating-a-new-header-wac-hint) that would give a path for the reasoning engine to follow. Given that Deepak Garg's logic is expressed in sequent calculus and that can be mapped to a Category where turnstiles map to arrows, this may be a way to formalize a proof as a both through graph space... An ideal option if proofs get too large, would be [p2p HTTP](https://github.com/w3c/architecture/issues/14) which would allow RESTful reference to a proof to be sent to the server.
 
-## 4. Writing up the Thesis
+## 4. Proof of HttpSig protocol
+
+A Recent Master's thesis looked in detail at the Solid OIDC protocol using protocol verification tools and found security flaws.
+These are summarised in the paper [Assessing the Solid Protocol in Relation to Security & Privacy Obligations](https://arxiv.org/abs/2210.08270). 
+The HTTP Message Signature protocol is much simpler than the OIDC protocol at its base (when only keys need to be verified) and so should constitute a small subset of the OIDC protocol. 
+The addition of the declarative proof of authorization will add some complexity to the proof though.
+
+
+## 5. Writing up the Thesis
 
 Developing the examples further with a version of `says` logic, implementing them in N3, and working with proof-carrying authorization will reveal limitations in each of these frameworks that can then be documented in the thesis, and hopefully overcome.
 
 I then should count 3 months to write up the results in their final form, taking them over from the wiki to a latex output.
 
+## 6. Solid Working Group
 
+The Solid Team is putting forward a proposal for a W3C Solid Working Group ([see charter](https://solid.github.io/solid-wg-charter/charter/)) that will be discussed at [TPAC 2023 in Seville](https://www.w3.org/2023/09/TPAC/), and should get started perhaps in 2024. 
+This will be a good reason for developing this work further.
 
 
 
