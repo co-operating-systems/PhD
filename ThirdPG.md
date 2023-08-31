@@ -29,14 +29,14 @@ The above projects allowed me to work on the following topics.
 
 Working with the [Solid Authorization Panel](https://github.com/solid/authorization-panel), we put together a [Use Cases and Requirements for Authorization in Solid](https://solid.github.io/authorization-panel/authorization-ucr/) document in 2020.  This document covered key use cases that needed to be supported at a high level of description.
 
-Recently, I started developing and extending these use cases by describing each one in detail, proposing OWL-based extensions of the current [Web Access Control spec](https://solidproject.org/TR/wac) as proposed in the 2nd year report. See [UseCases](UseCases/README.md) for the current state of this work.
+Recently, I started developing and extending these use cases by describing each one in detail, proposing OWL-based extensions of the current [Web Access Control spec](https://solidproject.org/TR/wac) as proposed in the 2nd year report. See [UseCases](https://github.com/co-operating-systems/PhD/blob/3rdPG/UseCases/README.md) for the current state of this work.
 
 Many important use cases require Proof Carrying Authorization, where the client sends a proof sketch showing how his credentials link to the resource's rules.
-So in the Use [UseCases](UsesCases/README.md) section, we sketch in human language what the client would need to produce and what the server would need to verify.
+So in the Use [UseCases](https://github.com/co-operating-systems/PhD/blob/3rdPG/UsesCases/README.md) section, we sketch in human language what the client would need to produce and what the server would need to verify.
 
 ## 2. Access Control Logic
 
-To support the use case reasoning required by Proof Carrying Authorization we needed to look at the logic of access control in more detail. I have been filling out the [Logics](Logic/) section as needed when filling in the examples. 
+To support the use case reasoning required by Proof Carrying Authorization we needed to look at the logic of access control in more detail. I have been filling out the [Logics](https://github.com/co-operating-systems/PhD/blob/3rdPG/Logic/) section as needed when filling in the examples. 
 This goes over the research from the 2nd year report but brings it in closer contact with the semantic web via [N3](https://github.com/w3c/N3/) and [RDF Surfaces](https://github.com/w3c-cg/rdfsurfaces/).
 
 ## 3. Implementation
@@ -55,7 +55,7 @@ Linking the IETF work to Solid is being documented in the [HttpSig Authenticatio
 
 ## 1. Solid Wallet
 
-The Solid-Wallet project for the EU which I put together, requires me to build a client wallet that can sign HTTP headers for Solid Apps. To do this the wallet will need to read the resource's Web Access Control Rules, and with knowledge of the user's credentials and social network, find a (sketch of a) proof that can show the guard that the signature can be linked to the description in the rule. Good examples of this can be found in [the FOAF use cases](UseCases/Foaf.md)
+The Solid-Wallet project for the EU which I put together, requires me to build a client wallet that can sign HTTP headers for Solid Apps. To do this the wallet will need to read the resource's Web Access Control Rules, and with knowledge of the user's credentials and social network, find a (sketch of a) proof that can show the guard that the signature can be linked to the description in the rule. Good examples of this can be found in [the FOAF use cases](https://github.com/co-operating-systems/PhD/blob/3rdPG/UseCases/Foaf.md)
 
 There remain 5 to 6 milestones for this work, which will require developing client and server-side libraries and building or finding a reasoning engine that can provide the required proofs, as well as developing a user interface to launch apps and sign headers for clients.
 
@@ -63,7 +63,7 @@ This is part of the proof of concept of the theoretical side of the Ph.D.
 
 ## 2. Logic and Reasoning Engine
 
-The most uncertain part, i.e. the most advanced research part of this, is the reasoning engine and logic. [Deepak Garg's Says logic](Logic/Says.md#deepak-gargs-2009-bl-logic) which he developed in his 2009 Ph.D. thesis, is a good up-to-date (2009) candidate to try to map to the Prolog-based [N3 EYE rules](https://eyereasoner.github.io/eye/#eye-reasoning). As was discussed in the 2nd year report it maps very well to a notion of the web as a system of document acts, and it also fits in very well with the graph structure of RDF, and especially nicely with N3 where we can express that 
+The most uncertain part, i.e. the most advanced research part of this, is the reasoning engine and logic. [Deepak Garg's Says logic](https://github.com/co-operating-systems/PhD/blob/3rdPG/Logic/Says.md#deepak-gargs-2009-bl-logic) which he developed in his 2009 Ph.D. thesis, is a good up-to-date (2009) candidate to try to map to the Prolog-based [N3 EYE rules](https://eyereasoner.github.io/eye/#eye-reasoning). As was discussed in the 2nd year report it maps very well to a notion of the web as a system of document acts, and it also fits in very well with the graph structure of RDF, and especially nicely with N3 where we can express that 
 
 ```Turtle
 :joe :says { :joe :knows :mary } .
