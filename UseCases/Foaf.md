@@ -1,8 +1,8 @@
-# Social networking Use Cases
+# Social Networking Use Cases
 
 This Chapter described social networking access control use cases in increasing level of complexity. These were the original use cases that motivated the development of Solid.
 
-- [Social networking Use Cases](#social-networking-use-cases)
+- [Social Networking Use Cases](#social-networking-use-cases)
   - [One-step indirection: friend network](#one-step-indirection-friend-network)
     - [Client Auth logic](#client-auth-logic)
     - [Server Auth logic](#server-auth-logic)
@@ -103,7 +103,7 @@ foaf:knows rdfs:subPropertyOf <#isKnownByMax3> .
 We here have 
 1. a rule with a local definition that is not in the same file
 2. a class that groups individuals up to three levels of indirection which is not something the web server Guard should be trying to keep real-time track of as that could easily be a class containing `300*300*300 = 9 million` individuals. 
-3. we can easily see that these rules could use arbitrary owl concepts, which means that the client needs to be able to reason with arbitrary owl concepts, produce such proofs, and the server needs to be able to verify them.
+3. We can easily see that these rules could use arbitrary owl concepts, which means that the client needs to be able to reason with arbitrary owl concepts, produce such proofs, and the server needs to be able to verify them.
 
 So we have a pretty hefty problem to solve.
 
@@ -111,9 +111,9 @@ So we have a pretty hefty problem to solve.
 
 Imagine that Dan Brickley from danbri.org wants to comment on Bob's blog. His client needs to work out that he belongs to the `sn:BobFoaf3Cls` class. 
 
-His client would need to fetch Bob's foaf graph. (Note that may be split across several resources, some protected some not). We may assume that Dan's client already has a database of his foaf network. Note: he may not know everyone that knows him, so this could be incomplete. Given these two networks, the client needs to find if there is an intersection between Bob's friend Group and Dan's foaf group. If there is such a group then Dan's client can use this to build a proof of `foaf:knows` relations starting from Bob's WebID to Dan.
+His client would need to fetch Bob's foaf graph. (Note that may be split across several resources, some protected some not). We may assume that Dan's client already has a database of his FOAF network. Note: he may not know everyone who knows him, so this could be incomplete. Given these two networks, the client needs to find if there is an intersection between Bob's friend Group and Dan's foaf group. If there is such a group then Dan's client can use this to build a proof of `foaf:knows` relations starting from Bob's WebID to Dan.
 
-Todo: we need to integrate that we don't just want links from Bob's WebId via a foaf:knows chain to Dan's WebID, but we also want to consider foaf:knows relations that appear in associated `rdfs:seeAlso` documents.
+Todo: we need to integrate that we don't just want links from Bob's WebId via a `foaf:knows` chain to Dan's WebID, but we also want to consider `foaf:knows` relations that appear in associated `rdfs:seeAlso` documents.
 
 Another way this could be calculated is for Dan's client to consider all the data it has in one large graph, and search all the `foaf:knows` chains between Bob and Dan in there. Given that it would then filter those for which it can construct a proof that would satisfy Bob's Guard. 
 

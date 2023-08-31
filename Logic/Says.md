@@ -261,8 +261,7 @@ todo: see the paper and explain
 
 # Deepak Garg's 2009 BL logic
 
-
- Deepak Garg, in his 2009 Ph.D. dissertation [Proof Theory for Authorization Logic and Its Application to a Practical File System](https://people.mpi-sws.org/~dg/papers/papers.html#theses) proposes some improvements on the previous work on the says modal logic and formalises it using sequent calculus. 
+ Deepak Garg, in his 2009 Ph.D. dissertation [Proof Theory for Authorization Logic and Its Application to a Practical File System](https://people.mpi-sws.org/~dg/papers/papers.html#theses) proposes some improvements on the previous work on the says modal logic and formalizes it using sequent calculus. 
 
  The interesting question is how can we precisely translate this to RDF and N3.
 
