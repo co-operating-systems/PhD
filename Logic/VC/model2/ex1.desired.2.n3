@@ -1,0 +1,27 @@
+@prefix cred:    <https://www.w3.org/2018/credentials#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix dct:     <http://purl.org/dc/terms/> .
+@prefix credEx:  <https://www.w3.org/ns/credentials/examples#> .
+@prefix uniCred:  <http://university.example/credentials/> .
+@prefix sec: <https://w3id.org/security#>.
+
+{
+  uniCred:1872 a credEx:ExampleAlumniCredential, cred:VerifiableCredential ;
+    cred:issuer <https://university.example/issuers/565049> ;
+    cred:credentialSubject <did:example:ebfeb1f712ebc6f1c276e12ec21>;
+    cred:claim {
+       <did:example:ebfeb1f712ebc6f1c276e12ec21> credEx:alumniOf [ 
+          id <did:example:c276e12ec21ebfeb1f712ebc6f1> 
+              credEx:name "Example University" ] .
+    };
+    cred:validFrom "2010-01-01T19:23:24Z"^^xsd:dateTime .
+} sec:proof [ a sec:DataIntegrityProof ;  
+     dct:created "2023-06-18T21:19:10Z"^^xsd:dateTime ;
+     sec:cryptosuite "eddsa-2022" ;
+     sec:proofPurpose sec:assertionMethod ;
+     sec:proofValue "zQeVbY4oey5q2M3XKaxup3tmzN4DRFTLVqpLMweBrSxMY2xHX5XTYV8nQApmEcqaqA3Q1gVHMrXFkXJeV6doDwLWx"^^sec:multibase ;
+     sec:verificationMethod <https://university.example/issuers/565049#key-123>  
+ ] .
+
