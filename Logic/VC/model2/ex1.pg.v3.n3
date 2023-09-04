@@ -5,6 +5,7 @@
 @prefix dct:     <http://purl.org/dc/terms/> .
 @prefix credEx:  <https://www.w3.org/ns/credentials/examples#> .
 @prefix uniCred:  <http://university.example/credentials/> .
+@prefix sec: <https://w3id.org/security#>.
 
 <did:example:ebfeb1f712ebc6f1c276e12ec21>
     credEx:alumniOf 
